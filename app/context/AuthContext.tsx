@@ -43,11 +43,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setUser(null);
     router.push("/auth/login");
   };
-  console.log(auth.name)
+
 
   return (
     <AuthContext.Provider value={{ user, loading, logout }}>
-      {loading ? <p>Cargando...</p> : children}
+      {children}
     </AuthContext.Provider>
   );
 };

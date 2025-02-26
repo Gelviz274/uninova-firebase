@@ -19,7 +19,7 @@ const firebaseConfig = {
   measurementId: "G-9W6T9XL101"
 };
 // Verifica si Firebase ya fue inicializado
-const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 const analytics = typeof window !== "undefined" ? getAnalytics(app) : null; // Analytics solo en el cliente
 export const auth = getAuth(app);
 export const db = getFirestore(app);
