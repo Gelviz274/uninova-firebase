@@ -16,57 +16,60 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Check, ImagePlus, X } from "lucide-react";
 import { useId, useState } from "react";
 import { db, auth } from "@/lib/firebase/firebaseconfig";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import AlertSuccess from "./comp-271";
 
 export default function CreateProject() {
   const id = useId();
   const maxLength = 180;
   const {
-    value,
+    value: description,
     characterCount,
     handleChange,
     maxLength: limit,
   } = useCharacterLimit({ maxLength, initialValue: "" });
 
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
   const [projectLink, setProjectLink] = useState("");
+  const [success, setSuccess] = useState(false);
   const { previewUrl } = useImageUpload();
 
   const handleCreateProject = async () => {
-    if (!title || !description) {
+    if (!title.trim() || !description.trim()) {
       alert("El título y la descripción son obligatorios");
       return;
     }
-    const user = auth.currentUser;
-    if (!user) {
-      alert("Debes estar autenticado para crear un proyecto");
-      return;
-    }
+
     try {
+      const user = auth.currentUser;
+      if (!user) {
+        console.error("Usuario no autenticado. No se puede crear el proyecto.");
+        alert("Debes estar autenticado para crear un proyecto.");
+        return;
+      }
+
       await addDoc(collection(db, "projects"), {
-        title,
-        description,
-        projectLink,
-        imageUrl: previewUrl || "",
+        title: title.trim(),
+        description: description.trim(),
         createdAt: serverTimestamp(),
         autorId: user.uid,
       });
+
       alert("Proyecto creado exitosamente");
+      setSuccess(true);
       setTitle("");
-      setDescription("");
       setProjectLink("");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error al crear el proyecto:", error);
-      alert("Hubo un error al crear el proyecto");
+      alert("Hubo un error al crear el proyecto: " + (error.message || error));
     }
   };
 
   return (
     <Dialog>
+      {success && <AlertSuccess content="Proyecto creado exitosamente"/>}
       <DialogTrigger asChild>
         <button className="w-full bg-cafe/60 text-beige/40 text-start px-4 py-4 rounded-full">
           ¿Qué estás pensando?
@@ -85,9 +88,7 @@ export default function CreateProject() {
         <div className="overflow-y-auto">
           <div className="px-6 pb-6 pt-4">
             <form className="grid grid-cols-2 gap-6">
-              {/* Primera columna */}
               <div className="space-y-4">
-                {/* Título del Proyecto */}
                 <div className="space-y-2">
                   <Label htmlFor={`${id}-title`} className="text-beige">
                     Título del Proyecto<span className="text-red-600">*</span>
@@ -103,7 +104,6 @@ export default function CreateProject() {
                   />
                 </div>
 
-                {/* Descripción */}
                 <div className="space-y-2">
                   <Label htmlFor={`${id}-description`} className="text-beige">
                     Descripción<span className="text-red-600">*</span>
@@ -113,10 +113,7 @@ export default function CreateProject() {
                     placeholder="Describe brevemente tu proyecto"
                     value={description}
                     maxLength={maxLength}
-                    onChange={(e) => {
-                      handleChange(e);
-                      setDescription(e.target.value);
-                    }}
+                    onChange={handleChange}
                     aria-describedby={`${id}-description-count`}
                     className="bg-black border border-beige/20 text-beige placeholder-text-beige focus:border-beige"
                     required
@@ -134,7 +131,6 @@ export default function CreateProject() {
                   </p>
                 </div>
 
-                {/* Enlace de video o documentos */}
                 <div className="space-y-2">
                   <Label htmlFor={`${id}-project-link`} className="text-beige">
                     Enlace de Proyecto
@@ -146,19 +142,6 @@ export default function CreateProject() {
                     type="url"
                     value={projectLink}
                     onChange={(e) => setProjectLink(e.target.value)}
-                  />
-                </div>
-
-                {/* Tags */}
-                <div className="space-y-2">
-                  <Label htmlFor={`${id}-tags`} className="text-beige">
-                    Tags de Carreras
-                  </Label>
-                  <Input
-                    id={`${id}-tags`}
-                    placeholder="Ingresa las tags separadas por comas"
-                    className="bg-black border border-beige/20 text-beige placeholder-text-beige focus:border-beige"
-                    type="text"
                   />
                 </div>
               </div>
@@ -175,7 +158,6 @@ export default function CreateProject() {
                     type="file"
                     accept="image/*"
                     className="bg-black border border-beige/20 text-beige file:cursor-pointer file:rounded-lg file:border-none file:bg-beige/20 file:px-3 file:py-2 file:text-beige hover:file:bg-beige/30"
-                    
                   />
                 </div>
 
@@ -189,7 +171,6 @@ export default function CreateProject() {
                     type="file"
                     accept="video/*"
                     className="bg-black border border-beige/20 text-beige file:cursor-pointer file:rounded-lg file:border-none file:bg-beige/20 file:px-3 file:py-2 file:text-beige hover:file:bg-beige/30"
-                    
                   />
                 </div>
 
@@ -203,7 +184,6 @@ export default function CreateProject() {
                     type="file"
                     accept=".pdf,.doc,.docx"
                     className="bg-black border border-beige/20 text-beige file:cursor-pointer file:rounded-lg file:border-none file:bg-beige/20 file:px-3 file:py-2 file:text-beige hover:file:bg-beige/30"
-                    
                   />
                 </div>
               </div>
