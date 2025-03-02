@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Home, Compass, FolderOpen, Bookmark, Settings } from "lucide-react";
 import { User as FirebaseUser } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase/firebaseconfig"; // Asegúrate de importar correctamente Firestore
+import { db } from "@/lib/firebase/firebaseconfig";
+import AlertSuccess from "./comp-271"; // Asegúrate de importar correctamente Firestore
 
 interface SidebarProps {
   user: FirebaseUser | null;
@@ -11,6 +12,7 @@ interface SidebarProps {
 export default function LeftMenuSidebar({ user }: SidebarProps) {
   const [nombre, setNombre] = useState<string | null>(null);
   const [apellido, setApellido] = useState<string | null>(null);
+  const [succes, setSuccess] = useState(false);
 
   useEffect(() => {
     if (user?.uid) {

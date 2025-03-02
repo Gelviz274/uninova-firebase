@@ -9,6 +9,10 @@ import { app } from "@/lib/firebase/firebaseconfig";
 import CreateProject from "@/components/createproject";
 import LeftMenuSidebar from "@/components/sidebar";
 import { FileText, Image, TrendingUp, Video } from "lucide-react";
+import AlertSuccess from "@/components/comp-271";
+import AlertComponent from "@/components/comp-314";
+import ProjectsList from "@/components/projects";
+
 
 function HomePage() {
   const [user, setUser] = useState<FirebaseUser | null>(null);
@@ -29,7 +33,9 @@ function HomePage() {
           {/* Sidebar izquierdo */}
           <div className="col-span-3">
             <LeftMenuSidebar user={user} />
+            <AlertSuccess content="PRUEBAS"/>
           </div>
+          
 
           {/* Sección principal */}
           <div className="col-span-6 flex flex-col h-full items-center">
@@ -69,14 +75,13 @@ function HomePage() {
               <div className="mt-4 p-4 bg-black/40 h-96 rounded-md border border-beige/10">
                 Proyecto de Ejemplo 1
               </div>
-              <div className="mt-4 p-4 bg-black/40 h-96 rounded-md border border-beige/10">
-                Proyecto de Ejemplo 2
-              </div>
+              <ProjectsList />
             </div>
           </div>
 
           {/* Sidebar derecho */}
           <div className="col-span-3 border border-beige/10  p-4 rounded-lg">
+            <AlertComponent/>
             <div className="mt-4 p-4 bg-black/40 rounded-md border border-beige/10 flex flex-col">
               <div className="flex gap-2 items-center">
                 <TrendingUp />

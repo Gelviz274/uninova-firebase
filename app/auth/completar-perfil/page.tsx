@@ -14,7 +14,6 @@ import {
   Image,
   University,
   User,
-  User2,
 } from "lucide-react";
 import InputIconStart from "@/components/comp-09";
 const CompletarPerfil = () => {
@@ -71,7 +70,7 @@ const CompletarPerfil = () => {
     
     setTimeout(() => {
       router.push("/"); // Cambia la ruta según tu estructura
-    }, 5000);
+    }, 2000);
   };
 
   return (
@@ -90,8 +89,8 @@ const CompletarPerfil = () => {
             <InputIconStart
               required
               Value={userData.nombre}
-              labeel="Nombre"
-              placeholder="Nombre"
+              labeel="Nombres"
+              placeholder="Nombres"
               type="text"
               Icon={User}
               onchange={(e) =>

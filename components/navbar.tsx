@@ -4,23 +4,13 @@ import React, { useState} from "react";
 import Image from "next/image";
 import InputWhitIconEnd from "@/components/comp-10";
 import { Search } from "lucide-react";
-import { usePathname } from "next/navigation";
 import AvatarIconDropbar from "@/components/comp-377";
 import Link from "next/link";
 
 function Navbar() {
-  const pathname = usePathname();
+
   const [open, setOpen] = useState(false);
 
-
-  // No mostrar el navbar en estas rutas
-  if (
-    pathname.includes("/auth/register") ||
-    pathname.includes("/auth/login") ||
-    pathname.includes("/auth/completar-perfil")
-  ) {
-    return null;
-  }
 
   return (
     <header className="flex items-center sticky bg-cafe w-full px-44 text-beige justify-around z-50 top-0 left-0 gap-6 shadow-md ">

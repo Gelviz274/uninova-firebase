@@ -56,8 +56,6 @@ export default function CreateProject() {
         createdAt: serverTimestamp(),
         autorId: user.uid,
       });
-
-      alert("Proyecto creado exitosamente");
       setSuccess(true);
       setTitle("");
       setProjectLink("");
@@ -75,9 +73,9 @@ export default function CreateProject() {
           ¿Qué estás pensando?
         </button>
       </DialogTrigger>
-      <DialogContent className="flex flex-col gap-0 overflow-y-visible border border-beige/50 bg-[#0b0b0b] text-beige p-0 sm:max-w-lg md:max-w-2xl [&>button:last-child]:top-3.5">
+      <DialogContent className="flex flex-col gap-0 overflow-y-visible border border-beige/10 bg-[#0b0b0b] text-beige p-0 sm:max-w-lg md:max-w-2xl [&>button:last-child]:top-3.5">
         <DialogHeader className="contents space-y-0 text-left">
-          <DialogTitle className="border-b border-beige/40 px-6 py-4 text-base bg-cafe rounded-t-xl">
+          <DialogTitle className="border-b border-beige/10 px-6 py-4 text-base bg-cafe rounded-t-xl">
             Crear Proyecto
           </DialogTitle>
         </DialogHeader>

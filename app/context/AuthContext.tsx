@@ -1,53 +1,33 @@
 "use client";
+import { useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { useAuth } from "@/app/api/setAuth";
+import Image from "next/image";
 
-import { createContext, useContext, useEffect, useState } from "react";
-import { onAuthStateChanged, signOut, User } from "firebase/auth";
-import { auth } from "@/lib/firebase/firebaseconfig"; // Asegúrate de importar Firebase correctamente
-import { useRouter } from "next/navigation"; 
+const PUBLIC_ROUTES = ["/auth/login", "/auth/register", "/auth"];
 
-// Definir el tipo del contexto de autenticación
-interface AuthContextType {
-  user: User | null;
-  loading: boolean;
-  logout: () => Promise<void>;
-}
-
-// Crear el contexto con un valor inicial
-const AuthContext = createContext<AuthContextType | null>(null);
-
-// Hook personalizado para usar el contexto
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth debe usarse dentro de un AuthProvider");
-  }
-  return context;
-};
-
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null); 
-  const [loading, setLoading] = useState<boolean>(true);
+export default function AuthGuard({ children }: { children: React.ReactNode }) {
+  const { user, loading } = useAuth();
   const router = useRouter();
+  const pathname = usePathname(); // Obtener la ruta actual
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
-    });
+    if (loading) return; // Esperar a que cargue la sesión
 
-    return unsubscribe; 
-  }, []);
+    if (user && PUBLIC_ROUTES.includes(pathname)) {
+      router.replace("/"); // Si está autenticado y está en una ruta pública, lo redirige a /
+    } else if (!user && !PUBLIC_ROUTES.includes(pathname)) {
+      router.replace("/auth/"); // Si NO está autenticado y está en una ruta privada, lo redirige a login
+    }
+  }, [user, loading, pathname, router]);
 
-  const logout = async () => {
-    await signOut(auth);
-    setUser(null);
-    router.push("/auth/login");
-  };
+  if (loading) return;
+  <Image
+    src="Logo_uninova.png"
+    width={50}
+    height={50}
+    alt="Logo uninova"
+  ></Image>; // Mientras carga, mostrar "Cargando..."
 
-
-  return (
-    <AuthContext.Provider value={{ user, loading, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
+  return <>{children}</>;
+}

@@ -55,15 +55,18 @@ const Register = () => {
         fotoPerfil: "", // Pendiente
         descripcion: "", // Pendiente
         fotoportada: "", // Pendiente
+        isSuperUser: false,
         profileCompleted: false, // Para saber si ya llenó los datos
       });
 
       setSuccess(true); // Mostrar la alerta
       // Redirigir después de 6 segundos
-      setTimeout(() => {
-        router.push("/auth/completar-perfil"); // Cambia la ruta según tu estructura
-      }, 5000);
-    } catch (err: any) {
+      {/*
+        setTimeout(() => {
+          router.push("/"); // Cambia la ruta según tu estructura
+          
+        }, 5000);*/}
+      } catch (err: any) {
       setError(err.message);
     }
   };

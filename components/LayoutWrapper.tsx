@@ -4,7 +4,7 @@ import Navbar from "@/components/navbar";
 
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const noHeaderPages = ["/auth/register", "/auth/login", "/auth/completar-perfil"];
+  const noHeaderPages = ["/auth/register", "/auth/login", "/auth/completar-perfil", "/auth"];
   const showHeader = !noHeaderPages.includes(pathname);
 
   return (

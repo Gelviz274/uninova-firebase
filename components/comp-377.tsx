@@ -40,7 +40,7 @@
       
       setTimeout(() => {
         setIsLoading(false);
-      }, 900); // Obtener instancia de Firestore
+      }, 1200); // Obtener instancia de Firestore
 
       // Escuchar cambios en la autenticación
       const unsubscribe = onAuthStateChanged(auth, async (user) => {

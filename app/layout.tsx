@@ -1,9 +1,9 @@
 import { Inter, Space_Mono } from "next/font/google";
 import "./globals.css";
-import AuthGuard from "@/components/AuthRedirect";
 import LayoutWrapper from "@/components/LayoutWrapper";
 import type { Metadata } from "next";
-import { AuthProvider } from "@/app/context/AuthContext";
+import  AuthGuard  from "@/app/context/AuthContext";
+
 
 
 export const metadata: Metadata = {
@@ -26,7 +26,7 @@ const spaceMono = Space_Mono({
   display: "swap",
 });
 
-// Envolver con AuthProvider
+// Envolver con AuthGuard
 export default function RootLayout({
   children,
 }: {
@@ -35,11 +35,9 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${inter.variable} ${spaceMono.variable}`}>
       <body className="font-sans antialiased">
-        <AuthProvider>
-          <AuthGuard>
+        <AuthGuard>      
             <LayoutWrapper>{children}</LayoutWrapper>
-          </AuthGuard>
-        </AuthProvider>
+        </AuthGuard>
       </body>
     </html>
   );
