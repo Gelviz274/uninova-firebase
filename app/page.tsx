@@ -11,8 +11,6 @@ import LeftMenuSidebar from "@/components/sidebar";
 import { FileText, Image, TrendingUp, Video } from "lucide-react";
 import AlertSuccess from "@/components/comp-271";
 import AlertComponent from "@/components/comp-314";
-import ProjectsList from "@/components/projects";
-
 
 function HomePage() {
   const [user, setUser] = useState<FirebaseUser | null>(null);
