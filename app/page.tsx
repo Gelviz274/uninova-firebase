@@ -73,7 +73,6 @@ function HomePage() {
               <div className="mt-4 p-4 bg-black/40 h-96 rounded-md border border-beige/10">
                 Proyecto de Ejemplo 1
               </div>
-              <ProjectsList />
             </div>
           </div>
 
