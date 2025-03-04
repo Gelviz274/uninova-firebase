@@ -6,15 +6,7 @@ import { auth, db } from "@/lib/firebase/firebaseconfig";
 import { onAuthStateChanged } from "firebase/auth";
 import AlertSuccess from "@/components/comp-271";
 import TextAreaOptional from "@/components/comp-63";
-import CTextAreaLimitCharacters from "@/components/comp-74";
-import {
-  AtSign,
-  Book,
-  Calendar1,
-  Image,
-  University,
-  User,
-} from "lucide-react";
+import { AtSign, Book, Calendar1, Image, University, User } from "lucide-react";
 import InputIconStart from "@/components/comp-09";
 const CompletarPerfil = () => {
   const [userData, setUserData] = useState({
@@ -66,8 +58,7 @@ const CompletarPerfil = () => {
     });
     setSaving(false);
     setShowAlert(true);
-    
-    
+
     setTimeout(() => {
       router.push("/"); // Cambia la ruta según tu estructura
     }, 2000);
@@ -169,16 +160,6 @@ const CompletarPerfil = () => {
             <h3 className="text-xl font-semibold text-beige mb-4">
               Otros Datos
             </h3>
-            {/* <CTextAreaLimitCharacters
-            <CTextAreaLimitCharacters
-              value={userData.descripcion}  
-              placeholder="Sobre mi"
-              label="Sobre mi"
-              onChange={(e) =>
-                setUserData((prev) => ({ ...prev, descripcion: e.target.value }))
-              }
-            />
-            */}
             <TextAreaOptional
               Labeel="Sobre mi"
               placeholder="Sobre mi"
@@ -226,8 +207,7 @@ const CompletarPerfil = () => {
           {saving ? "Guardando..." : "Guardar"}
         </button>
 
-        {showAlert && <AlertSuccess
-        content="Datos guardados con exito" />}
+        {showAlert && <AlertSuccess content="Datos guardados con exito" />}
       </div>
     </div>
   );

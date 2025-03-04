@@ -1,7 +1,6 @@
 "use client";
 
 import { useCharacterLimit } from "@/hooks/use-character-limit";
-import { useImageUpload } from "@/hooks/use-image-upload";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -34,7 +33,6 @@ export default function CreateProject() {
   const [title, setTitle] = useState("");
   const [projectLink, setProjectLink] = useState("");
   const [success, setSuccess] = useState(false);
-  const { previewUrl } = useImageUpload();
 
   const handleCreateProject = async () => {
     if (!title.trim() || !description.trim()) {

@@ -18,7 +18,6 @@
     BookOpen,
     ChevronDown,
     Layers2,
-    LogOut,
     Pin,
     UserPen,
   } from "lucide-react";

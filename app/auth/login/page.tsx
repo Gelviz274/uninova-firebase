@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Mail, Lock, User } from "lucide-react";
+import { Mail, Lock } from "lucide-react";
 import Image from "next/image";
 import { Google, Microsoft, Gitlab, Github } from "@/components/icons";
 import InputEye from "@/components/comp-23";

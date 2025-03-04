@@ -1,5 +1,4 @@
 import { Input } from "@/components/ui/input";
-import { Mail } from "lucide-react";
 import { LucideIcon } from "lucide-react";
 
 interface InputWithIconProps {
@@ -19,6 +18,7 @@ export default function InputWhitIconEnd({ id, type = "text", placeholder, value
         <Input id={id} 
         className={className} 
         placeholder={placeholder} 
+
         type={type} />
         <div className="pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-5 transition-colors group-focus-within:text-cafe">
         {Icon && <Icon className="absolute text-beige/80 h-4 w-4 transition-colors group-focus-within:text-beige" />}

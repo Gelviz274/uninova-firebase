@@ -1,24 +1,30 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Eye, EyeOff, Lock, LucideIcon } from "lucide-react";
-import { useId, useState } from "react";
+import { Eye, EyeOff, LucideIcon } from "lucide-react";
+import { useState } from "react";
 
 interface ConfirmPasswordProps {
-  id ?: string;
+  id?: string;
   value: string;
   placeholder?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   Icon?: LucideIcon;
   required?: boolean;
-} 
+}
 // HACER QUE LA CONTRASEÑA SEA IGUAL A LA CONTRASEÑA DE CONFIRMACIÓN
 // Y QUE SE PUEDA MOSTRAR U OCULTAR
 
-// HACER QUE EL COMPONENTE SE ACOPLE A LA PÁGINA DE REGISTRO Y A LA DE LOGIN 
+// HACER QUE EL COMPONENTE SE ACOPLE A LA PÁGINA DE REGISTRO Y A LA DE LOGIN
 
-export default function InputEye({ id, placeholder, value, onChange, Icon, required }: ConfirmPasswordProps) {
+export default function InputEye({
+  id,
+  placeholder,
+  value,
+  onChange,
+  Icon,
+  required,
+}: ConfirmPasswordProps) {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const toggleVisibility = () => setIsVisible((prevState) => !prevState);
@@ -26,7 +32,9 @@ export default function InputEye({ id, placeholder, value, onChange, Icon, requi
   return (
     <div className="space-y-2">
       <div className="relative group">
-      {Icon && <Icon className="absolute left-3 top-1/2 -translate-y-1/2 text-beige/40 h-4 w-4 transition-colors group-focus-within:text-beige" />}
+        {Icon && (
+          <Icon className="absolute left-3 top-1/2 -translate-y-1/2 text-beige/40 h-4 w-4 transition-colors group-focus-within:text-beige" />
+        )}
         <Input
           id={id}
           value={value}

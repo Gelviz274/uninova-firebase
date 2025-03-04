@@ -3,7 +3,7 @@ import { Home, Compass, FolderOpen, Bookmark, Settings } from "lucide-react";
 import { User as FirebaseUser } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/firebaseconfig";
-import AlertSuccess from "./comp-271"; // Asegúrate de importar correctamente Firestore
+import Image from "next/image";
 
 interface SidebarProps {
   user: FirebaseUser | null;
@@ -12,7 +12,6 @@ interface SidebarProps {
 export default function LeftMenuSidebar({ user }: SidebarProps) {
   const [nombre, setNombre] = useState<string | null>(null);
   const [apellido, setApellido] = useState<string | null>(null);
-  const [succes, setSuccess] = useState(false);
 
   useEffect(() => {
     if (user?.uid) {
@@ -36,9 +35,11 @@ export default function LeftMenuSidebar({ user }: SidebarProps) {
     <div className="bg-transparent rounded-lg p-4 w-auto">
       {/* Sección de perfil */}
       <div className="flex items-center mb-6">
-        <img
+        <Image
           src={user?.photoURL || "/default-user.avif"}
           alt="User Avatar"
+          height={400}
+          width={400}
           className="w-12 h-12 rounded-full mr-3"
         />
         <div>

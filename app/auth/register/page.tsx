@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { Mail, Lock, User } from "lucide-react";
 import Image from "next/image";
 import { Google, Microsoft, Gitlab, Github } from "@/components/icons";
-import { useRouter } from "next/navigation"; // Importar el route
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase/firebaseconfig";
@@ -21,7 +20,6 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false); // Estado para mostrar la alerta
-  const router = useRouter(); // Instanciar el router
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,12 +58,6 @@ const Register = () => {
       });
 
       setSuccess(true); // Mostrar la alerta
-      // Redirigir después de 6 segundos
-      {/*
-        setTimeout(() => {
-          router.push("/"); // Cambia la ruta según tu estructura
-          
-        }, 5000);*/}
       } catch (err: any) {
       setError(err.message);
     }
