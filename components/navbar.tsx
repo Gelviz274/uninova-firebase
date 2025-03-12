@@ -39,7 +39,6 @@ function Navbar() {
           <InputWhitIconEnd
             id="Search"
             placeholder="Buscar..."
-            value=""
             className="w-full bg-beige/40 text-beige border border-cafe rounded-xl px-3 py-5 focus:ring-2 focus:ring-beige placeholder:text-beige"
             Icon={Search}
           />

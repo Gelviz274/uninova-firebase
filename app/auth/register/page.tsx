@@ -12,6 +12,7 @@ import SimpleInput from "@/components/comp-01";
 import InputEye from "@/components/comp-23";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Register = () => {
   const [nombres, setNombre] = useState("");
@@ -63,8 +64,8 @@ const Register = () => {
       router.push(`/`);
 
       setSuccess(true); // Mostrar la alerta
-      } catch (err: any) {
-      setError(err.message);
+      } catch (error: unknown) {
+      setError(error as string);
     }
   };
   return (
@@ -148,9 +149,12 @@ const Register = () => {
             />
             <label htmlFor="terms" className="text-xs text-beige/70">
               Acepto los{" "}
-              <a href="#" className="text-beige hover:text-beige/80">
+              <Link
+                href="#"
+                className="text-beige hover:text-beige/80"
+              >
                 términos y condiciones
-              </a>
+              </Link>
             </label>
           </div>
           <button
@@ -221,12 +225,12 @@ const Register = () => {
           </div>
           <p className="text-center text-xs text-beige/60">
             ¿Ya tienes una cuenta?{" "}
-            <a
+            <Link
               href="/auth/login"
               className="font-medium text-beige hover:text-beige/80 transition-colors"
             >
               Inicia sesión aquí
-            </a>
+            </Link>
           </p>
           {error && <p className="text-red-500">{error}</p>}{" "}
           {/* Muestra errores si los hay */}

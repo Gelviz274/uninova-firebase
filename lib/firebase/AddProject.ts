@@ -1,19 +1,27 @@
 import { db } from "./firebaseconfig";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
-export default async function addProject({ title, description, projectLink, image, userId }) {
+interface ProjectData {
+  title: string;
+  description: string;
+  projectLink: string;
+  image: string;
+  userId: string;
+}
+
+export default async function addProject({ title, description, projectLink, image, userId }: ProjectData) {
   try {
     const docRef = await addDoc(collection(db, "projects"), {
       title,
       description,
       projectLink,
       image,
-      userId,
+      autorId: userId,
       createdAt: serverTimestamp(),
     });
-    return docRef.id;
+    return { success: true, id: docRef.id };
   } catch (error) {
-    console.error("Error al agregar el proyecto: ", error);
-    throw error;
+    console.error("Error al agregar proyecto:", error);
+    return { success: false, error };
   }
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import { useAuth } from '@/contexts/AuthContext';
+import Image from 'next/image';
 
 export default function UserProfile() {
   const { userProfile, loading } = useAuth();
@@ -24,10 +25,13 @@ export default function UserProfile() {
         <p><span className="font-semibold">Carrera:</span> {userProfile.carrera}</p>
         {userProfile.photoURL && (
           <div className="mt-4">
-            <img 
-              src={userProfile.photoURL} 
+            <Image
+              src={userProfile.photoURL || "/default-user.avif"}
               alt="Foto de perfil"
-              className="w-24 h-24 rounded-full object-cover" 
+              width={40}
+              height={40}
+              className="rounded-full object-cover"
+              priority
             />
           </div>
         )}

@@ -6,6 +6,7 @@ import { Google, Microsoft, Gitlab, Github } from "@/components/icons";
 import InputEye from "@/components/comp-23";
 import SimpleInput from "@/components/comp-01";
 import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
+import Link from "next/link";
 function App() {
   const auth = getAuth();
   const [email, setEmail] = useState("");
@@ -19,7 +20,7 @@ function App() {
       await signInWithEmailAndPassword(auth, email, password);
       console.log("Inicio de sesión exitoso");
       // Redirigir o realizar alguna acción después del inicio de sesión
-    } catch (err: any) {
+    } catch {
       setError("Correo o contraseña incorrectos");
     }
   };
@@ -42,6 +43,11 @@ function App() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          {error && (
+            <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-500 text-sm">
+              {error}
+            </div>
+          )}
           <div className="relative group">
           <SimpleInput
             id="email"
@@ -146,12 +152,12 @@ function App() {
 
           <p className="text-center text-xs text-beige/60">
             ¿No tienes una cuenta?{" "}
-            <a
+            <Link
               href="/auth/register"
               className="font-medium text-beige hover:text-beige/80 transition-colors"
             >
               Registrate aqui
-            </a>
+            </Link>
           </p>
         </form>
       </div>

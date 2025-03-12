@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { db } from "@/lib/firebase/firebaseconfig";
-import { collection, query, where, getDocs, addDoc, serverTimestamp, deleteDoc, doc } from "firebase/firestore";
+import { collection, query, where, getDocs, addDoc, serverTimestamp, deleteDoc } from "firebase/firestore";
 import { notFound } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loading } from "@/components/ui/loading";

@@ -8,6 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/context/AuthContext";
 import { Loading } from "@/components/ui/loading";
+import Image from "next/image";
 
 const skeletonClasses = "bg-beige/30 dark:bg-beige/20";
 
@@ -20,6 +21,7 @@ interface UserProps {
   username: string;
   universidad: string;
   carrera: string;
+  intereses?: string[];
 }
 
 interface ProjectProps {
@@ -33,6 +35,12 @@ interface ProjectProps {
   likes: number;
   views: number;
   categoria?: string;
+}
+
+interface UserPreferences {
+  carrera?: string;
+  universidad?: string;
+  intereses?: string[];
 }
 
 interface ListaProyectosProps {
@@ -71,7 +79,7 @@ function ProjectSkeleton() {
   );
 }
 
-function calculateProjectScore(project: ProjectProps, userPreferences: any) {
+function calculateProjectScore(project: ProjectProps, userPreferences: UserPreferences | null) {
   let score = 0;
 
   // Factor de tiempo (proyectos más recientes tienen mayor peso)
@@ -94,7 +102,7 @@ function calculateProjectScore(project: ProjectProps, userPreferences: any) {
   // Coincidencia de tags/intereses
   if (userPreferences?.intereses && project.tags) {
     const matchingTags = project.tags.filter(tag => 
-      userPreferences.intereses.includes(tag)
+      userPreferences.intereses?.includes(tag) ?? false
     ).length;
     score += matchingTags * 5; // Hasta 10% del score
   }
@@ -161,8 +169,13 @@ export default function ListaProyectos({ userId }: ListaProyectosProps) {
         const sortedProyectos = userId
           ? proyectosData.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
           : proyectosData.sort((a, b) => {
-              const scoreA = calculateProjectScore(a, user);
-              const scoreB = calculateProjectScore(b, user);
+              const userPrefs: UserPreferences = {
+                carrera: (user as unknown as UserProps)?.carrera,
+                universidad: (user as unknown as UserProps)?.universidad,
+                intereses: (user as unknown as UserProps)?.intereses
+              };
+              const scoreA = calculateProjectScore(a, userPrefs);
+              const scoreB = calculateProjectScore(b, userPrefs);
               return scoreB - scoreA;
             });
 
@@ -207,10 +220,13 @@ export default function ListaProyectos({ userId }: ListaProyectosProps) {
           >
             {/* Post Header */}
             <div className="p-4 flex items-center space-x-3">
-              <img
-                src={proyecto.autor?.fotoPerfil}
-                alt="Foto de perfil"
-                className="h-10 w-10 rounded-full object-cover"
+              <Image
+                src={proyecto.autor?.fotoPerfil || "/default-user.avif"}
+                alt={`Foto de perfil de ${proyecto.autor?.nombres || 'Usuario desconocido'}`}
+                width={40}
+                height={40}
+                className="rounded-full object-cover"
+                priority={true}
               />
               <div>
                 <div className="font-medium text-beige flex gap-2">

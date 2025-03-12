@@ -79,9 +79,9 @@ export default function CreateProject() {
         resetForm();
       }, 2000);
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error al crear el proyecto:", error);
-      alert("Hubo un error al crear el proyecto: " + (error.message || error));
+      alert("Hubo un error al crear el proyecto: " + (error as Error).message);
     }
   };
 

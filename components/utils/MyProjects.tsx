@@ -3,11 +3,10 @@
 import { useEffect, useState } from "react";
 import { collection, getDocs, doc, getDoc, query, where, deleteDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/firebaseconfig";
-import { ThumbsUp, MessageCircle, Bookmark, Share2, Trash2, Edit } from "lucide-react";
+import { ThumbsUp, MessageCircle, Share2, Trash2, Edit } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
-import { Loading } from "@/components/ui/loading";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -21,6 +20,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const skeletonClasses = "bg-beige/30 dark:bg-beige/20";
 
@@ -45,6 +45,8 @@ interface ProjectProps {
   likes: number;
   views: number;
   categoria?: string;
+  projectLink?: string;
+  image?: string;
 }
 
 function ProjectSkeleton() {
@@ -79,22 +81,27 @@ function ProjectSkeleton() {
   );
 }
 
-export default function MyProjects() {
+interface MyProjectsProps {
+  userId?: string;
+}
+
+export default function MyProjects({ userId }: MyProjectsProps) {
   const [proyectos, setProyectos] = useState<ProjectProps[]>([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
   const router = useRouter();
+  const isOwnProfile = user?.uid === userId;
 
   useEffect(() => {
     const fetchProyectos = async () => {
-      if (!user) {
+      if (!userId) {
         setLoading(false);
         return;
       }
 
       try {
         const proyectosRef = collection(db, "projects");
-        const q = query(proyectosRef, where("autorId", "==", user.uid));
+        const q = query(proyectosRef, where("autorId", "==", userId));
         const snapshot = await getDocs(q);
 
         const proyectosData: ProjectProps[] = await Promise.all(
@@ -141,7 +148,7 @@ export default function MyProjects() {
     };
 
     fetchProyectos();
-  }, [user]);
+  }, [userId]);
 
   const handleDeleteProject = async (projectId: string) => {
     try {
@@ -155,24 +162,10 @@ export default function MyProjects() {
     }
   };
 
-  if (!user) {
-    return (
-      <div className="min-h-[400px] w-full flex flex-col items-center justify-center gap-4">
-        <p className="text-beige/60 text-lg">Inicia sesión para ver tus proyectos</p>
-        <Button
-          onClick={() => router.push('/auth/signin')}
-          className="bg-[#D2B48C] hover:bg-[#D2B48C]/80 text-[#202020]"
-        >
-          Iniciar Sesión
-        </Button>
-      </div>
-    );
-  }
-
   if (loading) {
     return (
-      <div className="bg-transparent w-full h-auto">
-        <ul className="space-y-4">
+      <div className="bg-transparent w-full h-auto px-44">
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1, 2, 3].map((i) => (
             <ProjectSkeleton key={i} />
           ))}
@@ -183,105 +176,69 @@ export default function MyProjects() {
 
   if (proyectos.length === 0) {
     return (
-      <div className="min-h-[400px] w-full flex flex-col items-center justify-center gap-4">
-        <p className="text-beige/60 text-lg">No has creado ningún proyecto aún</p>
-        <Button
-          onClick={() => router.push('/create-project')}
-          className="bg-[#D2B48C] hover:bg-[#D2B48C]/80 text-[#202020]"
-        >
-          Crear Proyecto
-        </Button>
+      <div className="min-h-[400px] w-full flex flex-col items-center justify-center gap-4 px-44">
+        <p className="text-beige/60 text-lg">
+          {isOwnProfile 
+            ? "No has creado ningún proyecto aún" 
+            : "Este usuario no tiene proyectos"}
+        </p>
+        {isOwnProfile && (
+          <Button
+            onClick={() => router.push('/create-project')}
+            className="bg-[#D2B48C] hover:bg-[#D2B48C]/80 text-[#202020]"
+          >
+            Crear Proyecto
+          </Button>
+        )}
       </div>
     );
   }
 
   return (
-    <div className="bg-transparent w-full h-auto">
-      <div className="flex justify-end mb-4">
-        <Button
-          onClick={() => router.push('/create-project')}
-          className="bg-[#D2B48C] hover:bg-[#D2B48C]/80 text-[#202020]"
-        >
-          Crear Nuevo Proyecto
-        </Button>
-      </div>
-      <ul className="space-y-4">
+    <div className="bg-transparent w-full h-auto px-44">
+      {isOwnProfile && (
+        <div className="flex justify-end mb-6">
+          <Button
+            onClick={() => router.push('/create-project')}
+            className="bg-[#D2B48C] hover:bg-[#D2B48C]/80 text-[#202020]"
+          >
+            Crear Proyecto
+          </Button>
+        </div>
+      )}
+
+      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {proyectos.map((proyecto) => (
           <li
             key={proyecto.id}
-            className="bg-[#202020] rounded-xl border border-beige/10 overflow-hidden flex flex-col h-96"
+            className="bg-[#202020] rounded-xl border border-beige/10 overflow-hidden flex flex-col h-[420px] hover:border-beige/20 transition-all hover:shadow-xl hover:shadow-beige/5"
           >
-            {/* Post Header */}
-            <div className="p-4 flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <img
-                  src={proyecto.autor?.fotoPerfil}
-                  alt="Foto de perfil"
-                  className="h-10 w-10 rounded-full object-cover"
-                />
-                <div>
-                  <h3 className="font-semibold text-beige">
-                    {proyecto.autor?.nombres} {proyecto.autor?.apellidos}
-                  </h3>
-                  <p className="text-sm text-beige/60">
-                    {new Date(proyecto.createdAt).toLocaleDateString()}
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  onClick={() => router.push(`/edit-project/${proyecto.id}`)}
-                  variant="ghost"
-                  size="icon"
-                  className="text-beige/60 hover:text-beige"
-                >
-                  <Edit className="h-5 w-5" />
-                </Button>
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="text-red-500 hover:text-red-600"
-                    >
-                      <Trash2 className="h-5 w-5" />
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent className="bg-[#202020] border-beige/10">
-                    <AlertDialogHeader>
-                      <AlertDialogTitle className="text-beige">
-                        ¿Eliminar proyecto?
-                      </AlertDialogTitle>
-                      <AlertDialogDescription className="text-beige/60">
-                        Esta acción no se puede deshacer. El proyecto será eliminado permanentemente.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel className="bg-transparent text-beige border-beige/10 hover:bg-beige/10">
-                        Cancelar
-                      </AlertDialogCancel>
-                      <AlertDialogAction
-                        onClick={() => proyecto.id && handleDeleteProject(proyecto.id)}
-                        className="bg-red-500 hover:bg-red-600 text-white"
-                      >
-                        Eliminar
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              </div>
+            {/* Project Image */}
+            <div className="relative h-48 w-full overflow-hidden">
+              <Image
+                src={proyecto.image || "/default-project.jpg"}
+                alt={proyecto.title}
+                className="object-cover hover:scale-110 transition-transform duration-500"
+                fill
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#202020] to-transparent opacity-50" />
             </div>
 
-            {/* Post Content */}
-            <div className="px-4 pb-3 flex-grow">
-              <h2 className="text-xl font-bold text-beige mb-2">{proyecto.title}</h2>
-              <p className="text-beige/80 line-clamp-3">{proyecto.description}</p>
+            {/* Content */}
+            <div className="p-6 flex-grow">
+              <h3 className="text-xl font-semibold text-beige mb-2 line-clamp-2">
+                {proyecto.title}
+              </h3>
+              <p className="text-beige/60 text-sm line-clamp-3 mb-4">
+                {proyecto.description}
+              </p>
               {proyecto.tags && proyecto.tags.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-3">
+                <div className="flex flex-wrap gap-2">
                   {proyecto.tags.map((tag, index) => (
                     <span
                       key={index}
-                      className="px-2 py-1 bg-[#D2B48C]/10 text-[#D2B48C] rounded-full text-xs"
+                      className="px-2 py-1 text-xs rounded-lg bg-beige/10 text-beige/80"
                     >
                       {tag}
                     </span>
@@ -290,24 +247,65 @@ export default function MyProjects() {
               )}
             </div>
 
-            {/* Post Actions */}
-            <div className="flex justify-around p-4 border-t border-white/10 bg-[#1e1e1e] mt-auto">
-              <button className="flex items-center gap-2 text-beige/60 hover:text-beige">
-                <ThumbsUp className="h-5 w-5" />
-                <span>{proyecto.likes}</span>
-              </button>
-              <button className="flex items-center gap-2 text-beige/60 hover:text-beige">
-                <MessageCircle className="h-5 w-5" />
-                <span>0</span>
-              </button>
-              <button className="flex items-center gap-2 text-beige/60 hover:text-beige">
-                <Bookmark className="h-5 w-5" />
-                <span>Guardar</span>
-              </button>
-              <button className="flex items-center gap-2 text-beige/60 hover:text-beige">
-                <Share2 className="h-5 w-5" />
-                <span>Compartir</span>
-              </button>
+            {/* Actions */}
+            <div className="flex justify-between items-center p-4 border-t border-beige/10 bg-[#1a1a1a]">
+              <div className="flex items-center gap-4">
+                <button className="text-beige/60 hover:text-beige transition-colors flex items-center gap-1">
+                  <ThumbsUp className="w-4 h-4" />
+                  <span className="text-sm">{proyecto.likes}</span>
+                </button>
+                <button className="text-beige/60 hover:text-beige transition-colors flex items-center gap-1">
+                  <MessageCircle className="w-4 h-4" />
+                  <span className="text-sm">0</span>
+                </button>
+              </div>
+
+              <div className="flex items-center gap-2">
+                {isOwnProfile && (
+                  <>
+                    <button
+                      onClick={() => router.push(`/edit-project/${proyecto.id}`)}
+                      className="p-2 rounded-lg hover:bg-beige/10 text-beige/60 hover:text-beige transition-colors"
+                    >
+                      <Edit className="w-4 h-4" />
+                    </button>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <button className="p-2 rounded-lg hover:bg-red-500/10 text-red-500/60 hover:text-red-500 transition-colors">
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>¿Eliminar proyecto?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Esta acción no se puede deshacer. El proyecto será eliminado permanentemente.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                          <AlertDialogAction
+                            onClick={() => proyecto.id && handleDeleteProject(proyecto.id)}
+                            className="bg-red-500 hover:bg-red-600"
+                          >
+                            Eliminar
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </>
+                )}
+                {proyecto.projectLink && (
+                  <a
+                    href={proyecto.projectLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2 rounded-lg hover:bg-beige/10 text-beige/60 hover:text-beige transition-colors"
+                  >
+                    <Share2 className="w-4 h-4" />
+                  </a>
+                )}
+              </div>
             </div>
           </li>
         ))}

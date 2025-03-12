@@ -5,12 +5,13 @@ import { db } from "@/lib/firebase/firebaseconfig";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { notFound } from "next/navigation";
 import { Loading } from "@/components/ui/loading";
-import { useAuth } from "@/contexts/AuthContext";
+//import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, MapPin, School } from "lucide-react";
 import { useRouter, useParams } from "next/navigation";
 import { ReactNode } from "react";
 import EditProfileUser from "@/components/comp-331";
+import Image from 'next/image';
 
 interface UserProfile {
   nombres: string;
@@ -32,7 +33,7 @@ interface LayoutProps {
 export default function UserLayout({ children }: LayoutProps) {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
-  const { user } = useAuth();
+  //const { user } = useAuth();
   const router = useRouter();
   const params = useParams();
   const username = params.username as string;
@@ -87,10 +88,12 @@ export default function UserLayout({ children }: LayoutProps) {
             </Button>
             <div className="flex items-center gap-2">
               {userProfile.photoURL && (
-                <img
+                <Image
                   src={userProfile.photoURL}
                   alt={userProfile.nombres}
-                  className="w-7 h-7 rounded-full object-cover border border-beige/10"
+                  width={28}
+                  height={28}
+                  className="rounded-full object-cover border border-beige/10"
                 />
               )}
               <div className="hidden sm:block">
@@ -127,10 +130,13 @@ export default function UserLayout({ children }: LayoutProps) {
               {/* Foto de perfil con borde brillante */}
               <div className="relative">
                 <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#D2B48C] via-[#BC8F8F] to-[#D2B48C] blur-md opacity-50"></div>
-                <img
+                <Image
                   src={userProfile.photoURL || "/default-user.avif"}
                   alt="Foto de perfil"
+                  width={128}
+                  height={128}
                   className="relative w-28 h-28 md:w-32 md:h-32 rounded-full border-4 border-[#202020] object-cover"
+                  priority
                 />
               </div>
 

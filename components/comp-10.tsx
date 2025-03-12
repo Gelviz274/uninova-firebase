@@ -5,13 +5,11 @@ interface InputWithIconProps {
   id?: string;
   type?: string;
   placeholder?: string;
-  value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   Icon?: LucideIcon;
   className?: string;
 }
 
-export default function InputWhitIconEnd({ id, type = "text", placeholder, value, onChange, Icon, className }: InputWithIconProps) {
+export default function InputWhitIconEnd({ id, type = "text", placeholder, Icon, className }: InputWithIconProps) {
   return (
     <div className="space-y-2">
       <div className="relative">

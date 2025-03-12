@@ -1,28 +1,18 @@
 "use client";
 
-import { useCharacterLimit } from "@/hooks/use-character-limit";
-import { useImageUpload } from "@/hooks/use-image-upload";
+import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { getDoc, collection, getDocs, doc } from "firebase/firestore";
-import { db } from "@/lib/firebase/firebaseconfig";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Edit3 } from "lucide-react";
+import { db, storage } from "@/lib/firebase/firebaseconfig";
+import { doc, updateDoc } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { CheckIcon, ImagePlusIcon, XIcon } from "lucide-react";
-import { useEffect, useId, useState } from "react";
+import Image from "next/image";
 
-interface EditProfileUSerProps {
-  id?: string;
+interface EditProfileUserProps {
+  id: string;
   nombre: string;
   apellido: string;
   fotoPerfil: string;
@@ -33,240 +23,221 @@ interface EditProfileUSerProps {
   semestre: number;
 }
 
-export default function EditProfileUser({ id, nombre, apellido, fotoPerfil, username, universidad, carrera, sobremi, semestre }: EditProfileUSerProps) {
-  // Add state variables to store the values
-  const [nombreState, setNombreState] = useState(nombre);
-  const [apellidoState, setApellidoState] = useState(apellido);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        if (!id) return; // Check if id exists
-        const userRef = doc(db, "users", id);
-        const userSnap = await getDoc(userRef);
-        if (userSnap.exists()) {
-          const userData = userSnap.data() as EditProfileUSerProps;
-          setNombreState(userData.nombre);
-          setApellidoState(userData.apellido);
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-    
-    fetchUser();
-  }, [id]); // Add id as dependency
-
-  const maxLength = 200;
-  const {
-    value,
-    characterCount,
-    handleChange,
-    maxLength: limit,
-  } = useCharacterLimit({
-    maxLength,
-    initialValue:
-      "Hey, I am Margaret, a web developer who loves turning ideas into amazing websites!",
+export default function EditProfileUser({ 
+  id, 
+  nombre, 
+  apellido, 
+  fotoPerfil,
+  username,
+  universidad,
+  carrera,
+  sobremi,
+  semestre
+}: EditProfileUserProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    nombres: nombre,
+    apellidos: apellido,
+    descripcion: sobremi || "",
+    fotoPerfil: fotoPerfil || "",
+    fotoCover: "",
+    username: username || "",
+    universidad: universidad || "",
+    carrera: carrera || "",
+    semestre: semestre || 0
   });
 
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button className="bg-cafe hover:bg-cafe/90 text-beige">Editar Perfil</Button>
-      </DialogTrigger>
-      <DialogContent className="flex flex-col gap-0 overflow-y-visible p-0 sm:max-w-lg [&>button:last-child]:top-3.5">
-        <DialogHeader className="contents space-y-0 text-left">
-          <DialogTitle className="border-b px-6 py-4 text-base">Editar perfil</DialogTitle>
-        </DialogHeader>
-        <DialogDescription className="sr-only">
-          Make changes to your profile here. You can change your photo and set a username.
-        </DialogDescription>
-        <div className="overflow-y-auto">
-          <ProfileBg defaultImage="/profile-bg.jpg" />
-          <Avatar defaultImage="/avatar-72-01.jpg" />
-          <div className="px-6 pt-4 pb-6">
-            <form className="space-y-4">
-              <div className="flex flex-col gap-4 sm:flex-row">
-                <div className="flex-1 space-y-2">
-                  <Label htmlFor={`${id}-first-name`}>First name</Label>
-                  <Input
-                    id={`${id}-first-name`}
-                    placeholder="Matt"
-                    defaultValue="Margaret"
-                    type="text"
-                    required
-                  />
-                </div>
-                <div className="flex-1 space-y-2">
-                  <Label htmlFor={`${id}-last-name`}>Last name</Label>
-                  <Input
-                    id={`${id}-last-name`}
-                    placeholder="Welsh"
-                    defaultValue="Villard"
-                    type="text"
-                    required
-                  />
-                </div>
-              </div>
-              <div className="*:not-first:mt-2">
-                <Label htmlFor={`${id}-username`}>Username</Label>
-                <div className="relative">
-                  <Input
-                    id={`${id}-username`}
-                    className="peer pe-9"
-                    placeholder="Username"
-                    defaultValue="margaret-villard-69"
-                    type="text"
-                    required
-                  />
-                  <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 peer-disabled:opacity-50">
-                    <CheckIcon size={16} className="text-emerald-500" aria-hidden="true" />
-                  </div>
-                </div>
-              </div>
-              <div className="*:not-first:mt-2">
-                <Label htmlFor={`${id}-website`}>Website</Label>
-                <div className="flex rounded-md shadow-xs">
-                  <span className="border-input bg-background text-muted-foreground -z-10 inline-flex items-center rounded-s-md border px-3 text-sm">
-                    https://
-                  </span>
-                  <Input
-                    id={`${id}-website`}
-                    className="-ms-px rounded-s-none shadow-none"
-                    placeholder="yourwebsite.com"
-                    defaultValue="www.margaret.com"
-                    type="text"
-                  />
-                </div>
-              </div>
-              <div className="*:not-first:mt-2">
-                <Label htmlFor={`${id}-bio`}>Biography</Label>
-                <Textarea
-                  id={`${id}-bio`}
-                  placeholder="Write a few sentences about yourself"
-                  defaultValue={value}
-                  maxLength={maxLength}
-                  onChange={handleChange}
-                  aria-describedby={`${id}-description`}
-                />
-                <p
-                  id={`${id}-description`}
-                  className="text-muted-foreground mt-2 text-right text-xs"
-                  role="status"
-                  aria-live="polite"
-                >
-                  <span className="tabular-nums">{limit - characterCount}</span> characters left
-                </p>
-              </div>
-            </form>
-          </div>
-        </div>
-        <DialogFooter className="border-t px-6 py-4">
-          <DialogClose asChild>
-            <Button type="button" variant="outline">
-              Cancel
-            </Button>
-          </DialogClose>
-          <DialogClose asChild>
-            <Button type="button">Save changes</Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  );
-}
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>, type: 'profile' | 'cover') => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-function ProfileBg({ defaultImage }: { defaultImage?: string }) {
-  const [hideDefault, setHideDefault] = useState(false);
-  const { previewUrl, fileInputRef, handleThumbnailClick, handleFileChange, handleRemove } =
-    useImageUpload();
+    try {
+      const imageRef = ref(storage, `users/${id}/${type}/${file.name}`);
+      await uploadBytes(imageRef, file);
+      const url = await getDownloadURL(imageRef);
+      
+      setFormData(prev => ({
+        ...prev,
+        [type === 'profile' ? 'fotoPerfil' : 'fotoCover']: url
+      }));
+    } catch (error) {
+      console.error("Error al subir imagen:", error);
+    }
+  };
 
-  const currentImage = previewUrl || (!hideDefault ? defaultImage : null);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
 
-  const handleImageRemove = () => {
-    handleRemove();
-    setHideDefault(true);
+    try {
+      const userRef = doc(db, "users", id);
+      await updateDoc(userRef, {
+        nombres: formData.nombres,
+        apellidos: formData.apellidos,
+        descripcion: formData.descripcion,
+        username: formData.username,
+        universidad: formData.universidad,
+        carrera: formData.carrera,
+        semestre: formData.semestre,
+        ...(formData.fotoPerfil && { photoURL: formData.fotoPerfil }),
+        ...(formData.fotoCover && { fotoportada: formData.fotoCover })
+      });
+
+      setIsOpen(false);
+      window.location.reload();
+    } catch (error) {
+      console.error("Error al actualizar perfil:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="h-32">
-      <div className="bg-muted relative flex h-full w-full items-center justify-center overflow-hidden">
-        {currentImage && (
-          <img
-            className="h-full w-full object-cover"
-            src={currentImage}
-            alt={previewUrl ? "Preview of uploaded image" : "Default profile background"}
-            width={512}
-            height={96}
-          />
-        )}
-        <div className="absolute inset-0 flex items-center justify-center gap-2">
-          <button
-            type="button"
-            className="focus-visible:border-ring focus-visible:ring-ring/50 z-50 flex size-10 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white transition-[color,box-shadow] outline-none hover:bg-black/80 focus-visible:ring-[3px]"
-            onClick={handleThumbnailClick}
-            aria-label={currentImage ? "Change image" : "Upload image"}
-          >
-            <ImagePlusIcon size={16} aria-hidden="true" />
-          </button>
-          {currentImage && (
-            <button
-              type="button"
-              className="focus-visible:border-ring focus-visible:ring-ring/50 z-50 flex size-10 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white transition-[color,box-shadow] outline-none hover:bg-black/80 focus-visible:ring-[3px]"
-              onClick={handleImageRemove}
-              aria-label="Remove image"
-            >
-              <XIcon size={16} aria-hidden="true" />
-            </button>
-          )}
-        </div>
-      </div>
-      <input
-        type="file"
-        ref={fileInputRef}
-        onChange={handleFileChange}
-        className="hidden"
-        accept="image/*"
-        aria-label="Upload image file"
-      />
-    </div>
-  );
-}
-
-function Avatar({ defaultImage }: { defaultImage?: string }) {
-  const { previewUrl, fileInputRef, handleThumbnailClick, handleFileChange } = useImageUpload();
-
-  const currentImage = previewUrl || defaultImage;
-
-  return (
-    <div className="-mt-10 px-6">
-      <div className="border-background bg-muted relative flex size-20 items-center justify-center overflow-hidden rounded-full border-4 shadow-xs shadow-black/10">
-        {currentImage && (
-          <img
-            src={currentImage}
-            className="h-full w-full object-cover"
-            width={80}
-            height={80}
-            alt="Profile image"
-          />
-        )}
-        <button
-          type="button"
-          className="focus-visible:border-ring focus-visible:ring-ring/50 absolute flex size-8 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white transition-[color,box-shadow] outline-none hover:bg-black/80 focus-visible:ring-[3px]"
-          onClick={handleThumbnailClick}
-          aria-label="Change profile picture"
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        <Button
+          variant="outline"
+          size="sm"
+          className="bg-[#202020]/60 backdrop-blur-lg border-beige/10 text-beige hover:bg-[#202020]/80 hover:text-beige"
         >
-          <ImagePlusIcon size={16} aria-hidden="true" />
-        </button>
-        <input
-          type="file"
-          ref={fileInputRef}
-          onChange={handleFileChange}
-          className="hidden"
-          accept="image/*"
-          aria-label="Upload profile picture"
-        />
-      </div>
-    </div>
+          <Edit3 className="w-4 h-4 mr-2" />
+          Editar Perfil
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="bg-[#202020] border-beige/10 text-beige">
+        <DialogHeader>
+          <DialogTitle>Editar Perfil</DialogTitle>
+        </DialogHeader>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium mb-2">Foto de Perfil</label>
+              <div className="flex items-center gap-4">
+                {formData.fotoPerfil && (
+                  <Image
+                    src={formData.fotoPerfil}
+                    alt="Foto de perfil"
+                    width={64}
+                    height={64}
+                    className="rounded-full object-cover"
+                  />
+                )}
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleFileChange(e, 'profile')}
+                  className="bg-[#151515]"
+                />
+              </div>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium mb-2">Foto de Portada</label>
+              <div className="flex items-center gap-4">
+                {formData.fotoCover && (
+                  <Image
+                    src={formData.fotoCover}
+                    alt="Foto de portada"
+                    width={120}
+                    height={40}
+                    className="rounded object-cover"
+                  />
+                )}
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleFileChange(e, 'cover')}
+                  className="bg-[#151515]"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-2">Nombres</label>
+              <Input
+                value={formData.nombres}
+                onChange={(e) => setFormData(prev => ({ ...prev, nombres: e.target.value }))}
+                className="bg-[#151515]"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-2">Apellidos</label>
+              <Input
+                value={formData.apellidos}
+                onChange={(e) => setFormData(prev => ({ ...prev, apellidos: e.target.value }))}
+                className="bg-[#151515]"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-2">Descripción</label>
+              <Textarea
+                value={formData.descripcion}
+                onChange={(e) => setFormData(prev => ({ ...prev, descripcion: e.target.value }))}
+                className="bg-[#151515] min-h-[100px]"
+                placeholder="Cuéntanos sobre ti..."
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-2">Username</label>
+              <Input
+                value={formData.username}
+                onChange={(e) => setFormData(prev => ({ ...prev, username: e.target.value }))}
+                className="bg-[#151515]"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-2">Universidad</label>
+              <Input
+                value={formData.universidad}
+                onChange={(e) => setFormData(prev => ({ ...prev, universidad: e.target.value }))}
+                className="bg-[#151515]"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-2">Carrera</label>
+              <Input
+                value={formData.carrera}
+                onChange={(e) => setFormData(prev => ({ ...prev, carrera: e.target.value }))}
+                className="bg-[#151515]"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-2">Semestre</label>
+              <Input
+                type="number"
+                value={formData.semestre}
+                onChange={(e) => setFormData(prev => ({ ...prev, semestre: parseInt(e.target.value) }))}
+                className="bg-[#151515]"
+              />
+            </div>
+          </div>
+
+          <div className="flex justify-end gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setIsOpen(false)}
+              className="border-beige/10 text-beige hover:bg-beige/5"
+            >
+              Cancelar
+            </Button>
+            <Button
+              type="submit"
+              disabled={loading}
+              className="bg-[#D2B48C] text-[#151515] hover:bg-[#D2B48C]/90"
+            >
+              {loading ? "Guardando..." : "Guardar Cambios"}
+            </Button>
+          </div>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 }
