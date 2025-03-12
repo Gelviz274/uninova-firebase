@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useId, useState } from "react";
+import { useId, useState, useRef, useEffect } from "react";
 import { db, auth } from "@/lib/firebase/firebaseconfig";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import AlertSuccess from "./comp-271";
@@ -33,6 +33,22 @@ export default function CreateProject() {
   const [title, setTitle] = useState("");
   const [projectLink, setProjectLink] = useState("");
   const [success, setSuccess] = useState(false);
+  const [open, setOpen] = useState(false);
+  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const resetForm = () => {
+    setTitle("");
+    setProjectLink("");
+    setSuccess(false);
+  };
 
   const handleCreateProject = async () => {
     if (!title.trim() || !description.trim()) {
@@ -54,9 +70,15 @@ export default function CreateProject() {
         createdAt: serverTimestamp(),
         autorId: user.uid,
       });
+      
       setSuccess(true);
-      setTitle("");
-      setProjectLink("");
+      
+      // Cerrar el diálogo después de 2 segundos
+      closeTimeoutRef.current = setTimeout(() => {
+        setOpen(false);
+        resetForm();
+      }, 2000);
+
     } catch (error: any) {
       console.error("Error al crear el proyecto:", error);
       alert("Hubo un error al crear el proyecto: " + (error.message || error));
@@ -64,10 +86,15 @@ export default function CreateProject() {
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={(isOpen) => {
+      setOpen(isOpen);
+      if (!isOpen) {
+        resetForm();
+      }
+    }}>
       {success && <AlertSuccess content="Proyecto creado exitosamente"/>}
       <DialogTrigger asChild>
-        <button className="w-full bg-cafe/60 text-beige/40 text-start px-4 py-4 rounded-full">
+        <button className="w-full bg-cafe/60 text-beige/40 text-start px-4 py-4 rounded-full" onClick={() => setOpen(true)}>
           ¿Qué estás pensando?
         </button>
       </DialogTrigger>

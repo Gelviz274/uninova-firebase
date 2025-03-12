@@ -31,7 +31,7 @@ function HomePage() {
         <div className="grid grid-cols-12 text-white w-full h-full gap-5 py-6">
           {/* Sidebar izquierdo */}
           <div className="col-span-3">
-            <LeftMenuSidebar user={user} /> 
+            <LeftMenuSidebar/> 
           </div>
           
 

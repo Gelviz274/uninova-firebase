@@ -11,15 +11,17 @@ import InputContrasena from "@/components/comp-51";
 import SimpleInput from "@/components/comp-01";
 import InputEye from "@/components/comp-23";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 const Register = () => {
-  const [nombre, setNombre] = useState("");
-  const [apellido, setApellido] = useState("");
+  const [nombres, setNombre] = useState("");
+  const [apellidos, setApellido] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false); // Estado para mostrar la alerta
+  const [success, setSuccess] = useState(false);
+  const router = useRouter(); // Estado para mostrar la alerta
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,8 +44,8 @@ const Register = () => {
       // Guardar datos adicionales en Firestore
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
-        nombre,
-        apellido,
+        nombres,
+        apellidos,
         email,
         createdAt: new Date(),
         username: "", // Pendiente
@@ -56,6 +58,9 @@ const Register = () => {
         isSuperUser: false,
         profileCompleted: false, // Para saber si ya llenó los datos
       });
+
+      // Redireccionar al perfil
+      router.push(`/`);
 
       setSuccess(true); // Mostrar la alerta
       } catch (err: any) {
@@ -92,8 +97,8 @@ const Register = () => {
               <SimpleInput
                 id="firstName"
                 type="text"
-                placeholder="Nombre"
-                value={nombre}
+                placeholder="Nombres"
+                value={nombres}
                 onChange={(e) => setNombre(e.target.value)}
                 Icon={User}
                 
@@ -104,8 +109,8 @@ const Register = () => {
               <SimpleInput
                 id="lastName"
                 type="text"
-                placeholder="Apellido"
-                value={apellido}
+                placeholder="Apellidos"
+                value={apellidos}
                 onChange={(e) => setApellido(e.target.value)}
                 Icon={User}
               />

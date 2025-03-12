@@ -1,67 +1,73 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { auth, db } from "@/lib/firebase/firebaseconfig";
-import { onAuthStateChanged } from "firebase/auth";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "@/lib/firebase/firebaseconfig";
 import AlertSuccess from "@/components/comp-271";
 import TextAreaOptional from "@/components/comp-63";
 import { AtSign, Book, Calendar1, Image, University, User } from "lucide-react";
 import InputIconStart from "@/components/comp-09";
+import { useAuth } from "@/contexts/AuthContext";
+
 const CompletarPerfil = () => {
-  const [userData, setUserData] = useState({
-    nombre: "",
-    apellido: "",
-    email: "",
+  const { userProfile, loading: authLoading } = useAuth();
+  const [formData, setFormData] = useState({
+    nombres: "",
+    apellidos: "",
     username: "",
     universidad: "",
     carrera: "",
     semestre: "",
-    fotoPerfil: "",
+    photoURL: "",
     descripcion: "",
     fotoportada: "",
   });
 
-  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const router = useRouter();
-  const [uid, setUid] = useState<string | null>(null);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        setUid(user.uid);
-        const userDoc = await getDoc(doc(db, "users", user.uid));
-        if (userDoc.exists()) {
-          setUserData((prevState) => ({
-            ...prevState,
-            ...userDoc.data(),
-          }));
-        }
-      } else {
-        router.push("/login");
-      }
-      setLoading(false);
-    });
+    if (userProfile) {
+      setFormData({
+        nombres: userProfile.nombres || "",
+        apellidos: userProfile.apellidos || "",
+        username: userProfile.username || "",
+        universidad: userProfile.universidad || "",
+        carrera: userProfile.carrera || "",
+        semestre: userProfile.semestre || "",
+        photoURL: userProfile.photoURL || "",
+        descripcion: userProfile.descripcion || "",
+        fotoportada: userProfile.fotoportada || "",
+      });
+    }
+  }, [userProfile]);
 
-    return () => unsubscribe();
-  }, [router]);
+  if (authLoading) {
+    return <div className="flex items-center justify-center min-h-screen">Cargando...</div>;
+  }
+
+  if (!userProfile) {
+    router.push("/login");
+    return null;
+  }
 
   const handleSave = async () => {
-    if (!uid) return;
-
     setSaving(true);
-    await updateDoc(doc(db, "users", uid), {
-      ...userData,
-      profileCompleted: true,
-    });
-    setSaving(false);
-    setShowAlert(true);
-
-    setTimeout(() => {
-      router.push("/"); // Cambia la ruta según tu estructura
-    }, 2000);
+    try {
+      await updateDoc(doc(db, "users", userProfile.uid), {
+        ...formData,
+        profileCompleted: true,
+      });
+      setShowAlert(true);
+      setTimeout(() => {
+        router.push("/");
+      }, 2000);
+    } catch (error) {
+      console.error("Error al guardar:", error);
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -79,35 +85,35 @@ const CompletarPerfil = () => {
             </h3>
             <InputIconStart
               required
-              Value={userData.nombre}
+              Value={formData.nombres}
               labeel="Nombres"
               placeholder="Nombres"
               type="text"
               Icon={User}
               onchange={(e) =>
-                setUserData((prev) => ({ ...prev, nombre: e.target.value }))
+                setFormData((prev) => ({ ...prev, nombres: e.target.value }))
               }
             />
             <InputIconStart
               required
-              Value={userData.apellido}
-              labeel="Apellido"
-              placeholder="Apellido"
+              Value={formData.apellidos}
+              labeel="Apellidos"
+              placeholder="Apellidos"
               type="text"
               Icon={User}
               onchange={(e) =>
-                setUserData((prev) => ({ ...prev, apellido: e.target.value }))
+                setFormData((prev) => ({ ...prev, apellidos: e.target.value }))
               }
             />
             <InputIconStart
               required
-              Value={userData.username}
+              Value={formData.username}
               labeel="Nombre de usuario"
               placeholder="Nombre de usuario"
               type="text"
               Icon={AtSign}
               onchange={(e) =>
-                setUserData((prev) => ({ ...prev, username: e.target.value }))
+                setFormData((prev) => ({ ...prev, username: e.target.value }))
               }
             />
           </div>
@@ -119,13 +125,13 @@ const CompletarPerfil = () => {
             </h3>
             <InputIconStart
               required
-              Value={userData.universidad}
+              Value={formData.universidad}
               labeel="Universidad"
               placeholder="Universidad"
               type="text"
               Icon={University}
               onchange={(e) =>
-                setUserData((prev) => ({
+                setFormData((prev) => ({
                   ...prev,
                   universidad: e.target.value,
                 }))
@@ -133,24 +139,24 @@ const CompletarPerfil = () => {
             />
             <InputIconStart
               required
-              Value={userData.carrera}
+              Value={formData.carrera}
               labeel="Carrera"
               placeholder="Carrera"
               type="text"
               Icon={Book}
               onchange={(e) =>
-                setUserData((prev) => ({ ...prev, carrera: e.target.value }))
+                setFormData((prev) => ({ ...prev, carrera: e.target.value }))
               }
             />
             <InputIconStart
               required
-              Value={userData.semestre}
+              Value={formData.semestre}
               labeel="Semestre"
               placeholder="Semestre"
               type="number"
               Icon={Calendar1}
               onchange={(e) =>
-                setUserData((prev) => ({ ...prev, semestre: e.target.value }))
+                setFormData((prev) => ({ ...prev, semestre: e.target.value }))
               }
             />
           </div>
@@ -163,9 +169,9 @@ const CompletarPerfil = () => {
             <TextAreaOptional
               Labeel="Sobre mi"
               placeholder="Sobre mi"
-              value={userData.descripcion}
+              value={formData.descripcion}
               onChange={(e) =>
-                setUserData((prev) => ({
+                setFormData((prev) => ({
                   ...prev,
                   descripcion: e.target.value,
                 }))
@@ -173,23 +179,23 @@ const CompletarPerfil = () => {
             />
 
             <InputIconStart
-              Value={userData.fotoPerfil}
+              Value={formData.photoURL}
               labeel="Foto de perfil (URL)"
               placeholder="Foto de perfil (URL)"
               type="text"
               Icon={Image}
               onchange={(e) =>
-                setUserData((prev) => ({ ...prev, fotoPerfil: e.target.value }))
+                setFormData((prev) => ({ ...prev, photoURL: e.target.value }))
               }
             />
             <InputIconStart
-              Value={userData.fotoportada}
+              Value={formData.fotoportada}
               labeel="Foto de portada (URL)"
               placeholder="Foto de portada (URL)"
               type="text"
               Icon={Image}
               onchange={(e) =>
-                setUserData((prev) => ({
+                setFormData((prev) => ({
                   ...prev,
                   fotoportada: e.target.value,
                 }))
@@ -198,16 +204,19 @@ const CompletarPerfil = () => {
           </div>
         </form>
 
-        <button
-          type="button"
-          onClick={handleSave}
-          className="w-full bg-beige text-cafe p-3 rounded-md hover:bg-beige/80 disabled:opacity-50 mt-6"
-          disabled={saving}
-        >
-          {saving ? "Guardando..." : "Guardar"}
-        </button>
+        <div className="flex justify-center mt-6">
+          <button
+            onClick={handleSave}
+            disabled={saving}
+            className="px-6 py-2 bg-beige text-black font-semibold rounded-lg hover:bg-beige/90 transition-colors"
+          >
+            {saving ? "Guardando..." : "Guardar Cambios"}
+          </button>
+        </div>
 
-        {showAlert && <AlertSuccess content="Datos guardados con exito" />}
+        {showAlert && (
+          <AlertSuccess content="¡Perfil actualizado correctamente!" />
+        )}
       </div>
     </div>
   );

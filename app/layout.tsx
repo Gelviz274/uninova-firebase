@@ -2,31 +2,24 @@ import { Inter, Space_Mono } from "next/font/google";
 import "./globals.css";
 import LayoutWrapper from "@/components/LayoutWrapper";
 import type { Metadata } from "next";
-import  AuthGuard  from "@/app/context/AuthContext";
+import { AuthProvider } from '@/contexts/AuthContext';
 
-
-
-export const metadata: Metadata = {
-  title: "Uni-nova",
-  description: "Plataforma educativa para compartir proyectos universitarios.",
-};
-
-// Fuentes de Google
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["100", "300", "400", "500", "700", "900"],
   variable: "--font-inter",
-  display: "swap",
 });
 
 const spaceMono = Space_Mono({
-  subsets: ["latin"],
   weight: ["400", "700"],
-  variable: "--font-space-mono",
-  display: "swap",
+  subsets: ["latin"],
+  variable: "--font-space",
 });
 
-// Envolver con AuthGuard
+export const metadata: Metadata = {
+  title: "Uninova",
+  description: "Red social universitaria para compartir proyectos innovadores",
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -35,9 +28,9 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${inter.variable} ${spaceMono.variable}`}>
       <body className="font-sans antialiased">
-        <AuthGuard>      
-            <LayoutWrapper>{children}</LayoutWrapper>
-        </AuthGuard>
+        <AuthProvider>
+          <LayoutWrapper>{children}</LayoutWrapper>
+        </AuthProvider>
       </body>
     </html>
   );
