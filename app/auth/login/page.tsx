@@ -7,11 +7,13 @@ import InputEye from "@/components/comp-23";
 import SimpleInput from "@/components/comp-01";
 import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 function App() {
   const auth = getAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,6 +21,7 @@ function App() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       console.log("Inicio de sesión exitoso");
+      router.push('/');
       // Redirigir o realizar alguna acción después del inicio de sesión
     } catch {
       setError("Correo o contraseña incorrectos");

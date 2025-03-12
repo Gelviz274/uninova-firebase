@@ -6,6 +6,7 @@ import { auth } from '@/lib/firebase/firebaseconfig';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase/firebaseconfig';
 import type { UserProfile } from '@/types/user';
+import { useRouter } from 'next/navigation';
 
 type AuthContextType = {
   user: User | null;
@@ -23,6 +24,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -40,6 +42,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
       } else {
         setUserProfile(null);
+        const pathname = window.location.pathname;
+        if (!['/auth', '/auth/login', '/auth/register'].includes(pathname)) {
+          router.push('/auth');
+        }
       }
       
       setLoading(false);
