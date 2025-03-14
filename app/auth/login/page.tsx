@@ -19,6 +19,7 @@ function App() {
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setError("");
     try {
       await signInWithEmailAndPassword(auth, email, password);
