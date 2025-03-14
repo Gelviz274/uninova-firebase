@@ -22,7 +22,7 @@ import AlertSuccess from "./comp-271";
 
 export default function CreateProject() {
   const id = useId();
-  const maxLength = 180;
+  const maxLength = 5000;
   const {
     value: description,
     characterCount,
