@@ -7,6 +7,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase/firebaseconfig";
 import AlertSuccess from "@/components/comp-271";
+import AlertError from "@/components/AlertError";
 import InputContrasena from "@/components/comp-51";
 import SimpleInput from "@/components/comp-01";
 import InputEye from "@/components/comp-23";
@@ -25,8 +26,8 @@ const Register = () => {
   const router = useRouter(); // Estado para mostrar la alerta
 
   const handleRegister = async (e: React.FormEvent) => {
+    setError(""); // Restablecer el estado de error antes de intentar registrar nuevamente
     e.preventDefault();
-    setError("");
 
     if (password !== confirmPassword) {
       setError("Las contraseñas no coinciden.");
@@ -61,19 +62,21 @@ const Register = () => {
       });
 
       // Redireccionar al perfil
-      router.push(`/`);
-
+      setTimeout(() => {
+        router.push(`/`);
+      }, 2000); // Esperar 2 segundos antes de redirigir
       setSuccess(true); // Mostrar la alerta
-      } catch (error: unknown) {
-      setError(error as string);
+    } catch (error: unknown) {
+      setError(error instanceof Error ? error.message : "Error desconocido");
+      return; // Asegurarse de que se detenga la ejecución si hay un error
     }
   };
   return (
-    <div
-      className="min-h-screen bg-black flex items-center justify-center p-4 relative overflow-hidden">
-      {success && <AlertSuccess
-      content="Usuario registrado con exito" />}{" "}
+    <div className="min-h-screen bg-black flex items-center justify-center p-4 relative overflow-hidden">
+      {success && <AlertSuccess content="Usuario registrado con exito" />}{" "}
       {/* Renderiza la alerta si el registro fue exitoso */}
+      {error && <AlertError Icon={Lock} content={error} />}{" "}
+      {/* Muestra errores si los hay */}
       {/* Luces animadas de fondo */}
       <div className="absolute -top-40 -left-40 w-80 h-80 bg-beige/20 rounded-full blur-[100px] animate-pulse" />
       <div className="absolute top-40 -right-40 w-80 h-80 bg-[#463B2E]/40 rounded-full blur-[100px] animate-pulse delay-700" />
@@ -102,7 +105,6 @@ const Register = () => {
                 value={nombres}
                 onChange={(e) => setNombre(e.target.value)}
                 Icon={User}
-                
               />
             </motion.div>
 
@@ -128,8 +130,9 @@ const Register = () => {
             />
           </div>
           <InputContrasena
-          value={password}
-          onChange={(e) => setPassword(e.target.value)} />
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
           <div className="relative group">
             <InputEye
               Icon={Lock}
@@ -149,10 +152,7 @@ const Register = () => {
             />
             <label htmlFor="terms" className="text-xs text-beige/70">
               Acepto los{" "}
-              <Link
-                href="#"
-                className="text-beige hover:text-beige/80"
-              >
+              <Link href="#" className="text-beige hover:text-beige/80">
                 términos y condiciones
               </Link>
             </label>
@@ -232,8 +232,6 @@ const Register = () => {
               Inicia sesión aquí
             </Link>
           </p>
-          {error && <p className="text-red-500">{error}</p>}{" "}
-          {/* Muestra errores si los hay */}
         </form>
       </div>
     </div>

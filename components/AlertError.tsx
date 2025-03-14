@@ -25,10 +25,10 @@ export default function AlertError({ content, Icon }: AlertErrorProps) {
           animate={{ opacity: 1, y: 0 }} // Se muestra suavemente
           exit={{ opacity: 0, y: 20 }} // Se esconde hacia abajo
           transition={{ duration: 0.5 }} // Duración de la animación
-          className="fixed bottom-4 right-4 z-[200] rounded-lg border border-red-500 bg-black/40 px-4 py-3 shadow-lg w-64"
+          className="fixed bottom-4 right-4 z-[200] text-red-500 rounded-lg border border-red-500 bg-black/40 px-4 py-3 shadow-lg w-64"
         >
-          <p className="text-sm text-red-border-red-500 flex items-center">
-            {Icon && <Icon className="me-2 text-red-border-red-500" size={20} strokeWidth={2} aria-hidden="true" />}
+          <p className="text-sm flex items-center">
+            {Icon && <Icon className="me-2" size={20} strokeWidth={2} aria-hidden="true" />}
             {content}
           </p>
         </motion.div>

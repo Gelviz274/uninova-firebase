@@ -5,23 +5,27 @@ import Image from "next/image";
 import { Google, Microsoft, Gitlab, Github } from "@/components/icons";
 import InputEye from "@/components/comp-23";
 import SimpleInput from "@/components/comp-01";
-import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import AlertError from "@/components/AlertError";
+import AlertSuccess from "@/components/comp-271";
 function App() {
   const auth = getAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
     setError("");
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      console.log("Inicio de sesión exitoso");
-      router.push('/');
+      setTimeout(() => {
+        router.push("/");
+      }, 2000);
+      setSuccess(true);
       // Redirigir o realizar alguna acción después del inicio de sesión
     } catch {
       setError("Correo o contraseña incorrectos");
@@ -30,12 +34,13 @@ function App() {
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center p-4 relative overflow-hidden">
+      {success && <AlertSuccess content="Inicio de sesión exitoso" />}{" "}
+      {error && <AlertError Icon={Lock} content={error} />}{" "}
       {/* Luces animadas de fondo */}
       <div className="absolute -top-40 -left-40 w-80 h-80 bg-beige/20 rounded-full blur-[100px] animate-pulse" />
       <div className="absolute top-40 -right-40 w-80 h-80 bg-[#463B2E]/40 rounded-full blur-[100px] animate-pulse delay-700" />
       <div className="absolute -bottom-52 left-40 w-80 h-80 bg-beige/30 rounded-full blur-[100px] animate-pulse delay-1000" />
       <div className="absolute -bottom-32 right-12 w-80 h-80 bg-beige/20 rounded-full blur-[100px] animate-pulse delay-1200" />
-
       <div className="bg-black/40 backdrop-blur-xl rounded-2xl shadow-2xl w-full max-w-md p-8 relative border border-white/10">
         <div className="flex items-center justify-center flex-col">
           <Image src="/LOGOUNINOVA.png" alt="Logo" width={100} height={100} />
@@ -46,31 +51,26 @@ function App() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {error && (
-            <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-500 text-sm">
-              {error}
-            </div>
-          )}
           <div className="relative group">
-          <SimpleInput
-            id="email"
-            type="email"
-            placeholder="Correo electrónico"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            Icon={Mail}
-          />
+            <SimpleInput
+              id="email"
+              type="email"
+              placeholder="Correo electrónico"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              Icon={Mail}
+            />
           </div>
 
           <div className="relative group mb-5">
-          <InputEye
-            Icon={Lock}
-            placeholder="Contraseña"
-            id="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+            <InputEye
+              Icon={Lock}
+              placeholder="Contraseña"
+              id="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
 
           <div className="flex items-center space-x-2 ">
