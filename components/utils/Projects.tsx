@@ -134,8 +134,8 @@ function calculateProjectScore(
 
 export default function ListaProyectos({
   userId,
-  projectLink,
-  tags,
+  //projectLink,
+  //tags,
 }: ListaProyectosProps) {
   const [proyectos, setProyectos] = useState<ProjectProps[]>([]);
   const [loading, setLoading] = useState(true);

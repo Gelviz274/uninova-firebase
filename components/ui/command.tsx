@@ -13,7 +13,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-function Command({ className, ...props }: React.ComponentProps<typeof CommandPrimitive>) {
+type CommandProps = React.ComponentPropsWithRef<typeof CommandPrimitive> & { className?: string; };
+
+function Command({ className, ...props }: CommandProps) {
   return (
     <CommandPrimitive
       data-slot="command"

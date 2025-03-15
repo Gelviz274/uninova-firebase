@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Label } from "@/components/ui/label";
 import MultipleSelector, { Option } from "@/components/ui/multiselect";
 
 const careers: Option[] = [
@@ -37,7 +36,6 @@ export default function InputTags({ onChange }: InputTagsProps) {
 
   return (
     <MultipleSelector
-      commandProps={{ label: "Selecciona la carrera" }}
       defaultOptions={careers}
       selected={selectedOptions}
       onChange={handleSelectionChange}
