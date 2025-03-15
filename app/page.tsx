@@ -31,9 +31,8 @@ function HomePage() {
         <div className="grid grid-cols-12 text-white w-full h-full gap-5 py-6">
           {/* Sidebar izquierdo */}
           <div className="col-span-3">
-            <LeftMenuSidebar/> 
+            <LeftMenuSidebar />
           </div>
-          
 
           {/* Sección principal */}
           <div className="col-span-6 flex flex-col h-full items-center">
@@ -48,7 +47,7 @@ function HomePage() {
                 />
                 <CreateProject />
               </div>
-              <div className="flex justify-around py-3">
+              <div className="flex justify-between py-3 gap-1">
                 <button className=" text-beige/50 hover:text-beige/90 rounded-full px-4 py-2 flex gap-2">
                   <ImageIcon />
                   Imagenes
@@ -75,7 +74,7 @@ function HomePage() {
 
           {/* Sidebar derecho */}
           <div className="col-span-3 border border-beige/10  p-4 rounded-lg">
-            <AlertComponent/>
+            <AlertComponent />
             <div className="mt-4 p-4 bg-black/40 rounded-md border border-beige/10 flex flex-col">
               <div className="flex gap-2 items-center">
                 <TrendingUp />

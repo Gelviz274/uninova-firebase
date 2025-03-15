@@ -14,6 +14,7 @@ export default {
   			foreground: 'hsl(var(--foreground))',
   			beige: '#FFEBCD',
 			cafe: '#463B2E',
+			blacku: '#0b0b0b',
   			card: {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'

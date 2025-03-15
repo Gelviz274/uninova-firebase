@@ -19,6 +19,7 @@ import { useId, useState, useRef, useEffect } from "react";
 import { db, auth } from "@/lib/firebase/firebaseconfig";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import AlertSuccess from "./comp-271";
+import InputTags from "./InputTags";
 
 export default function CreateProject() {
   const id = useId();
@@ -34,6 +35,7 @@ export default function CreateProject() {
   const [projectLink, setProjectLink] = useState("");
   const [success, setSuccess] = useState(false);
   const [open, setOpen] = useState(false);
+  const [tags, setTags] = useState<string[]>([]); // Estado para los tags
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -47,6 +49,7 @@ export default function CreateProject() {
   const resetForm = () => {
     setTitle("");
     setProjectLink("");
+    setTags([]); 
     setSuccess(false);
   };
 
@@ -67,18 +70,19 @@ export default function CreateProject() {
       await addDoc(collection(db, "projects"), {
         title: title.trim(),
         description: description.trim(),
+        projectLink: projectLink.trim() || null, // Enlace opcional
+        tags: tags, // Guardar los tags en Firebase como un array
         createdAt: serverTimestamp(),
         autorId: user.uid,
       });
-      
+
       setSuccess(true);
-      
+
       // Cerrar el diálogo después de 2 segundos
       closeTimeoutRef.current = setTimeout(() => {
         setOpen(false);
         resetForm();
       }, 2000);
-
     } catch (error: unknown) {
       console.error("Error al crear el proyecto:", error);
       alert("Hubo un error al crear el proyecto: " + (error as Error).message);
@@ -86,19 +90,25 @@ export default function CreateProject() {
   };
 
   return (
-    <Dialog open={open} onOpenChange={(isOpen) => {
-      setOpen(isOpen);
-      if (!isOpen) {
-        resetForm();
-      }
-    }}>
-      {success && <AlertSuccess content="Proyecto creado exitosamente"/>}
+    <Dialog
+      open={open}
+      onOpenChange={(isOpen) => {
+        setOpen(isOpen);
+        if (!isOpen) {
+          resetForm();
+        }
+      }}
+    >
+      {success && <AlertSuccess content="Proyecto creado exitosamente" />}
       <DialogTrigger asChild>
-        <button className="w-full bg-cafe/60 text-beige/40 text-start px-4 py-4 rounded-full" onClick={() => setOpen(true)}>
+        <button
+          className="w-full bg-cafe/60 text-beige/40 text-start px-4 py-4 rounded-full"
+          onClick={() => setOpen(true)}
+        >
           ¿Qué estás pensando?
         </button>
       </DialogTrigger>
-      <DialogContent className="flex flex-col gap-0 overflow-y-visible border border-beige/10 bg-[#0b0b0b] text-beige p-0 sm:max-w-lg md:max-w-2xl [&>button:last-child]:top-3.5">
+      <DialogContent className="flex flex-col gap-0 overflow-y-visible border border-beige/10 bg-[#0b0b0b] h-auto text-beige p-0 sm:max-w-lg md:max-w-2xl [&>button:last-child]:top-3.5">
         <DialogHeader className="contents space-y-0 text-left">
           <DialogTitle className="border-b border-beige/10 px-6 py-4 text-base bg-cafe rounded-t-xl">
             Crear Proyecto
@@ -121,7 +131,7 @@ export default function CreateProject() {
                     placeholder="Ingresa el título del proyecto"
                     type="text"
                     value={title}
-                    className="bg-black border border-beige/20 text-beige placeholder-text-beige focus:border-beige"
+                    className="bg-blacku border border-beige/20 text-beige placeholder-text-beige focus:border-beige"
                     onChange={(e) => setTitle(e.target.value)}
                     required
                   />
@@ -138,7 +148,7 @@ export default function CreateProject() {
                     maxLength={maxLength}
                     onChange={handleChange}
                     aria-describedby={`${id}-description-count`}
-                    className="bg-black border border-beige/20 text-beige placeholder-text-beige focus:border-beige"
+                    className="bg-blacku border border-beige/20 text-beige placeholder-text-beige focus:border-beige"
                     required
                   />
                   <p
@@ -153,7 +163,6 @@ export default function CreateProject() {
                     caracteres restantes
                   </p>
                 </div>
-
                 <div className="space-y-2">
                   <Label htmlFor={`${id}-project-link`} className="text-beige">
                     Enlace de Proyecto
@@ -167,12 +176,21 @@ export default function CreateProject() {
                     onChange={(e) => setProjectLink(e.target.value)}
                   />
                 </div>
+
               </div>
 
               {/* Segunda columna: Inputs de archivos */}
               <div className="space-y-4">
-                {/* Imágenes */}
-                <div className="space-y-2">
+                
+              <div className="space-y-2">
+                  <Label htmlFor={`${id}-project-tags`} className="text-beige">
+                    Tags del proyecto
+                  </Label>
+                  <span className="text-red-500">*</span>
+                  <InputTags onChange={setTags} />
+                </div>
+                                {/* Imágenes */}
+                                <div className="space-y-2">
                   <Label htmlFor={`${id}-image`} className="text-beige">
                     Subir Imágenes
                   </Label>
@@ -180,7 +198,7 @@ export default function CreateProject() {
                     id={`${id}-image`}
                     type="file"
                     accept="image/*"
-                    className="bg-black border border-beige/20 text-beige file:cursor-pointer file:rounded-lg file:border-none file:bg-beige/20 file:px-3 file:py-2 file:text-beige hover:file:bg-beige/30"
+                    className="bg-blacku border border-beige/20 text-beige file:cursor-pointer file:rounded-lg file:border-none file:bg-beige/20 file:px-3 file:py-2 file:text-beige hover:file:bg-beige/30"
                   />
                 </div>
 
@@ -193,7 +211,7 @@ export default function CreateProject() {
                     id={`${id}-video`}
                     type="file"
                     accept="video/*"
-                    className="bg-black border border-beige/20 text-beige file:cursor-pointer file:rounded-lg file:border-none file:bg-beige/20 file:px-3 file:py-2 file:text-beige hover:file:bg-beige/30"
+                    className="bg-blacku border border-beige/20 text-beige file:cursor-pointer file:rounded-lg file:border-none file:bg-beige/20 file:px-3 file:py-2 file:text-beige hover:file:bg-beige/30"
                   />
                 </div>
 
@@ -206,9 +224,10 @@ export default function CreateProject() {
                     id={`${id}-document`}
                     type="file"
                     accept=".pdf,.doc,.docx"
-                    className="bg-black border border-beige/20 text-beige file:cursor-pointer file:rounded-lg file:border-none file:bg-beige/20 file:px-3 file:py-2 file:text-beige hover:file:bg-beige/30"
+                    className="bg-blacku border border-beige/20 text-beige file:cursor-pointer file:rounded-lg file:border-none file:bg-beige/20 file:px-3 file:py-2 file:text-beige hover:file:bg-beige/30"
                   />
                 </div>
+                
               </div>
             </form>
           </div>
