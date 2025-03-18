@@ -85,7 +85,7 @@ export default function UserProfile({ params }: { params: Promise<{ username: st
 
   const handleFollow = async () => {
     if (!user) {
-      router.push('/auth/signin');
+      router.push('/auth/');
       return;
     }
 
@@ -192,7 +192,7 @@ export default function UserProfile({ params }: { params: Promise<{ username: st
       <div className="mb-8">
         {userData.descripcion && (
           <div className="bg-[#202020]/50 backdrop-blur-sm p-6 rounded-2xl border border-beige/5 mb-4">
-            <p className="text-beige/80 leading-relaxed">{userData.descripcion}</p>
+            <p className="text-beige/80 leading-relaxed whitespace-pre-line">{userData.descripcion}</p>
           </div>
         )}
         

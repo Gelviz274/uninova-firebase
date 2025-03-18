@@ -19,7 +19,7 @@ export default function CTextAreaLimitCharacters({
   label,
 }: TextAreaLimitsProps) {
   const id = useId();
-  const maxLength = 180;
+  const maxLength = 300;
 
   const { value, characterCount, handleChange, maxLength: limit } = useCharacterLimit({
     maxLength,
@@ -41,7 +41,7 @@ export default function CTextAreaLimitCharacters({
         id={id}
         value={value}
         maxLength={limit}
-        className="bg-black/40 p-3 border border-beige/10 focus:border-beige rounded-md text-beige group-focus-within:text-beige"  
+        className="bg-black/40 p-3 border border-beige/10 focus:border-beige rounded-md text-beige group-focus-within:text-beige min-h-[200px]"  
         onChange={handleTextChange}
         placeholder={placeholder}
         aria-describedby={`${id}-description`}
@@ -52,7 +52,7 @@ export default function CTextAreaLimitCharacters({
         role="status"
         aria-live="polite"
       >
-        <span className="tabular-nums">{limit - characterCount}</span> characters left
+        <span className="tabular-nums">{limit - characterCount}</span> caracteres restantes
       </p>
     </div>
   );

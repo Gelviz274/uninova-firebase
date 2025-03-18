@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Proyecto Uninova
 
-## Getting Started
+Bienvenido a **Uninova**, una plataforma diseñada para facilitar la gestión y el intercambio de información académica y profesional entre usuarios. Este proyecto tiene como objetivo crear un espacio donde los estudiantes y profesionales puedan conectarse, compartir sus logros y colaborar en proyectos.
 
-First, run the development server:
+## Visión
+Uninova busca ser un punto de encuentro para estudiantes y profesionales, promoviendo la colaboración y el intercambio de conocimientos. Queremos empoderar a los usuarios para que puedan mostrar sus habilidades y logros, y fomentar una comunidad activa y solidaria.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Características Clave
+- **Perfil de Usuario Moderno**: Los usuarios pueden crear y editar su perfil con información personal, académica y profesional.
+- **Interacción Social**: Funciones para seguir a otros usuarios, compartir perfiles y colaborar en proyectos.
+- **Sección de Proyectos**: Los usuarios pueden mostrar sus proyectos y logros, permitiendo a otros conocer su trabajo.
+- **Diseño Responsivo**: La interfaz se adapta a diferentes tamaños de pantalla, garantizando una experiencia de usuario óptima en dispositivos móviles y de escritorio.
+- **Sistema de Mensajería**: Los usuarios pueden comunicarse entre sí a través de un sistema de mensajería interno.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Roles de Usuario
+- **Estudiante**: Puede crear un perfil, agregar información académica, y seguir a otros usuarios.
+- **Profesional**: Puede crear un perfil, mostrar sus proyectos y logros, y colaborar con estudiantes.
+- **Administrador**: Tiene acceso a funciones avanzadas para gestionar la plataforma y supervisar la actividad de los usuarios.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Arquitectura
+Uninova está construido sobre una arquitectura moderna basada en microservicios, lo que permite una escalabilidad y mantenimiento eficientes. Utiliza una base de datos en la nube para almacenar la información de los usuarios y sus proyectos, y un sistema de almacenamiento para las imágenes y archivos.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Tecnologías Utilizadas
+- **Next.js**: Un framework de React para construir aplicaciones web.
+- **Firebase**: Para la gestión de base de datos y almacenamiento de archivos.
+- **Tailwind CSS**: Para un diseño moderno y responsivo.
 
-## Learn More
+## Cómo Empezar
+1. Clona el repositorio: `git clone <URL del repositorio>`
+2. Navega al directorio del proyecto: `cd uninova-nextjs`
+3. Instala las dependencias: `npm install`
+4. Inicia el servidor de desarrollo: `npm run dev`
 
-To learn more about Next.js, take a look at the following resources:
+## Contribuciones
+Las contribuciones son bienvenidas. Si deseas contribuir, por favor abre un issue o envía un pull request.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Licencia
+Este proyecto está bajo la Licencia MIT. Consulta el archivo LICENSE para más detalles.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Agradecimientos
+Agradecemos a todos los colaboradores y a la comunidad de código abierto que ha hecho posible este proyecto.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+¡Gracias por visitar el proyecto Uninova! Esperamos que encuentres útil esta plataforma y que te unas a nuestra comunidad.

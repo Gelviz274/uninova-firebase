@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useEffect, useState } from "react";
 import { db } from "@/lib/firebase/firebaseconfig";
@@ -11,11 +11,12 @@ import { ArrowLeft, MapPin, School } from "lucide-react";
 import { useRouter, useParams } from "next/navigation";
 import { ReactNode } from "react";
 import EditProfileUser from "@/components/comp-331";
-import Image from 'next/image';
+import Image from "next/image";
 
 interface UserProfile {
   nombres: string;
   apellidos: string;
+  email: string;
   photoURL: string;
   fotoportada: string;
   uid: string;
@@ -111,13 +112,16 @@ export default function UserLayout({ children }: LayoutProps) {
       <div className="pt-10">
         {/* Portada con efecto parallax */}
         <div className="relative h-[40vh] md:h-[50vh] overflow-hidden">
-          <div 
+          <div
             className="absolute inset-0 bg-cover bg-center transform scale-110"
             style={{
-              backgroundImage: userProfile.fotoportada 
-                ? `url(${userProfile.fotoportada})`
-                : 'linear-gradient(135deg, rgba(33,33,33,1) 0%, rgba(50,50,50,1) 100%)',
-              transform: 'translateZ(0)'
+              backgroundImage: userProfile.fotoportada
+                ? `url('${userProfile.fotoportada}')`
+                : "none", // No se usa fondo si no hay imagen
+              backgroundColor: userProfile.fotoportada
+                ? "transparent"
+                : "white/20", // Fondo blanco si no hay imagen
+              transform: "translateZ(0)",
             }}
           >
             {/* Overlay con gradiente moderno */}
@@ -129,7 +133,7 @@ export default function UserLayout({ children }: LayoutProps) {
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-end md:items-center gap-6">
               {/* Foto de perfil con borde brillante */}
               <div className="relative">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#D2B48C] via-[#BC8F8F] to-[#D2B48C] blur-md opacity-50"></div>
+                <div className="absolute inset-0 rounded-full "></div>
                 <Image
                   src={userProfile.photoURL || "/default-user.avif"}
                   alt="Foto de perfil"
@@ -163,6 +167,7 @@ export default function UserLayout({ children }: LayoutProps) {
                   id={userProfile.uid}
                   nombre={userProfile.nombres}
                   apellido={userProfile.apellidos}
+                  email={userProfile.email || ""}
                   fotoPerfil={userProfile.photoURL || ""}
                   username={userProfile.username}
                   universidad={userProfile.universidad}
@@ -177,9 +182,7 @@ export default function UserLayout({ children }: LayoutProps) {
 
         {/* Contenido principal */}
         <main className="relative z-10 -mt-6 bg-[#151515] rounded-t-3xl">
-          <div className="max-w-7xl mx-auto px-4">
-            {children}
-          </div>
+          <div className="max-w-7xl mx-auto px-4">{children}</div>
         </main>
       </div>
     </div>
