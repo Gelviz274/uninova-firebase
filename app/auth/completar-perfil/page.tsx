@@ -4,10 +4,11 @@ import { useRouter } from "next/navigation";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/firebaseconfig";
 import AlertSuccess from "@/components/comp-271";
-import TextAreaOptional from "@/components/comp-63";
-import { AtSign, Book, Calendar1, Image, University, User } from "lucide-react";
+import { Loading } from "@/components/ui/loading";
+import { AtSign, Book, Calendar1, University, User } from "lucide-react";
 import InputIconStart from "@/components/comp-09";
 import { useAuth } from "@/contexts/AuthContext";
+import CTextAreaLimitCharacters from "@/components/comp-74";
 
 const CompletarPerfil = () => {
   const { userProfile, loading: authLoading } = useAuth();
@@ -44,7 +45,7 @@ const CompletarPerfil = () => {
   }, [userProfile]);
 
   if (authLoading) {
-    return <div className="flex items-center justify-center min-h-screen">Cargando...</div>;
+    return <Loading />;
   }
 
   if (!userProfile) {
@@ -166,38 +167,14 @@ const CompletarPerfil = () => {
             <h3 className="text-xl font-semibold text-beige mb-4">
               Otros Datos
             </h3>
-            <TextAreaOptional
-              Labeel="Sobre mi"
-              placeholder="Sobre mi"
+            <CTextAreaLimitCharacters
+              label="Sobre mi"
+              placeholder="Cuentanos sobre ti!"
               value={formData.descripcion}
               onChange={(e) =>
                 setFormData((prev) => ({
                   ...prev,
                   descripcion: e.target.value,
-                }))
-              }
-            />
-
-            <InputIconStart
-              Value={formData.photoURL}
-              labeel="Foto de perfil (URL)"
-              placeholder="Foto de perfil (URL)"
-              type="text"
-              Icon={Image}
-              onchange={(e) =>
-                setFormData((prev) => ({ ...prev, photoURL: e.target.value }))
-              }
-            />
-            <InputIconStart
-              Value={formData.fotoportada}
-              labeel="Foto de portada (URL)"
-              placeholder="Foto de portada (URL)"
-              type="text"
-              Icon={Image}
-              onchange={(e) =>
-                setFormData((prev) => ({
-                  ...prev,
-                  fotoportada: e.target.value,
                 }))
               }
             />

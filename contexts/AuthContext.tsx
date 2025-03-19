@@ -31,6 +31,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(user);
       
       if (user) {
+        // Redirigir si el usuario ya está autenticado y trata de acceder a rutas restringidas
+        const pathname = window.location.pathname;
+        if (['/auth', '/auth/login', '/auth/register'].includes(pathname)) {
+          router.push('/'); // Redirigir a la página principal u otra página adecuada
+        }
         // Obtener datos adicionales del usuario desde Firestore
         const userDoc = await getDoc(doc(db, 'users', user.uid));
         if (userDoc.exists()) {

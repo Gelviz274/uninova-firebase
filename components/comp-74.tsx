@@ -1,9 +1,8 @@
 "use client";
-
 import { useCharacterLimit } from "@/hooks/use-character-limit";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useId } from "react";
+import { useId, useEffect, useState } from "react";
 
 interface TextAreaLimitsProps {
   placeholder?: string;
@@ -14,34 +13,52 @@ interface TextAreaLimitsProps {
 
 export default function CTextAreaLimitCharacters({
   placeholder,
-  value: initialValue = "",
+  value: externalValue = "",
   onChange,
   label,
 }: TextAreaLimitsProps) {
   const id = useId();
   const maxLength = 300;
-
-  const { value, characterCount, handleChange, maxLength: limit } = useCharacterLimit({
+  
+  // Use useState to track if the component should use the external value
+  const [useExternalValue, setUseExternalValue] = useState(true);
+  
+  // Initialize hook with the external value
+  const { value: hookValue, characterCount, handleChange, maxLength: limit } = useCharacterLimit({
     maxLength,
-    initialValue,
+    initialValue: externalValue,
   });
-
-  // Fusiona la lógica de `useCharacterLimit` con la prop `onChange`
+  
+  // Use the external value directly when it changes
+  useEffect(() => {
+    setUseExternalValue(true);
+  }, [externalValue]);
+  
+  // The displayed value is either from the external prop or from the hook's internal state
+  const displayValue = useExternalValue ? externalValue : hookValue;
+  
+  // Combined change handler
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    handleChange(e); // Actualiza el estado interno del hook
+    // After user input, use the hook's internal state tracking
+    setUseExternalValue(false);
+    
+    // Update the hook's internal state
+    handleChange(e);
+    
+    // Call the external onChange if provided
     if (onChange) {
-      onChange(e); // Ejecuta la función onChange pasada como prop
+      onChange(e);
     }
   };
 
   return (
     <div className="space-y-2">
-      {label && <Label htmlFor={id}>{label}</Label>}
+      {label && <Label className="text-beige/80" htmlFor={id}>{label}</Label>}
       <Textarea
         id={id}
-        value={value}
+        value={displayValue}
         maxLength={limit}
-        className="bg-black/40 p-3 border border-beige/10 focus:border-beige rounded-md text-beige group-focus-within:text-beige min-h-[200px]"  
+        className="bg-black/40 p-3 border border-beige/10 focus:border-beige rounded-md text-beige group-focus-within:text-beige min-h-[250px]"  
         onChange={handleTextChange}
         placeholder={placeholder}
         aria-describedby={`${id}-description`}

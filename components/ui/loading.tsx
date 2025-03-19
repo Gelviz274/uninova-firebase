@@ -27,7 +27,7 @@ export function Loading({ className, size = 'md', variant = 'default' }: Loading
   }
 
   return (
-    <div className={cn("flex flex-col items-center justify-center gap-4 min-h-[200px]", className)}>
+    <div className={cn("flex flex-col items-center justify-center gap-4 min-h-[200px] h-screen", className)}>
       <div className="relative">
         <div className={cn(
           "border-4 border-[#D2B48C]/30 rounded-full",
