@@ -26,12 +26,14 @@ function HomePage() {
   }, []);
 
   return (
-    <div className="bg-[#202020] w-full m-0 h-full flex flex-col items-center justify-center">
+    <div className="bg-[#1a1a1a] w-full m-0 h-full flex flex-col items-center justify-center">
       <div className="flex items-center justify-center h-full w-4/5">
         <div className="grid grid-cols-12 text-white w-full h-full gap-5 py-6">
           {/* Sidebar izquierdo */}
-          <div className="col-span-3">
-            <LeftMenuSidebar />
+          <div className="col-span-3 overflow-auto">
+            <div className="fixed p-0 w-96">
+              <LeftMenuSidebar />
+            </div>
           </div>
 
           {/* Sección principal */}
@@ -45,7 +47,13 @@ function HomePage() {
                   height={400}
                   className="w-12 h-12 rounded-full mr-3"
                 />
-                <CreateProject />
+                <CreateProject
+        triggerButton={
+          <button className="w-full bg-cafe/60 text-beige/40 text-start px-4 py-4 rounded-full">
+            ¿Qué estás pensando?
+          </button>
+        }
+      />
               </div>
               <div className="flex justify-between py-3 gap-1">
                 <button className=" text-beige/50 hover:text-beige/90 rounded-full px-4 py-2 flex gap-2">

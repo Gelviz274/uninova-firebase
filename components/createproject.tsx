@@ -21,7 +21,12 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import AlertSuccess from "./comp-271";
 import InputTags from "./InputTags";
 
-export default function CreateProject() {
+interface CreateProjectProps {
+  triggerButton: React.ReactNode; // Recibe un botón como prop
+}
+
+
+export default function CreateProject({ triggerButton }: CreateProjectProps) {
   const id = useId();
   const maxLength = 5000;
   const {
@@ -101,12 +106,7 @@ export default function CreateProject() {
     >
       {success && <AlertSuccess content="Proyecto creado exitosamente" />}
       <DialogTrigger asChild>
-        <button
-          className="w-full bg-cafe/60 text-beige/40 text-start px-4 py-4 rounded-full"
-          onClick={() => setOpen(true)}
-        >
-          ¿Qué estás pensando?
-        </button>
+      {triggerButton}
       </DialogTrigger>
       <DialogContent className="flex flex-col gap-0 overflow-y-visible border border-beige/10 bg-[#0b0b0b] h-auto text-beige p-0 sm:max-w-lg md:max-w-2xl [&>button:last-child]:top-3.5">
         <DialogHeader className="contents space-y-0 text-left">

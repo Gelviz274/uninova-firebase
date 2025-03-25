@@ -16,7 +16,7 @@ function Navbar() {
   const { loading } = useAuth();
 
   return (
-    <header className="flex items-center sticky bg-cafe w-full px-44 text-beige justify-around z-50 top-0 left-0 gap-6 shadow-md">
+    <header className="flex items-center sticky bg-blacku w-full px-44 text-beige justify-around z-50 top-0 left-0 gap-6 shadow-md border-b border-beige">
       {/* Logo de Uni-nova */}
       <div>
         <Link href="/" className="flex items-center justify-center">
@@ -39,7 +39,7 @@ function Navbar() {
           <InputWhitIconEnd
             id="Search"
             placeholder="Buscar..."
-            className="w-full bg-beige/40 text-beige border border-cafe rounded-xl px-3 py-5 focus:ring-2 focus:ring-beige placeholder:text-beige"
+            className="w-full bg-beige/40 text-beige rounded-xl px-3 py-5 placeholder:text-beige"
             Icon={Search}
           />
         )}

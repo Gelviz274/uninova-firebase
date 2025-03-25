@@ -1,11 +1,20 @@
-'use client';
+"use client";
 
-import { Home, Compass, FolderOpen, Bookmark, Settings, User2 } from "lucide-react";
+import {
+  Home,
+  Compass,
+  FolderOpen,
+  Bookmark,
+  Settings,
+  User2,
+  CirclePlus,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
 import { Skeleton } from "./ui/skeleton";
 import { cn } from "@/lib/utils";
+import CreateProject from "@/components/createproject";
 
 const skeletonClasses = "bg-beige/30 dark:bg-beige/20";
 
@@ -17,7 +26,9 @@ export default function LeftMenuSidebar() {
       <div className="bg-transparent rounded-lg p-4 w-auto">
         {/* Skeleton del perfil */}
         <div className="flex items-center mb-6">
-          <Skeleton className={cn("w-12 h-12 rounded-full mr-3", skeletonClasses)} />
+          <Skeleton
+            className={cn("w-12 h-12 rounded-full mr-3", skeletonClasses)}
+          />
           <div className="space-y-2">
             <Skeleton className={cn("h-4 w-32", skeletonClasses)} />
             <Skeleton className={cn("h-3 w-40", skeletonClasses)} />
@@ -63,19 +74,35 @@ export default function LeftMenuSidebar() {
       </div>
 
       {/* Menú de navegación */}
-      <nav>
+      <nav className="space-y-2">
         <ul className="space-y-2">
           <NavItem href="/" icon={Home} label="Inicio" />
-          <NavItem 
-            href={userProfile?.username ? `/${userProfile.username}` : "/login"} 
-            icon={User2} 
-            label="Perfil" 
+          <NavItem
+            href={userProfile?.username ? `/${userProfile.username}` : "/login"}
+            icon={User2}
+            label="Perfil"
           />
           <NavItem href="/explorar" icon={Compass} label="Explorar" />
-          <NavItem href="/mis-proyectos" icon={FolderOpen} label="Mis Proyectos" />
+          <NavItem
+            href="/mis-proyectos"
+            icon={FolderOpen}
+            label="Mis Proyectos"
+          />
           <NavItem href="/guardados" icon={Bookmark} label="Guardados" />
-          <NavItem href="/configuracion" icon={Settings} label="Configuración" />
+          <NavItem
+            href="/configuracion"
+            icon={Settings}
+            label="Configuración"
+          />
         </ul>
+        <CreateProject
+          triggerButton={
+            <button className="w-full flex items-center justify-center bg-cafe/60 text-beige/40 text-start px-4 py-4 rounded-lg">
+              <CirclePlus />
+              Crear Proyecto
+            </button>
+          }
+        />
       </nav>
     </div>
   );

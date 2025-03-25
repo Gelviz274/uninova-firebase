@@ -4,7 +4,6 @@
 
 body {
   overflow: auto !important;
-  background-color: #202020;
 }
 
 @layer base {

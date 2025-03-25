@@ -134,9 +134,9 @@ function calculateProjectScore(
 
 export default function ListaProyectos({
   userId,
-  //projectLink,
-  //tags,
-}: ListaProyectosProps) {
+}: //projectLink,
+//tags,
+ListaProyectosProps) {
   const [proyectos, setProyectos] = useState<ProjectProps[]>([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
@@ -240,96 +240,91 @@ export default function ListaProyectos({
 
   return (
     <div className="bg-transparent w-full h-auto">
-      <ul className="space-y-4">
-        {proyectos.map((proyecto) => (
-          <li
-            key={proyecto.id}
-            className="bg-[#202020] rounded-xl border border-beige/10 overflow-hidden flex flex-col h-auto"
-          >
-            {/* Post Header */}
-            <div className="p-4 flex items-center space-x-3">
-              <Image
-                src={proyecto.autor?.fotoPerfil || "/default-user.avif"}
-                alt={`Foto de perfil de ${
-                  proyecto.autor?.nombres || "Usuario desconocido"
-                }`}
-                width={40}
-                height={40}
-                className="rounded-full object-cover"
-                priority={true}
-              />
-              <div>
-                <div className="font-medium text-beige flex gap-2">
-                  <Link href={`/${proyecto.autor?.username}`} className="flex">
-                    <h4>
-                      {proyecto.autor?.nombres} {proyecto.autor?.apellidos}
-                    </h4>
-                    <p className="text-muted-foreground">
-                      / @{proyecto.autor?.username}
-                    </p>
-                  </Link>
-                </div>
-                <div className="text-sm text-beige/80 flex gap-1">
-                  <p>{proyecto.autor?.universidad}</p>
-                  <p>- {proyecto.autor?.carrera}</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Post Content */}
-            <div className="px-4 pb-3 flex-grow">
-              <h4 className="text-lg font-semibold text-white">
-                {proyecto.title}
-              </h4>
-              <p className="text-sm text-gray-200 mt-1 whitespace-pre-line">
-                {proyecto.description}
-              </p>
-  {/* Link al proyecto 
-              <Link
-                href={proyecto.projectLink || "#"}
-                className="flex items-center gap-1 text-gray-400 hover:text-beige"
-              >
-                <Share2 size={18} />
-                <span className="text-sm"> Ver Proyecto</span>
+  <ul className="space-y-4">
+    {proyectos.map((proyecto) => (
+      <li
+        key={proyecto.id}
+        className="bg-[#1a1a1a] rounded-xl border border-beige/10 overflow-hidden flex flex-col h-auto relative"
+      >
+        {/* Post Header */}
+        <div className="p-4 flex items-center space-x-3">
+          <Image
+            src={proyecto.autor?.fotoPerfil || "/default-user.avif"}
+            alt={`Foto de perfil de ${
+              proyecto.autor?.nombres || "Usuario desconocido"
+            }`}
+            width={40}
+            height={40}
+            className="rounded-full object-cover"
+            priority={true}
+          />
+          <div>
+            <div className="font-medium text-beige flex gap-2">
+              <Link href={`/${proyecto.autor?.username}`} className="flex">
+                <h4>
+                  {proyecto.autor?.nombres} {proyecto.autor?.apellidos}
+                </h4>
+                <p className="text-muted-foreground">
+                  / @{proyecto.autor?.username}
+                </p>
               </Link>
-          */}
-
-              {proyecto.tags && proyecto.tags.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-3">
-                  {proyecto.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-xs bg-beige/10 text-beige px-2 py-1 rounded-full"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
             </div>
-
-            {/* Botones de interacción */}
-            <div className="flex justify-around p-4 border-t border-white/10 bg-[#1e1e1e] mt-auto">
-              <button className="flex items-center gap-1 text-gray-400 hover:text-beige">
-                <ThumbsUp size={18} />
-                <span className="text-sm">{proyecto.likes || "Like"}</span>
-              </button>
-              <button className="flex items-center gap-1 text-gray-400 hover:text-beige">
-                <MessageCircle size={18} />
-                <span className="text-sm">Comentar</span>
-              </button>
-              <button className="flex items-center gap-1 text-gray-400 hover:text-beige">
-                <Bookmark size={18} />
-                <span className="text-sm">Guardar</span>
-              </button>
-              <button className="flex items-center gap-1 text-gray-400 hover:text-beige">
-                <Share2 size={18} />
-                <span className="text-sm">Compartir</span>
-              </button>
+            <div className="text-sm text-beige/80 flex gap-1">
+              <p>{proyecto.autor?.universidad}</p>
+              <p>- {proyecto.autor?.carrera}</p>
             </div>
-          </li>
-        ))}
-      </ul>
-    </div>
+          </div>
+        </div>
+
+        {/* Contenido principal con Link */}
+        <Link
+          href={`/${proyecto.autor?.username}/projects/${proyecto.id}`}
+          className="px-4 pb-3 flex-grow block hover:bg-blacku/80 "
+          aria-label={`Ver detalles de ${proyecto.title}`}
+        >
+          <h4 className="text-lg font-semibold text-white">
+            {proyecto.title}
+          </h4>
+          <p className="text-sm text-gray-200 mt-1 whitespace-pre-line">
+            {proyecto.description}
+          </p>
+          {proyecto.tags && proyecto.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mt-3">
+              {proyecto.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="text-xs bg-beige/10 text-beige px-2 py-1 rounded-full"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </Link>
+
+        {/* Botones de interacción */}
+        <div className="flex justify-around p-4 border-t border-white/10 bg-[#1a1a1a]/50 backdrop-blur-sm mt-auto">
+          <button className="flex items-center gap-1 text-gray-400 hover:text-beige">
+            <ThumbsUp size={18} />
+            <span className="text-sm">{proyecto.likes || "Like"}</span>
+          </button>
+          <button className="flex items-center gap-1 text-gray-400 hover:text-beige">
+            <MessageCircle size={18} />
+            <span className="text-sm">Comentar</span>
+          </button>
+          <button className="flex items-center gap-1 text-gray-400 hover:text-beige">
+            <Bookmark size={18} />
+            <span className="text-sm">Guardar</span>
+          </button>
+          <button className="flex items-center gap-1 text-gray-400 hover:text-beige">
+            <Share2 size={18} />
+            <span className="text-sm">Compartir</span>
+          </button>
+        </div>
+      </li>
+    ))}
+  </ul>
+</div>
+
   );
 }

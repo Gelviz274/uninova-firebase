@@ -13,6 +13,10 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { use } from "react";
 import MyProjects from "@/components/utils/MyProjects";
+import EditProfileUser from "@/components/comp-331";
+import { School, MapPin } from "lucide-react";
+import Image from "next/image";
+
 
 interface UserData {
   id: string;
@@ -140,9 +144,81 @@ export default function UserProfile({ params }: { params: Promise<{ username: st
 
   return (
     <div className="py-8">
+      {/* Contenedor principal */}
+      <div className="relative h-[40vh] md:h-[50vh] overflow-hidden mb-8">
+        <div
+          className="absolute inset-0 bg-cover bg-center transform scale-110"
+          style={{
+            backgroundImage: userData.photoURL
+              ? `url('${userData.photoURL}')`
+              : "none",
+            backgroundColor: userData.photoURL
+              ? "transparent"
+              : "white/20",
+            transform: "translateZ(0)",
+          }}
+        >
+          {/* Overlay con gradiente moderno */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#151515]/50 to-[#151515]"></div>
+        </div>
+
+        {/* Contenido sobre la portada */}
+        <div className="absolute bottom-0 left-0 right-0 p-6 z-10">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-end md:items-center gap-6">
+            {/* Foto de perfil con borde brillante */}
+            <div className="relative">
+              <div className="absolute inset-0 rounded-full"></div>
+              <Image
+                src={userData.photoURL || "/default-user.avif"}
+                alt="Foto de perfil"
+                width={128}
+                height={128}
+                className="relative w-28 h-28 md:w-32 md:h-32 rounded-full border-4 border-[#202020] object-cover"
+                priority
+              />
+            </div>
+
+            {/* Información del usuario */}
+            <div className="flex-grow">
+              <h1 className="text-2xl md:text-3xl font-bold text-beige mb-2">
+                {userData.nombres} {userData.apellidos}
+              </h1>
+              <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 text-sm text-beige/60">
+                <p className="flex items-center gap-1">
+                  <School className="w-4 h-4" />
+                  {userData.universidad}
+                </p>
+                <p className="flex items-center gap-1">
+                  <MapPin className="w-4 h-4" />
+                  {userData.carrera}
+                </p>
+              </div>
+            </div>
+
+            {/* Botón de editar */}
+            <div className="mt-4 md:mt-0">
+              {user && user.uid === userData.id && (
+                <EditProfileUser
+                  id={userData.id}
+                  nombre={userData.nombres}
+                  apellido={userData.apellidos}
+                  email={userData.username || ""}
+                  fotoPerfil={userData.photoURL || ""}
+                  username={userData.username}
+                  universidad={userData.universidad}
+                  carrera={userData.carrera}
+                  sobremi={userData.descripcion}
+                  semestre={parseInt(userData.semestre) || 1}
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Grid de estadísticas */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <div className="bg-[#202020]/50 backdrop-blur-sm p-4 rounded-2xl border border-beige/5 hover:border-beige/10 transition-all">
+        <div className="bg-blacku/50 backdrop-blur-sm p-4 rounded-2xl border border-beige/5 hover:border-beige/10 transition-all">
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-[#D2B48C]/10 rounded-xl">
               <Users2 className="text-[#D2B48C] w-5 h-5" />
@@ -153,7 +229,7 @@ export default function UserProfile({ params }: { params: Promise<{ username: st
             </div>
           </div>
         </div>
-        <div className="bg-[#202020]/50 backdrop-blur-sm p-4 rounded-2xl border border-beige/5 hover:border-beige/10 transition-all">
+        <div className="bg-blacku/50 backdrop-blur-sm p-4 rounded-2xl border border-beige/5 hover:border-beige/10 transition-all">
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-[#D2B48C]/10 rounded-xl">
               <Users2 className="text-[#D2B48C] w-5 h-5" />
@@ -164,7 +240,7 @@ export default function UserProfile({ params }: { params: Promise<{ username: st
             </div>
           </div>
         </div>
-        <div className="bg-[#202020]/50 backdrop-blur-sm p-4 rounded-2xl border border-beige/5 hover:border-beige/10 transition-all">
+        <div className="bg-blacku/50 backdrop-blur-sm p-4 rounded-2xl border border-beige/5 hover:border-beige/10 transition-all">
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-[#D2B48C]/10 rounded-xl">
               <Book className="text-[#D2B48C] w-5 h-5" />
@@ -175,7 +251,7 @@ export default function UserProfile({ params }: { params: Promise<{ username: st
             </div>
           </div>
         </div>
-        <div className="bg-[#202020]/50 backdrop-blur-sm p-4 rounded-2xl border border-beige/5 hover:border-beige/10 transition-all">
+        <div className="bg-blacku/50 backdrop-blur-sm p-4 rounded-2xl border border-beige/5 hover:border-beige/10 transition-all">
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-[#D2B48C]/10 rounded-xl">
               <Award className="text-[#D2B48C] w-5 h-5" />
@@ -191,7 +267,7 @@ export default function UserProfile({ params }: { params: Promise<{ username: st
       {/* Descripción y botón de seguir */}
       <div className="mb-8">
         {userData.descripcion && (
-          <div className="bg-[#202020]/50 backdrop-blur-sm p-6 rounded-2xl border border-beige/5 mb-4">
+          <div className="bg-blacku/50 backdrop-blur-sm p-6 rounded-2xl border border-beige/5 mb-4">
             <p className="text-beige/80 leading-relaxed whitespace-pre-line">{userData.descripcion}</p>
           </div>
         )}

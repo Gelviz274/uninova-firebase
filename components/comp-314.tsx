@@ -21,7 +21,6 @@ export default function AlertComponent() {
     const fetchUserProfile = async () => {
       auth.onAuthStateChanged(async (user) => {
         if (!user) {
-          console.log("🔴 Usuario no autenticado");
           setProfileComplete(null);
           return;
         }
@@ -31,19 +30,16 @@ export default function AlertComponent() {
 
           if (userDoc.exists()) {
             const data = userDoc.data();
-            console.log("📄 Datos obtenidos de Firestore:", data);
 
             // 🔹 Leer correctamente `profileCompleted` desde Firestore
             const isProfileComplete = data?.profileCompleted === true;
-            console.log("✔️ ¿Perfil completo?", isProfileComplete);
 
             setProfileComplete(isProfileComplete);
           } else {
-            console.log("❌ Documento no encontrado en Firestore");
             setProfileComplete(false);
           }
-        } catch (error) {
-          console.error("⚠️ Error obteniendo datos de Firestore:", error);
+        } catch (error: unknown) {
+          console.error("Error fetching user profile:", error);
           setProfileComplete(false);
         }
       });
