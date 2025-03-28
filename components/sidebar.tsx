@@ -53,24 +53,28 @@ export default function LeftMenuSidebar() {
   }
 
   return (
-    <div className="bg-transparent rounded-lg p-4 w-auto">
+    <div className="bg-transparent rounded-lg px-4 w-auto">
       {/* Sección de perfil */}
-      <div className="flex items-center mb-6">
+      <div className="flex bg-neutral-800 p-4 rounded-lg flex-col gap-2 items-center mb-6">
         <Image
           src={userProfile?.photoURL || "/default-user.avif"}
           alt="User Avatar"
           height={400}
           width={400}
-          className="w-12 h-12 rounded-full mr-3"
+          className="w-20 h-20 rounded-full mr-3"
         />
-        <div>
-          <h2 className="font-semibold text-beige">
-            {userProfile?.nombres} {userProfile?.apellidos}
-          </h2>
-          <p className="text-sm text-gray-400">
-            {userProfile?.email || "No hay un correo registrado"}
-          </p>
-        </div>
+        <Link href={`/${userProfile?.username}`} className="hover:underline">
+          <div className="flex flex-col items-center">
+            <h2 className="font-semibold text-beige">
+              {userProfile?.nombres} {userProfile?.apellidos}
+            </h2>
+            <p className="text-sm text-gray-400">
+              @
+              {userProfile?.username ||
+                "No hay un nombre de usuario registrado"}
+            </p>
+          </div>
+        </Link>
       </div>
 
       {/* Menú de navegación */}
@@ -97,7 +101,7 @@ export default function LeftMenuSidebar() {
         </ul>
         <CreateProject
           triggerButton={
-            <button className="w-full flex items-center justify-center bg-cafe/60 text-beige/40 text-start px-4 py-4 rounded-lg">
+            <button className="w-full flex text-white font-semibold items-center justify-center gap-2 bg-cafe text-start px-4 py-4 rounded-lg">
               <CirclePlus />
               Crear Proyecto
             </button>

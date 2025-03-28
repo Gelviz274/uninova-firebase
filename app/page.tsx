@@ -26,7 +26,7 @@ function HomePage() {
   }, []);
 
   return (
-    <div className="bg-[#1a1a1a] w-full m-0 h-full flex flex-col items-center justify-center">
+    <div className=" w-full m-0 h-full flex flex-col items-center justify-center">
       <div className="flex items-center justify-center h-full w-4/5">
         <div className="grid grid-cols-12 text-white w-full h-full gap-5 py-6">
           {/* Sidebar izquierdo */}
@@ -49,7 +49,7 @@ function HomePage() {
                 />
                 <CreateProject
         triggerButton={
-          <button className="w-full bg-cafe/60 text-beige/40 text-start px-4 py-4 rounded-full">
+          <button className="w-full bg-cafe text-white text-start px-4 py-4 rounded-full ">
             ¿Qué estás pensando?
           </button>
         }
@@ -68,7 +68,7 @@ function HomePage() {
                   <FileText />
                   Documentos
                 </button>
-                <button className=" text-cafe bg-beige px-6 py-2 rounded-full ">
+                <button className=" text-blacku bg-beige px-6 py-2 rounded-full ">
                   Publicar
                 </button>
               </div>

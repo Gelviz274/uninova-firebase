@@ -16,7 +16,7 @@ function Navbar() {
   const { loading } = useAuth();
 
   return (
-    <header className="flex items-center sticky bg-blacku w-full px-44 text-beige justify-around z-50 top-0 left-0 gap-6 shadow-md border-b border-beige">
+    <header className="flex items-center sticky bg-neutral-800 w-full px-44 text-beige justify-around z-50 top-0 left-0 gap-6 shadow-md border-b border-beige">
       {/* Logo de Uni-nova */}
       <div>
         <Link href="/" className="flex items-center justify-center">

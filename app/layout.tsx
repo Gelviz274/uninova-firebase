@@ -27,7 +27,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className={`${inter.variable} ${spaceMono.variable}`}>
-      <body className="font-sans antialiased bg-blacku">
+      <body className="font-sans antialiased bg-neutral-900">
         <AuthProvider>
           <LayoutWrapper>{children}</LayoutWrapper>
         </AuthProvider>

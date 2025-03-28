@@ -60,7 +60,7 @@ interface ListaProyectosProps {
 
 function ProjectSkeleton() {
   return (
-    <li className="bg-[#202020] rounded-xl border border-beige/10 overflow-hidden flex flex-col h-96">
+    <li className="bg-neutral-900 rounded-xl border border-beige/10 overflow-hidden flex flex-col h-96">
       {/* Header Skeleton */}
       <div className="p-4 flex items-center space-x-3">
         <Skeleton className={cn("h-10 w-10 rounded-full", skeletonClasses)} />
@@ -81,7 +81,7 @@ function ProjectSkeleton() {
       </div>
 
       {/* Actions Skeleton */}
-      <div className="flex justify-around p-4 border-t border-white/10 bg-[#1e1e1e] mt-auto">
+      <div className="flex justify-around p-4 border-t border-white/10 bg-neutral-900 mt-auto">
         {[1, 2, 3, 4].map((i) => (
           <Skeleton key={i} className={cn("h-6 w-16", skeletonClasses)} />
         ))}
@@ -244,7 +244,7 @@ ListaProyectosProps) {
     {proyectos.map((proyecto) => (
       <li
         key={proyecto.id}
-        className="bg-[#1a1a1a] rounded-xl border border-beige/10 overflow-hidden flex flex-col h-auto relative"
+        className="bg-neutral-900 rounded-xl border border-beige/10 overflow-hidden flex flex-col h-auto relative"
       >
         {/* Post Header */}
         <div className="p-4 flex items-center space-x-3">
@@ -260,7 +260,7 @@ ListaProyectosProps) {
           />
           <div>
             <div className="font-medium text-beige flex gap-2">
-              <Link href={`/${proyecto.autor?.username}`} className="flex">
+              <Link href={`/${proyecto.autor?.username}`} className="flex hover:underline gap-2">
                 <h4>
                   {proyecto.autor?.nombres} {proyecto.autor?.apellidos}
                 </h4>
@@ -279,7 +279,7 @@ ListaProyectosProps) {
         {/* Contenido principal con Link */}
         <Link
           href={`/${proyecto.autor?.username}/projects/${proyecto.id}`}
-          className="px-4 pb-3 flex-grow block hover:bg-blacku/80 "
+          className="px-4 pb-3 flex-grow block hover:bg-neutral-900/10 transition-all duration-300"
           aria-label={`Ver detalles de ${proyecto.title}`}
         >
           <h4 className="text-lg font-semibold text-white">
@@ -303,7 +303,7 @@ ListaProyectosProps) {
         </Link>
 
         {/* Botones de interacción */}
-        <div className="flex justify-around p-4 border-t border-white/10 bg-[#1a1a1a]/50 backdrop-blur-sm mt-auto">
+        <div className="flex justify-around p-4 border-t border-white/10 bg-neutral-00 backdrop-blur-sm mt-auto">
           <button className="flex items-center gap-1 text-gray-400 hover:text-beige">
             <ThumbsUp size={18} />
             <span className="text-sm">{proyecto.likes || "Like"}</span>

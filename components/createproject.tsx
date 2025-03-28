@@ -110,7 +110,7 @@ export default function CreateProject({ triggerButton }: CreateProjectProps) {
       </DialogTrigger>
       <DialogContent className="flex flex-col gap-0 overflow-y-visible border border-beige/10 bg-[#0b0b0b] h-auto text-beige p-0 sm:max-w-lg md:max-w-2xl [&>button:last-child]:top-3.5">
         <DialogHeader className="contents space-y-0 text-left">
-          <DialogTitle className="border-b border-beige/10 px-6 py-4 text-base bg-cafe rounded-t-xl">
+          <DialogTitle className="border-b border-beige/10 px-6 py-4 text-base bg-[#0b0b0b]rounded-t-xl">
             Crear Proyecto
           </DialogTitle>
         </DialogHeader>

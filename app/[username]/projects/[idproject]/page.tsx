@@ -149,7 +149,7 @@ function ViewProjectPage() {
 
   return (
     <div className="py-16 bg-blacku min-h-screen">
-      <div className="rounded-xl overflow-hidden shadow-lg">
+      <div className="rounded-xl overflow-hidden shadow-lg bg-blacku/80 transition-shadow hover:shadow-2xl">
         {project.imageUrl && (
           <div className="w-full h-[300px] relative">
             <Image
@@ -190,7 +190,7 @@ function ViewProjectPage() {
           </div>
 
           <h1 className="text-2xl font-bold text-beige mb-4">{project.title}</h1>
-          <p className="text-beige/80 whitespace-pre-line">{project.description}</p>
+          <p className="text-beige/80 whitespace-pre-line text-base">{project.description}</p>
 
           {/* 🔥 Sección de Actualizaciones 🔥 */}
           <div className="mt-8">
@@ -200,7 +200,7 @@ function ViewProjectPage() {
                 {updates.map((update) => {
                   const author = authors[update.authorId];
                   return (
-                    <li key={update.id} className="bg-beige/10 p-4 rounded-lg">
+                    <li key={update.id} className="bg-beige/10 p-6 rounded-lg shadow-md transition-transform hover:scale-105">
                       <div className="flex items-center mb-2">
                         {author ? (
                           <Image
@@ -213,20 +213,20 @@ function ViewProjectPage() {
                         ) : (
                           <div className="w-8 h-8 bg-gray-300 rounded-full mr-2"></div>
                         )}
-                        <p className="text-beige font-medium">
+                        <p className="text-beige font-medium text-lg">
                           {author ? `${author.nombres} ${author.apellidos}` : "Anónimo"}
                         </p>
-                        <p className="text-beige/60 text-sm">
+                        <p className="text-beige/60 text-sm transition-colors hover:text-beige">
                           @{author?.username || "Desconocido"}
                         </p>
                       </div>
                       <p className="text-beige">{update.content}</p>
-                      <p className="text-sm text-beige/60 mt-2">
+                      <p className="text-sm text-beige/60 mt-2 transition-colors hover:text-beige">
                         {update.createdAt instanceof Timestamp
                           ? `Actualizado el ${new Date(update.createdAt.toDate()).toLocaleDateString()}`
                           : "Fecha desconocida"}
                       </p>
-                      <div className="text-sm text-beige/60 mt-2">
+                      <div className="text-sm text-beige/60 mt-2 transition-colors hover:text-beige">
                         ❤️ {update.likes} - 💬 {update.commentsCount} comentarios
                       </div>
                     </li>
