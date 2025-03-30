@@ -5,12 +5,9 @@ import { db } from "@/lib/firebase/firebaseconfig";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { notFound } from "next/navigation";
 import { Loading } from "@/components/ui/loading";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { ReactNode } from "react";
 
-import Image from "next/image";
 
 interface UserProfile {
   nombres: string;

@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 
 export default function RecommendedUsers() {
@@ -29,7 +30,7 @@ export default function RecommendedUsers() {
         {recommendedUsers.map(user => (
           <div key={user.id} className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <img
+              <Image
                 src={user.avatar}
                 alt={user.name}
                 className="w-10 h-10 rounded-full"

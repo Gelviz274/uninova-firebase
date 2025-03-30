@@ -13,7 +13,6 @@ import {
 } from "firebase/firestore";
 import { notFound } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Loading } from "@/components/ui/loading";
 import ListaProyectos from "@/components/utils/Projects";
 import {
   Book,
@@ -32,6 +31,7 @@ import MyProjects from "@/components/utils/MyProjects";
 import EditProfileUser from "@/components/comp-331";
 import { School, MapPin } from "lucide-react";
 import Image from "next/image";
+import { Loading } from "@/components/ui/loading";
 
 interface UserData {
   id: string;
@@ -157,6 +157,10 @@ export default function UserProfile({
       console.error("Error al actualizar seguimiento:", error);
     }
   };
+
+  if (loading) {
+    return <Loading variant="default" size="lg" />;
+  }
 
   if (!userData) return null;
 

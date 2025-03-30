@@ -8,8 +8,7 @@ import {
 import Image from "next/image";
 import { app } from "@/lib/firebase/firebaseconfig";
 import CreateProject from "@/components/createproject";
-import { FileText, ImageIcon, TrendingUp, Video } from "lucide-react";
-import AlertComponent from "@/components/comp-314";
+import { FileText, ImageIcon, Video } from "lucide-react";
 import ListaProyectos from "@/components/utils/Projects";
 
 function HomePage() {
