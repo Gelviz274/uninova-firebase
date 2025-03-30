@@ -410,7 +410,7 @@ const MultipleSelector = ({
         handleKeyDown(e);
         commandProps?.onKeyDown?.(e);
       }}
-      className={cn("h-auto overflow-visible bg-black/20", commandProps?.className)}
+      className={cn("h-auto overflow-visible bg-transparent", commandProps?.className)}
       shouldFilter={
         commandProps?.shouldFilter !== undefined ? commandProps.shouldFilter : !onSearch
       } // When onSearch is provided, we don&lsquo;t want to filter the options. You can still override it.
@@ -418,7 +418,7 @@ const MultipleSelector = ({
     >
       <div
         className={cn(
-          "border-cafe focus-within:ring-ring/50 has-aria-invalid:ring-destructive/20 dark:has-aria-invalid:ring-destructive/40 has-aria-invalid:border-destructive relative min-h-[38px] rounded-md border text-sm transition-[color,box-shadow] outline-none focus-within:ring-[3px] has-disabled:pointer-events-none has-disabled:cursor-not-allowed has-disabled:opacity-50",
+          "border-cafe/30 dark:border-beige/20 focus-within:ring-cafe/50 dark:focus-within:ring-beige/50 has-aria-invalid:ring-destructive/20 dark:has-aria-invalid:ring-destructive/40 has-aria-invalid:border-destructive relative min-h-[38px] rounded-md border text-sm transition-[color,box-shadow] outline-none focus-within:ring-[3px] has-disabled:pointer-events-none has-disabled:cursor-not-allowed has-disabled:opacity-50",
           {
             "p-1": selected.length !== 0,
             "cursor-text": !disabled && selected.length !== 0,
@@ -437,7 +437,7 @@ const MultipleSelector = ({
               <div
                 key={option.value}
                 className={cn(
-                  "animate-fadeIn bg-cafe text-beige hover:bg-cafe relative inline-flex h-7 cursor-default items-center rounded-md  ps-2 pe-7 pl-2 text-xs font-medium transition-all disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 data-fixed:pe-2",
+                  "animate-fadeIn bg-cafe dark:bg-beige/20 text-white dark:text-beige hover:bg-cafe/80 dark:hover:bg-beige/30 relative inline-flex h-7 cursor-default items-center rounded-md ps-2 pe-7 pl-2 text-xs font-medium transition-all disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 data-fixed:pe-2",
                   badgeClassName,
                 )}
                 data-fixed={option.fixed}
@@ -445,7 +445,7 @@ const MultipleSelector = ({
               >
                 {option.label}
                 <button
-                  className="text-muted-foreground/80 hover:text-beige focus-visible:border-ring focus-visible:ring-ring/50 absolute -inset-y-px -end-px flex size-7 items-center justify-center rounded-e-md border border-transparent p-0 outline-hidden transition-[color,box-shadow] outline-none focus-visible:ring-[3px]"
+                  className="text-white/80 dark:text-beige/80 hover:text-white dark:hover:text-beige focus-visible:border-cafe dark:focus-visible:border-beige focus-visible:ring-cafe/50 dark:focus-visible:ring-beige/50 absolute -inset-y-px -end-px flex size-7 items-center justify-center rounded-e-md border border-transparent p-0 outline-hidden transition-[color,box-shadow] outline-none focus-visible:ring-[3px]"
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       handleUnselect(option);
@@ -488,7 +488,7 @@ const MultipleSelector = ({
             }}
             placeholder={hidePlaceholderWhenSelected && selected.length !== 0 ? "" : placeholder}
             className={cn(
-              "placeholder:text-muted-foreground/70 text-beige flex-1 bg-transparent outline-hidden disabled:cursor-not-allowed",
+              "placeholder:text-cafe/70 dark:placeholder:text-beige/70 text-cafe dark:text-beige flex-1 bg-transparent outline-hidden disabled:cursor-not-allowed",
               {
                 "w-full": hidePlaceholderWhenSelected,
                 "px-3 py-2": selected.length === 0,
@@ -504,7 +504,7 @@ const MultipleSelector = ({
               onChange?.(selected.filter((s) => s.fixed));
             }}
             className={cn(
-              "text-muted-foreground/80 hover:text-foreground focus-visible:border-ring focus-visible:ring-ring/50 absolute end-0 top-0 flex size-9 items-center justify-center rounded-md border border-transparent transition-[color,box-shadow] outline-none focus-visible:ring-[3px]",
+              "text-cafe/80 dark:text-beige/80 hover:text-cafe dark:hover:text-beige focus-visible:border-cafe dark:focus-visible:border-beige focus-visible:ring-cafe/50 dark:focus-visible:ring-beige/50 absolute end-0 top-0 flex size-9 items-center justify-center rounded-md border border-transparent transition-[color,box-shadow] outline-none focus-visible:ring-[3px]",
               (hideClearAllButton ||
                 disabled ||
                 selected.length < 1 ||
@@ -520,7 +520,7 @@ const MultipleSelector = ({
       <div className="relative">
         <div
           className={cn(
-            " absolute top-2 z-[9999] w-full overflow-hidden text-beige rounded-md border-beige/20",
+            " absolute top-2 z-[9999] w-full overflow-hidden text-cafe dark:text-beige rounded-md border border-cafe/30 dark:border-beige/20",
             "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
             !open && "hidden",
           )}
@@ -528,7 +528,7 @@ const MultipleSelector = ({
         >
           {open && (
             <CommandList
-              className="bg-blacku shadow-lg z-[9999] "
+              className="bg-white dark:bg-neutral-900 shadow-lg z-[9999] "
               onMouseLeave={() => {
                 setOnScrollbar(false);
               }}
@@ -545,7 +545,7 @@ const MultipleSelector = ({
                 <>
                   {EmptyItem()}
                   {CreatableItem()}
-                  {!selectFirstItem && <CommandItem value="-" className="hidden text-beige" />}
+                  {!selectFirstItem && <CommandItem value="-" className="hidden text-cafe dark:text-beige" />}
                   {Object.entries(selectables).map(([key, dropdowns]) => (
                     <CommandGroup key={key} heading={key} className="h-full overflow-auto">
                       <>
@@ -570,7 +570,7 @@ const MultipleSelector = ({
                                 onChange?.(newOptions);
                               }}
                               className={cn(
-                                "cursor-pointer text-beige",
+                                "cursor-pointer text-cafe dark:text-beige hover:bg-cafe/10 dark:hover:bg-beige/10",
                                 option.disable &&
                                   "pointer-events-none cursor-not-allowed opacity-50",
                               )}

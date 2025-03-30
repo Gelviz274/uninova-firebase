@@ -40,10 +40,10 @@ export default function InputTags({ onChange }: InputTagsProps) {
       selected={selectedOptions}
       onChange={handleSelectionChange}
       placeholder="Selecciona la carrera"
-      className="border border-beige/20"
+      className="border border-cafe/30 dark:border-beige/20 bg-white dark:bg-neutral-900 text-cafe dark:text-beige"
       hideClearAllButton
       hidePlaceholderWhenSelected
-      emptyIndicator={<p className="text-center text-sm">No results found</p>}
+      emptyIndicator={<p className="text-center text-sm text-cafe/70 dark:text-beige/70">No results found</p>}
     />
   );
 }

@@ -55,11 +55,11 @@ export default function InputContrasena({ value = "", onChange }: InputContrasen
       {/* Password input field with toggle visibility button */}
       <div className="space-y-2">
         <div className="relative group">
-          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-beige/40 h-4 w-4 transition-colors group-focus-within:text-beige" />
+          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 dark:text-beige/50 text-cafe h-4 w-4 transition-colors dark:group-focus-within:text-beige group-focus-within:text-cafe" />
           <Input
             id="password"
-            className="w-full pl-9 pr-3 py-2 bg-black/40 border border-beige/10 rounded-lg text-beige
-                       focus:outline-none focus:border-beige/30 focus:bg-black/60
+            className="w-full pl-9 pr-3 py-2 dark:bg-neutral-900 border border-beige/10 rounded-lg dark:text-beige
+                       focus:outline-none focus:border-beige/30 
                        transition-all duration-200 text-sm group-focus-within:border-beige"
             placeholder="Contraseña"
             name="password"
@@ -70,7 +70,7 @@ export default function InputContrasena({ value = "", onChange }: InputContrasen
             aria-describedby={`${id}-description`}
           />
           <button
-            className="absolute inset-y-0 end-0 flex h-full w-9 items-center justify-center rounded-e-lg text-beige/50 outline-offset-2 transition-colors hover:text-beige/40 focus:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring/70 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
+            className="absolute inset-y-0 end-0 flex h-full w-9 items-center justify-center rounded-e-lg dark:text-beige/50 text-cafe outline-offset-2 transition-colors dark:hover:text-beige/40 hover:text-cafe/40 focus:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring/70 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
             type="button"
             onClick={toggleVisibility}
             aria-label={isVisible ? "Ocultar contraseña" : "Mostrar contraseña"}
@@ -102,7 +102,7 @@ export default function InputContrasena({ value = "", onChange }: InputContrasen
       </div>
 
       {/* Password strength description */}
-      <p id={`${id}-description`} className="mb-2 text-sm font-medium text-beige/80">
+      <p id={`${id}-description`} className="mb-2 text-sm font-medium dark:text-beige/80 text-cafe">
         {getStrengthText(strengthScore)}. Debe contener:
       </p>
 

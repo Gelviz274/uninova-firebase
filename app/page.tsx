@@ -24,11 +24,11 @@ function HomePage() {
   }, []);
 
   return (
-    <div className="w-full m-0 h-full flex flex-col items-center justify-center border-x border-beige/10">
+    <div className="w-full m-0 h-full flex flex-col items-center justify-center border-x dark:border-beige/10 border-cafe/40">
       <div className="flex items-center justify-center h-full w-full px-4 py-4">
           {/* Sección principal */}
           <div className="col-span-2 flex flex-col h-full items-center w-full">
-            <div className="w-full border border-beige/10 text-cafe bg-transparent p-5 rounded-xl">
+            <div className="w-full border dark:border-beige/10 border-cafe/40 text-cafe bg-white dark:bg-neutral-900 p-5 rounded-xl">
               <div className="flex items-center justify-center">
                 <Image
                   src={user?.photoURL || "/default-user.avif"}
@@ -46,15 +46,15 @@ function HomePage() {
                 />
               </div>
               <div className="flex justify-between py-3 gap-1">
-                <button className="text-beige/50 hover:text-beige/90 rounded-full px-4 py-2 flex gap-2">
+                <button className="dark:text-beige/50 text-cafe hover:text-beige/90 rounded-full px-4 py-2 flex gap-2">
                   <ImageIcon />
                   Imagenes
                 </button>
-                <button className="text-beige/50 hover:text-beige/90 rounded-full px-4 py-2 flex gap-2">
+                <button className="dark:text-beige/50 text-cafe hover:text-beige/90 rounded-full px-4 py-2 flex gap-2">
                   <Video />
                   Videos
                 </button>
-                <button className="text-beige/50 hover:text-beige/90 rounded-full px-4 py-2 flex gap-2">
+                <button className="dark:text-beige/50 text-cafe hover:text-beige/90 rounded-full px-4 py-2 flex gap-2">
                   <FileText />
                   Documentos
                 </button>

@@ -16,7 +16,7 @@ import { Skeleton } from "./ui/skeleton";
 import { cn } from "@/lib/utils";
 import CreateProject from "@/components/createproject";
 
-const skeletonClasses = "bg-beige/30 dark:bg-beige/20";
+const skeletonClasses = "bg-cafe/30 dark:bg-beige/20";
 
 export default function LeftMenuSidebar() {
   const { userProfile, loading } = useAuth();
@@ -55,7 +55,7 @@ export default function LeftMenuSidebar() {
   return (
     <div className="bg-transparent rounded-lg px-4 w-auto">
       {/* Sección de perfil */}
-      <div className="flex bg-neutral-800 p-4 rounded-lg flex-col gap-2 items-center mb-6">
+      <div className="flex dark:bg-neutral-800 bg-white p-6 rounded-lg flex-col gap-2 items-center mb-6">
         <Image
           src={userProfile?.photoURL || "/default-user.avif"}
           alt="User Avatar"
@@ -65,7 +65,7 @@ export default function LeftMenuSidebar() {
         />
         <Link href={`/${userProfile?.username}`} className="hover:underline">
           <div className="flex flex-col items-center">
-            <h2 className="font-semibold text-beige">
+            <h2 className="font-semibold dark:text-beige text-cafe">
               {userProfile?.nombres} {userProfile?.apellidos}
             </h2>
             <p className="text-sm text-gray-400">
@@ -128,8 +128,8 @@ function NavItem({
         href={href}
         className="flex items-center py-3 px-2 rounded-lg hover:bg-beige/40"
       >
-        <Icon className="mr-3 text-beige" size={20} />
-        <span className="text-beige">{label}</span>
+        <Icon className="mr-3 text-gray-800 dark:text-beige" size={20} />
+        <span className="dark:text-beige text-gray-800">{label}</span>
       </Link>
     </li>
   );

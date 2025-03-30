@@ -17,8 +17,9 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/context/AuthContext";
 import { Loading } from "@/components/ui/loading";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
-const skeletonClasses = "bg-beige/30 dark:bg-beige/20";
+const skeletonClasses = "bg-gray-200 dark:bg-beige/20";
 
 // Definir interfaces para los usuarios y proyectos
 interface UserProps {
@@ -60,7 +61,7 @@ interface ListaProyectosProps {
 
 function ProjectSkeleton() {
   return (
-    <li className="bg-neutral-900 rounded-xl border border-beige/10 overflow-hidden w-full flex flex-col h-96">
+    <li className="bg-white dark:bg-neutral-900 rounded-xl border border-gray-200 dark:border-beige/10 overflow-hidden w-full flex flex-col h-96">
       {/* Header Skeleton */}
       <div className="p-4 flex items-center space-x-3 w-full">
         <Skeleton className={cn("h-10 w-10 rounded-full", skeletonClasses)} />
@@ -81,7 +82,7 @@ function ProjectSkeleton() {
       </div>
 
       {/* Actions Skeleton */}
-      <div className="flex justify-around p-4 border-t border-white/10 bg-neutral-900 mt-auto w-full">
+      <div className="flex justify-around p-4 border-t border-gray-200 dark:border-white/10 bg-white dark:bg-neutral-900 mt-auto w-full">
         {[1, 2, 3, 4].map((i) => (
           <Skeleton key={i} className={cn("h-6 w-full md:w-12", skeletonClasses)} />
         ))}
@@ -140,7 +141,7 @@ ListaProyectosProps) {
   const [proyectos, setProyectos] = useState<ProjectProps[]>([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
-
+  const router = useRouter();
   useEffect(() => {
     const fetchProyectos = async () => {
       try {
@@ -232,7 +233,7 @@ ListaProyectosProps) {
 
   if (proyectos.length === 0) {
     return (
-      <div className="min-h-[400px] w-full flex items-center justify-center text-[#D2B48C]">
+      <div className="min-h-[400px] w-full flex items-center justify-center text-cafe dark:text-[#D2B48C]">
         <Loading size="lg" />
       </div>
     );
@@ -244,7 +245,10 @@ ListaProyectosProps) {
         {proyectos.map((proyecto) => (
           <li
             key={proyecto.id}
-            className="bg-neutral-900 rounded-xl border border-beige/10 overflow-hidden w-full flex flex-col h-auto relative"
+            onClick={() => {
+              router.push(`/${proyecto.autor?.username}/projects/${proyecto.id}`);
+            }}
+            className="bg-white dark:bg-neutral-900 rounded-xl border border-cafe/40 dark:border-beige/10 hover:bg-gray-50 dark:hover:bg-neutral-900/10 overflow-hidden w-full flex flex-col h-auto relative cursor-pointer"
           >
             {/* Post Header */}
             <div className="p-4 flex items-center space-x-3">
@@ -259,7 +263,7 @@ ListaProyectosProps) {
                 priority={true}
               />
               <div>
-                <div className="font-medium text-beige flex gap-2">
+                <div className="font-medium text-gray-800 dark:text-beige flex gap-2">
                   <Link
                     href={`/${proyecto.autor?.username}`}
                     className="flex hover:underline gap-2"
@@ -267,28 +271,25 @@ ListaProyectosProps) {
                     <h4>
                       {proyecto.autor?.nombres} {proyecto.autor?.apellidos}
                     </h4>
-                    <p className="text-muted-foreground">
+                    <p className="text-gray-500 dark:text-muted-foreground">
                       / @{proyecto.autor?.username}
                     </p>
                   </Link>
                 </div>
-                <div className="text-sm text-beige/80 flex gap-1">
-                  <p>{proyecto.autor?.universidad}</p>
-                  <p>- {proyecto.autor?.carrera}</p>
+                <div className="text-sm text-gray-600 dark:text-beige/80 flex gap-1">
+                  <p>{proyecto.autor?.universidad}- {proyecto.autor?.carrera}</p>
                 </div>
               </div>
             </div>
 
-            {/* Contenido principal con Link */}
-            <Link
-              href={`/${proyecto.autor?.username}/projects/${proyecto.id}`}
-              className="px-4 pb-3 flex-grow block hover:bg-neutral-900/10 transition-all duration-300"
+            <div
+              className="px-4 pb-3 flex-grow block transition-all duration-300"
               aria-label={`Ver detalles de ${proyecto.title}`}
             >
-              <h4 className="text-lg font-semibold text-white">
+              <h4 className="text-lg font-semibold text-gray-900 dark:text-white">
                 {proyecto.title}
               </h4>
-              <p className="text-sm text-gray-200 mt-1 whitespace-pre-line">
+              <p className="text-sm text-gray-700 dark:text-gray-200 mt-1 whitespace-pre-line">
                 {proyecto.description}
               </p>
               {proyecto.tags && proyecto.tags.length > 0 && (
@@ -296,30 +297,30 @@ ListaProyectosProps) {
                   {proyecto.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-xs bg-beige/10 text-beige px-2 py-1 rounded-full"
+                      className="text-xs bg-gray-100 dark:bg-beige/10 text-gray-600 dark:text-beige px-2 py-1 rounded-full"
                     >
                       {tag}
                     </span>
                   ))}
                 </div>
               )}
-            </Link>
+            </div>
 
             {/* Botones de interacción */}
-            <div className="flex justify-around p-4 border-t border-white/10 bg-neutral-00 backdrop-blur-sm mt-auto">
-              <button className="flex items-center gap-1 text-gray-400 hover:text-beige">
+            <div className="flex justify-around p-4 border-t border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-neutral-900 backdrop-blur-sm mt-auto">
+              <button className="flex items-center gap-1 text-gray-500 dark:text-gray-400 hover:text-cafe dark:hover:text-beige transition-colors">
                 <ThumbsUp size={18} />
                 <span className="text-sm">{proyecto.likes || "Like"}</span>
               </button>
-              <button className="flex items-center gap-1 text-gray-400 hover:text-beige">
+              <button className="flex items-center gap-1 text-gray-500 dark:text-gray-400 hover:text-cafe dark:hover:text-beige transition-colors">
                 <MessageCircle size={18} />
                 <span className="text-sm">Comentar</span>
               </button>
-              <button className="flex items-center gap-1 text-gray-400 hover:text-beige">
+              <button className="flex items-center gap-1 text-gray-500 dark:text-gray-400 hover:text-cafe dark:hover:text-beige transition-colors">
                 <Bookmark size={18} />
                 <span className="text-sm">Guardar</span>
               </button>
-              <button className="flex items-center gap-1 text-gray-400 hover:text-beige">
+              <button className="flex items-center gap-1 text-gray-500 dark:text-gray-400 hover:text-cafe dark:hover:text-beige transition-colors">
                 <Share2 size={18} />
                 <span className="text-sm">Compartir</span>
               </button>

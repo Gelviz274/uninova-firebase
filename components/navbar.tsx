@@ -10,13 +10,13 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Skeleton } from "./ui/skeleton";
 import { cn } from "@/lib/utils";
 
-const skeletonClasses = "bg-beige/30 dark:bg-beige/20";
+const skeletonClasses = "bg-cafe dark:bg-beige/10";
 
 function Navbar() {
   const { loading } = useAuth();
 
   return (
-    <header className="flex items-center sticky bg-neutral-800 w-full px-44 text-beige justify-around z-50 top-0 left-0 gap-6 shadow-md border-b border-beige">
+    <header className="flex items-center sticky w-full px-44 justify-around z-50 top-0 left-0 gap-6 shadow-md bg-white text-beige border-b border-beige/10 dark:bg-neutral-800 dark:text-gray-100 dark:border-gray-700">
       {/* Logo de Uni-nova */}
       <div>
         <Link href="/" className="flex items-center justify-center">
@@ -27,7 +27,7 @@ function Navbar() {
             alt="Logo oficial de Uni-nova"
             className="cursor-pointer"
           />
-          <h2 className="text-beige text-xl font-bold">Uni-nova</h2>
+          <h2 className="text-xl dark:text-beige text-cafe font-bold">Uni-nova</h2>
         </Link>
       </div>
 
@@ -39,7 +39,7 @@ function Navbar() {
           <InputWhitIconEnd
             id="Search"
             placeholder="Buscar..."
-            className="w-full bg-beige/40 text-beige rounded-xl px-3 py-5 placeholder:text-beige"
+            className="w-full bg-gray-100 text-gray-800 rounded-xl px-3 py-5 placeholder:text-gray-400 dark:bg-gray-800 dark:text-gray-200 dark:placeholder:text-gray-500"
             Icon={Search}
           />
         )}

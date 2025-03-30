@@ -3,6 +3,7 @@ import "./globals.css";
 import LayoutWrapper from "@/components/LayoutWrapper";
 import type { Metadata } from "next";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { ThemeProvider } from "@/lib/providers/ThemeProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -26,13 +27,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className={`${inter.variable} ${spaceMono.variable}`}>
-      <body className="font-sans antialiased bg-neutral-900">
-        <AuthProvider>
-          <LayoutWrapper>
-            {children}
-          </LayoutWrapper>
-        </AuthProvider>
+    <html lang="es" className={`${inter.variable} ${spaceMono.variable}`} suppressHydrationWarning>
+      <body className="font-sans antialiased">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={true}
+          disableTransitionOnChange={false}
+          storageKey="uninova-theme"
+        >
+          <AuthProvider>
+            <LayoutWrapper>
+              {children}
+            </LayoutWrapper>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

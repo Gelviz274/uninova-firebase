@@ -16,7 +16,7 @@ export default function SimpleInput({ id,  type = "text", placeholder, value, on
   return (
     <div className="space-y-1">
       <div className="relative group">
-        {Icon && <Icon className="absolute left-3 top-1/2 -translate-y-1/2 text-beige/40 h-4 w-4 transition-colors group-focus-within:text-beige" />}
+        {Icon && <Icon className="absolute left-3 top-1/2 -translate-y-1/2 dark:text-beige/50 text-cafe h-4 w-4 transition-colors dark:group-focus-within:text-beige group-focus-within:text-cafe" />}
         <Input
           
           id={id}
@@ -26,8 +26,8 @@ export default function SimpleInput({ id,  type = "text", placeholder, value, on
           onChange={onChange}
           onFocus={() => setIsFocused(true)}
           onBlur={() => !value && setIsFocused(false)}
-          className={`w-full pl-9 pr-3 py-2 bg-black/40 rounded-lg text-beige transition-all duration-200 text-sm group-focus-within:border-beige/50
-                      border ${isFocused || value ? "border-beige/80" : "border-beige/10"} 
+          className={`w-full pl-9 pr-3 py-2 dark:bg-neutral-900 rounded-lg dark:text-beige text-cafe transition-all duration-200 text-sm group-focus-within:border-beige/50
+                      border ${isFocused || value ? "border-beige/10" : "border-beige/20"} 
                       focus:outline-none focus:ring-2 focus:ring-beige/50 focus:ring-opacity-50`}
         />
       </div>

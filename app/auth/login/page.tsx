@@ -34,22 +34,18 @@ function App() {
   };
 
   return (
-    <div className="w-full h-screen bg-black flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="w-full h-screen bg-white dark:bg-neutral-900 flex items-center justify-center p-4 relative overflow-hidden">
 
       {success && <AlertSuccess content="Inicio de sesión exitoso" />}{" "}
       {error && <AlertError Icon={Lock} content={error} />}{" "}
-      {/* Luces animadas de fondo */}
-      <div className="absolute -top-40 -left-40 w-80 h-80 bg-beige/20 rounded-full blur-[100px] animate-pulse" />
-      <div className="absolute top-40 -right-40 w-80 h-80 bg-[#463B2E]/40 rounded-full blur-[100px] animate-pulse delay-700" />
-      <div className="absolute -bottom-52 left-40 w-80 h-80 bg-beige/30 rounded-full blur-[100px] animate-pulse delay-1000" />
-      <div className="absolute -bottom-32 right-12 w-80 h-80 bg-beige/20 rounded-full blur-[100px] animate-pulse delay-1200" />
-      <div className="bg-black/40 backdrop-blur-xl rounded-2xl shadow-2xl w-full max-w-md p-8 relative border border-white/10">
+
+<div className="bg-white dark:bg-neutral-900 backdrop-blur-xl rounded-2xl shadow-2xl w-full max-w-md p-8 relative border border-white/10">
         <div className="flex items-center justify-center flex-col">
           <Image src="/LOGOUNINOVA.png" alt="Logo" width={100} height={100} />
-          <h1 className="text-beige font-sans text-4xl font-bold text-center mb-2">
+          <h1 className="dark:text-beige text-cafe font-sans text-4xl font-bold text-center mb-2">
             Uni-nova
           </h1>
-          <p className="text-beige/60 text-center mb-8">Bienvenido de vuelta</p>
+          <p className="text-cafe dark:text-beige/60 text-center mb-8">Bienvenido de vuelta</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -79,9 +75,9 @@ function App() {
             <input
               type="checkbox"
               id="terms"
-              className="w-3.5 h-3.5 rounded border-beige/20 bg-black/40"
+              className="w-3.5 h-3.5 rounded border-beige/20 dark:bg-neutral-800 bg-beige text-cafe "
             />
-            <label htmlFor="terms" className="text-xs text-beige/70">
+          <label htmlFor="terms" className="text-xs dark:text-beige/70 text-cafe">
               Recordarme
             </label>
           </div>
@@ -90,8 +86,7 @@ function App() {
             type="submit"
             className="w-full bg-beige text-black py-2 rounded-lg font-medium text-sm
                      shadow-lg shadow-beige/10 hover:shadow-xl
-                     hover:bg-[#463B2E] hover:text-beige
-                     border border-beige/50
+                     hover:bg-cafe hover:text-beige
                      transition-all duration-300"
           >
             Iniciar Sesión
@@ -99,10 +94,10 @@ function App() {
 
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-beige/10"></div>
+              <div className="w-full border-t border-cafe/40 dark:border-beige/10"></div>
             </div>
             <div className="relative flex justify-center text-xs">
-              <span className="px-2 bg-black text-beige/60">
+              <span className="px-2 bg-white dark:bg-neutral-900 text-cafe dark:text-beige/60">
                 O continua con
               </span>
             </div>
@@ -111,55 +106,55 @@ function App() {
           <div className="grid grid-cols-2 gap-2">
             <button
               className="flex items-center justify-center gap-2 py-2 px-3
-                             bg-black/40 border border-beige/10 rounded-lg
-                             hover:bg-black/60 hover:border-beige/20
+                             dark:bg-neutral-800 dark:hover:bg-neutral-700 bg-beige  border border-beige/10 rounded-lg
+                             hover:bg-beige/80  hover:border-beige/20
                              transition-all duration-200 group"
             >
-              <Google className="h-4 w-4 text-beige" />
-              <span className="text-xs font-medium text-beige/80 group-hover:text-beige">
+              <Google className="h-4 w-4 dark:text-beige text-cafe" />
+              <span className="text-xs font-medium dark:text-beige text-cafe ">
                 Google
               </span>
             </button>
             <button
               className="flex items-center justify-center gap-2 py-2 px-3
-                             bg-black/40 border border-beige/10 rounded-lg
-                             hover:bg-black/60 hover:border-beige/20
+                             dark:bg-neutral-800 dark:hover:bg-neutral-700 bg-beige  border border-beige/10 rounded-lg
+                             hover:bg-beige/80  hover:border-beige/20
                              transition-all duration-200 group"
             >
-              <Microsoft className="h-4 w-4 text-beige" />
-              <span className="text-xs font-medium text-beige/80 group-hover:text-beige">
+              <Microsoft className="h-4 w-4 dark:text-beige text-cafe" />
+              <span className="text-xs font-medium dark:text-beige text-cafe ">
                 Microsoft
               </span>
             </button>
             <button
               className="flex items-center justify-center gap-2 py-2 px-3
-                             bg-black/40 border border-beige/10 rounded-lg
-                             hover:bg-black/60 hover:border-beige/20
+                             dark:bg-neutral-800 dark:hover:bg-neutral-700 bg-beige  border border-beige/10 rounded-lg
+                             hover:bg-beige/80  hover:border-beige/20
                              transition-all duration-200 group"
             >
-              <Github className="h-4 w-4 text-beige" />
-              <span className="text-xs font-medium text-beige/80 group-hover:text-beige">
+              <Github className="h-4 w-4 dark:text-beige text-cafe" />
+              <span className="text-xs font-medium dark:text-beige text-cafe ">
                 GitHub
               </span>
             </button>
             <button
               className="flex items-center justify-center gap-2 py-2 px-3
-                             bg-black/40 border border-beige/10 rounded-lg
-                             hover:bg-black/60 hover:border-beige/20
+                             dark:bg-neutral-800 dark:hover:bg-neutral-700 bg-beige  border border-beige/10 rounded-lg
+                             hover:bg-beige/80  hover:border-beige/20
                              transition-all duration-200 group"
             >
-              <Gitlab className="h-4 w-4 text-beige" />
-              <span className="text-xs font-medium text-beige/80 group-hover:text-beige">
+              <Gitlab className="h-4 w-4 dark:text-beige text-cafe" />
+              <span className="text-xs font-medium dark:text-beige text-cafe ">
                 GitLab
               </span>
             </button>
           </div>
 
-          <p className="text-center text-xs text-beige/60">
+          <p className="text-center text-xs text-cafe dark:text-beige/60">
             ¿No tienes una cuenta?{" "}
             <Link
               href="/auth/register"
-              className="font-medium text-beige hover:text-beige/80 transition-colors"
+              className="font-bold text-cafe dark:text-beige hover:text-beige/80 transition-colors"
             >
               Registrate aqui
             </Link>

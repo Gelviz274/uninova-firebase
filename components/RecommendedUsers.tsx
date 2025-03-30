@@ -42,7 +42,7 @@ export default function RecommendedUsers() {
                 <p className="text-sm text-neutral-500">{user.username}</p>
               </div>
             </div>
-            <button className="px-4 py-1 text-sm bg-brown-600 hover:bg-brown-700 text-white rounded-full transition-colors">
+            <button className="px-4 py-1 text-sm bg-cafe  text-white rounded-full transition-colors">
               Follow
             </button>
           </div>

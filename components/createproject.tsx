@@ -21,6 +21,7 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import AlertSuccess from "./comp-271";
 import InputTags from "./InputTags";
 
+
 interface CreateProjectProps {
   triggerButton: React.ReactNode; // Recibe un botón como prop
 }
@@ -40,7 +41,7 @@ export default function CreateProject({ triggerButton }: CreateProjectProps) {
   const [projectLink, setProjectLink] = useState("");
   const [success, setSuccess] = useState(false);
   const [open, setOpen] = useState(false);
-  const [tags, setTags] = useState<string[]>([]); // Estado para los tags
+  const [tags, setTags] = useState<string[]>([]); 
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -87,6 +88,7 @@ export default function CreateProject({ triggerButton }: CreateProjectProps) {
       closeTimeoutRef.current = setTimeout(() => {
         setOpen(false);
         resetForm();
+        window.location.reload();
       }, 2000);
     } catch (error: unknown) {
       console.error("Error al crear el proyecto:", error);
@@ -108,9 +110,9 @@ export default function CreateProject({ triggerButton }: CreateProjectProps) {
       <DialogTrigger asChild>
       {triggerButton}
       </DialogTrigger>
-      <DialogContent className="flex flex-col gap-0 overflow-y-visible border border-beige/10 bg-[#0b0b0b] h-auto text-beige p-0 sm:max-w-lg md:max-w-2xl [&>button:last-child]:top-3.5">
+      <DialogContent className="flex flex-col gap-0 overflow-y-visible border border-cafe/30 dark:border-beige/10 bg-white dark:bg-neutral-900 h-auto text-cafe dark:text-beige p-0 sm:max-w-lg md:max-w-2xl [&>button:last-child]:top-3.5">
         <DialogHeader className="contents space-y-0 text-left">
-          <DialogTitle className="border-b border-beige/10 px-6 py-4 text-base bg-[#0b0b0b]rounded-t-xl">
+          <DialogTitle className="border-b border-cafe/40 dark:border-beige/10 px-6 py-4 text-cafe dark:text-beige bg-white dark:bg-neutral-900 rounded-t-xl">
             Crear Proyecto
           </DialogTitle>
         </DialogHeader>
@@ -123,7 +125,7 @@ export default function CreateProject({ triggerButton }: CreateProjectProps) {
             <form className="grid grid-cols-2 gap-6">
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor={`${id}-title`} className="text-beige">
+                  <Label htmlFor={`${id}-title`} className="text-cafe dark:text-beige">
                     Título del Proyecto<span className="text-red-600">*</span>
                   </Label>
                   <Input
@@ -131,14 +133,14 @@ export default function CreateProject({ triggerButton }: CreateProjectProps) {
                     placeholder="Ingresa el título del proyecto"
                     type="text"
                     value={title}
-                    className="bg-blacku border border-beige/20 text-beige placeholder-text-beige focus:border-beige"
+                    className="bg-white dark:bg-neutral-900 border border-cafe/30 dark:border-beige/20 text-cafe dark:text-beige placeholder:text-cafe/70 dark:placeholder:text-beige/70 focus:border-cafe dark:focus:border-beige"
                     onChange={(e) => setTitle(e.target.value)}
                     required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor={`${id}-description`} className="text-beige">
+                  <Label htmlFor={`${id}-description`} className="text-cafe dark:text-beige">
                     Descripción<span className="text-red-600">*</span>
                   </Label>
                   <Textarea
@@ -148,12 +150,12 @@ export default function CreateProject({ triggerButton }: CreateProjectProps) {
                     maxLength={maxLength}
                     onChange={handleChange}
                     aria-describedby={`${id}-description-count`}
-                    className="bg-blacku border border-beige/20 text-beige placeholder-text-beige focus:border-beige"
+                    className="bg-white dark:bg-neutral-900 border border-cafe/30 dark:border-beige/20 text-cafe dark:text-beige placeholder:text-cafe/70 dark:placeholder:text-beige/70 focus:border-cafe dark:focus:border-beige"
                     required
                   />
                   <p
                     id={`${id}-description-count`}
-                    className="mt-2 text-right text-xs text-muted-foreground"
+                    className="mt-2 text-right text-xs text-cafe/70 dark:text-muted-foreground"
                     role="status"
                     aria-live="polite"
                   >
@@ -164,13 +166,13 @@ export default function CreateProject({ triggerButton }: CreateProjectProps) {
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor={`${id}-project-link`} className="text-beige">
+                  <Label htmlFor={`${id}-project-link`} className="text-cafe dark:text-beige">
                     Enlace de Proyecto
                   </Label>
                   <Input
                     id={`${id}-project-link`}
                     placeholder="Agrega un enlace relacionado a tu proyecto"
-                    className="bg-black border border-beige/20 text-beige placeholder-text-beige focus:border-beige"
+                    className="bg-white dark:bg-neutral-900 border border-cafe/30 dark:border-beige/20 text-cafe dark:text-beige placeholder:text-cafe/70 dark:placeholder:text-beige/70 focus:border-cafe dark:focus:border-beige"
                     type="url"
                     value={projectLink}
                     onChange={(e) => setProjectLink(e.target.value)}
@@ -183,7 +185,7 @@ export default function CreateProject({ triggerButton }: CreateProjectProps) {
               <div className="space-y-4">
                 
               <div className="space-y-2">
-                  <Label htmlFor={`${id}-project-tags`} className="text-beige">
+                  <Label htmlFor={`${id}-project-tags`} className="text-cafe dark:text-beige">
                     Tags del proyecto
                   </Label>
                   <span className="text-red-500">*</span>
@@ -191,40 +193,40 @@ export default function CreateProject({ triggerButton }: CreateProjectProps) {
                 </div>
                                 {/* Imágenes */}
                                 <div className="space-y-2">
-                  <Label htmlFor={`${id}-image`} className="text-beige">
+                  <Label htmlFor={`${id}-image`} className="text-cafe dark:text-beige">
                     Subir Imágenes
                   </Label>
                   <Input
                     id={`${id}-image`}
                     type="file"
                     accept="image/*"
-                    className="bg-blacku border border-beige/20 text-beige file:cursor-pointer file:rounded-lg file:border-none file:bg-beige/20 file:px-3 file:py-2 file:text-beige hover:file:bg-beige/30"
+                    className="bg-white dark:bg-neutral-900 border border-cafe/30 dark:border-beige/20 text-cafe dark:text-beige file:cursor-pointer file:rounded-lg file:border-none file:bg-cafe/10 dark:file:bg-beige/20 file:px-3 file:py-2 file:text-cafe dark:file:text-beige hover:file:bg-cafe/20 dark:hover:file:bg-beige/30"
                   />
                 </div>
 
                 {/* Videos */}
                 <div className="space-y-2">
-                  <Label htmlFor={`${id}-video`} className="text-beige">
+                  <Label htmlFor={`${id}-video`} className="text-cafe dark:text-beige">
                     Subir Video
                   </Label>
                   <Input
                     id={`${id}-video`}
                     type="file"
                     accept="video/*"
-                    className="bg-blacku border border-beige/20 text-beige file:cursor-pointer file:rounded-lg file:border-none file:bg-beige/20 file:px-3 file:py-2 file:text-beige hover:file:bg-beige/30"
+                    className="bg-white dark:bg-neutral-900 border border-cafe/30 dark:border-beige/20 text-cafe dark:text-beige file:cursor-pointer file:rounded-lg file:border-none file:bg-cafe/10 dark:file:bg-beige/20 file:px-3 file:py-2 file:text-cafe dark:file:text-beige hover:file:bg-cafe/20 dark:hover:file:bg-beige/30"
                   />
                 </div>
 
                 {/* Documentos */}
                 <div className="space-y-2">
-                  <Label htmlFor={`${id}-document`} className="text-beige">
+                  <Label htmlFor={`${id}-document`} className="text-cafe dark:text-beige">
                     Subir Documento
                   </Label>
                   <Input
                     id={`${id}-document`}
                     type="file"
                     accept=".pdf,.doc,.docx"
-                    className="bg-blacku border border-beige/20 text-beige file:cursor-pointer file:rounded-lg file:border-none file:bg-beige/20 file:px-3 file:py-2 file:text-beige hover:file:bg-beige/30"
+                    className="bg-white dark:bg-neutral-900 border border-cafe/30 dark:border-beige/20 text-cafe dark:text-beige file:cursor-pointer file:rounded-lg file:border-none file:bg-cafe/10 dark:file:bg-beige/20 file:px-3 file:py-2 file:text-cafe dark:file:text-beige hover:file:bg-cafe/20 dark:hover:file:bg-beige/30"
                   />
                 </div>
                 
@@ -233,16 +235,16 @@ export default function CreateProject({ triggerButton }: CreateProjectProps) {
           </div>
         </div>
 
-        <DialogFooter className="border-t border-beige/40 px-6 py-4">
+        <DialogFooter className="border-t border-cafe/40 dark:border-beige/40 px-6 py-4 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-sm">
           <DialogClose asChild>
-            <Button type="button" variant="outline" className="text-cafe">
+            <Button type="button" variant="outline" className="text-cafe hover:bg-cafe/5 dark:hover:bg-beige/5 border-cafe/30 dark:border-beige/30">
               Cancelar
             </Button>
           </DialogClose>
           <Button
             type="button"
             onClick={handleCreateProject}
-            className="text-beige"
+            className="bg-cafe/90 hover:bg-cafe text-white dark:bg-beige/30 dark:hover:bg-beige/40 dark:text-beige"
           >
             Guardar Proyecto
           </Button>
