@@ -60,30 +60,30 @@ interface ListaProyectosProps {
 
 function ProjectSkeleton() {
   return (
-    <li className="bg-neutral-900 rounded-xl border border-beige/10 overflow-hidden flex flex-col h-96">
+    <li className="bg-neutral-900 rounded-xl border border-beige/10 overflow-hidden w-full flex flex-col h-96">
       {/* Header Skeleton */}
-      <div className="p-4 flex items-center space-x-3">
+      <div className="p-4 flex items-center space-x-3 w-full">
         <Skeleton className={cn("h-10 w-10 rounded-full", skeletonClasses)} />
-        <div className="space-y-2">
-          <Skeleton className={cn("h-4 w-40", skeletonClasses)} />
-          <Skeleton className={cn("h-3 w-32", skeletonClasses)} />
+        <div className="space-y-2 w-full">
+          <Skeleton className={cn("h-4 w-full md:w-32", skeletonClasses)} />
+          <Skeleton className={cn("h-3 w-full md:w-24", skeletonClasses)} />
         </div>
       </div>
 
       {/* Content Skeleton */}
-      <div className="px-4 pb-3 flex-grow">
-        <Skeleton className={cn("h-6 w-3/4 mb-3", skeletonClasses)} />
-        <div className="space-y-2">
-          <Skeleton className={cn("h-4 w-full", skeletonClasses)} />
-          <Skeleton className={cn("h-4 w-5/6", skeletonClasses)} />
-          <Skeleton className={cn("h-4 w-4/6", skeletonClasses)} />
+      <div className="px-4 pb-3 flex-grow w-full">
+        <Skeleton className={cn("h-6 w-full md:w-2/3 mb-3", skeletonClasses)} />
+        <div className="space-y-2 w-full">
+          <Skeleton className={cn("h-4 w-full md:w-5/6", skeletonClasses)} />
+          <Skeleton className={cn("h-4 w-full md:w-4/6", skeletonClasses)} />
+          <Skeleton className={cn("h-4 w-full md:w-3/6", skeletonClasses)} />
         </div>
       </div>
 
       {/* Actions Skeleton */}
-      <div className="flex justify-around p-4 border-t border-white/10 bg-neutral-900 mt-auto">
+      <div className="flex justify-around p-4 border-t border-white/10 bg-neutral-900 mt-auto w-full">
         {[1, 2, 3, 4].map((i) => (
-          <Skeleton key={i} className={cn("h-6 w-16", skeletonClasses)} />
+          <Skeleton key={i} className={cn("h-6 w-full md:w-12", skeletonClasses)} />
         ))}
       </div>
     </li>
@@ -220,8 +220,8 @@ ListaProyectosProps) {
 
   if (loading) {
     return (
-      <div className="bg-transparent w-full h-auto">
-        <ul className="space-y-4">
+      <div className="bg-transparent min-h-full h-auto w-full">
+        <ul className="space-y-4 w-full">
           {[1, 2, 3].map((i) => (
             <ProjectSkeleton key={i} />
           ))}
@@ -240,91 +240,93 @@ ListaProyectosProps) {
 
   return (
     <div className="bg-transparent w-full h-auto">
-  <ul className="space-y-4">
-    {proyectos.map((proyecto) => (
-      <li
-        key={proyecto.id}
-        className="bg-neutral-900 rounded-xl border border-beige/10 overflow-hidden flex flex-col h-auto relative"
-      >
-        {/* Post Header */}
-        <div className="p-4 flex items-center space-x-3">
-          <Image
-            src={proyecto.autor?.fotoPerfil || "/default-user.avif"}
-            alt={`Foto de perfil de ${
-              proyecto.autor?.nombres || "Usuario desconocido"
-            }`}
-            width={40}
-            height={40}
-            className="rounded-full object-cover"
-            priority={true}
-          />
-          <div>
-            <div className="font-medium text-beige flex gap-2">
-              <Link href={`/${proyecto.autor?.username}`} className="flex hover:underline gap-2">
-                <h4>
-                  {proyecto.autor?.nombres} {proyecto.autor?.apellidos}
-                </h4>
-                <p className="text-muted-foreground">
-                  / @{proyecto.autor?.username}
-                </p>
-              </Link>
+      <ul className="space-y-4 w-full">
+        {proyectos.map((proyecto) => (
+          <li
+            key={proyecto.id}
+            className="bg-neutral-900 rounded-xl border border-beige/10 overflow-hidden w-full flex flex-col h-auto relative"
+          >
+            {/* Post Header */}
+            <div className="p-4 flex items-center space-x-3">
+              <Image
+                src={proyecto.autor?.fotoPerfil || "/default-user.avif"}
+                alt={`Foto de perfil de ${
+                  proyecto.autor?.nombres || "Usuario desconocido"
+                }`}
+                width={40}
+                height={40}
+                className="rounded-full object-cover"
+                priority={true}
+              />
+              <div>
+                <div className="font-medium text-beige flex gap-2">
+                  <Link
+                    href={`/${proyecto.autor?.username}`}
+                    className="flex hover:underline gap-2"
+                  >
+                    <h4>
+                      {proyecto.autor?.nombres} {proyecto.autor?.apellidos}
+                    </h4>
+                    <p className="text-muted-foreground">
+                      / @{proyecto.autor?.username}
+                    </p>
+                  </Link>
+                </div>
+                <div className="text-sm text-beige/80 flex gap-1">
+                  <p>{proyecto.autor?.universidad}</p>
+                  <p>- {proyecto.autor?.carrera}</p>
+                </div>
+              </div>
             </div>
-            <div className="text-sm text-beige/80 flex gap-1">
-              <p>{proyecto.autor?.universidad}</p>
-              <p>- {proyecto.autor?.carrera}</p>
+
+            {/* Contenido principal con Link */}
+            <Link
+              href={`/${proyecto.autor?.username}/projects/${proyecto.id}`}
+              className="px-4 pb-3 flex-grow block hover:bg-neutral-900/10 transition-all duration-300"
+              aria-label={`Ver detalles de ${proyecto.title}`}
+            >
+              <h4 className="text-lg font-semibold text-white">
+                {proyecto.title}
+              </h4>
+              <p className="text-sm text-gray-200 mt-1 whitespace-pre-line">
+                {proyecto.description}
+              </p>
+              {proyecto.tags && proyecto.tags.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {proyecto.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-xs bg-beige/10 text-beige px-2 py-1 rounded-full"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </Link>
+
+            {/* Botones de interacción */}
+            <div className="flex justify-around p-4 border-t border-white/10 bg-neutral-00 backdrop-blur-sm mt-auto">
+              <button className="flex items-center gap-1 text-gray-400 hover:text-beige">
+                <ThumbsUp size={18} />
+                <span className="text-sm">{proyecto.likes || "Like"}</span>
+              </button>
+              <button className="flex items-center gap-1 text-gray-400 hover:text-beige">
+                <MessageCircle size={18} />
+                <span className="text-sm">Comentar</span>
+              </button>
+              <button className="flex items-center gap-1 text-gray-400 hover:text-beige">
+                <Bookmark size={18} />
+                <span className="text-sm">Guardar</span>
+              </button>
+              <button className="flex items-center gap-1 text-gray-400 hover:text-beige">
+                <Share2 size={18} />
+                <span className="text-sm">Compartir</span>
+              </button>
             </div>
-          </div>
-        </div>
-
-        {/* Contenido principal con Link */}
-        <Link
-          href={`/${proyecto.autor?.username}/projects/${proyecto.id}`}
-          className="px-4 pb-3 flex-grow block hover:bg-neutral-900/10 transition-all duration-300"
-          aria-label={`Ver detalles de ${proyecto.title}`}
-        >
-          <h4 className="text-lg font-semibold text-white">
-            {proyecto.title}
-          </h4>
-          <p className="text-sm text-gray-200 mt-1 whitespace-pre-line">
-            {proyecto.description}
-          </p>
-          {proyecto.tags && proyecto.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mt-3">
-              {proyecto.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="text-xs bg-beige/10 text-beige px-2 py-1 rounded-full"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
-        </Link>
-
-        {/* Botones de interacción */}
-        <div className="flex justify-around p-4 border-t border-white/10 bg-neutral-00 backdrop-blur-sm mt-auto">
-          <button className="flex items-center gap-1 text-gray-400 hover:text-beige">
-            <ThumbsUp size={18} />
-            <span className="text-sm">{proyecto.likes || "Like"}</span>
-          </button>
-          <button className="flex items-center gap-1 text-gray-400 hover:text-beige">
-            <MessageCircle size={18} />
-            <span className="text-sm">Comentar</span>
-          </button>
-          <button className="flex items-center gap-1 text-gray-400 hover:text-beige">
-            <Bookmark size={18} />
-            <span className="text-sm">Guardar</span>
-          </button>
-          <button className="flex items-center gap-1 text-gray-400 hover:text-beige">
-            <Share2 size={18} />
-            <span className="text-sm">Compartir</span>
-          </button>
-        </div>
-      </li>
-    ))}
-  </ul>
-</div>
-
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

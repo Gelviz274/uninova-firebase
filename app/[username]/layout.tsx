@@ -33,7 +33,6 @@ interface LayoutProps {
 export default function UserLayout({ children }: LayoutProps) {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
   const params = useParams();
   const username = params.username as string;
 
@@ -63,7 +62,7 @@ export default function UserLayout({ children }: LayoutProps) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-blacku">
+      <div className="min-h-screen flex items-center justify-center bg-neutral-900">
         <Loading size="lg" />
       </div>
     );
@@ -72,43 +71,10 @@ export default function UserLayout({ children }: LayoutProps) {
   if (!userProfile) return null;
 
   return (
-    <div className="min-h-screen bg-blacku">
-      {/* Barra de navegación superior */}
-      <div className="fixed top-14 left-0 right-0 z-50 bg-blacku/60 backdrop-blur-lg border-y border-beige/10">
-        <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => router.back()}
-              className="text-beige/60 hover:text-beige hover:bg-beige/5"
-            >
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
-            <div className="flex items-center gap-2">
-              {userProfile.photoURL && (
-                <Image
-                  src={userProfile.photoURL}
-                  alt={userProfile.nombres}
-                  width={28}
-                  height={28}
-                  className="rounded-full object-cover border border-beige/10"
-                />
-              )}
-              <div className="hidden sm:block">
-                <p className="text-sm font-medium text-beige">
-                  {userProfile.nombres} {userProfile.apellidos}
-                </p>
-                <p className="text-xs text-beige/60">@{username}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+    <div className="min-h-screen bg-neutral-900">
       {/* Contenido principal */}
       <main className="relative z-10 -mt-6 bg-[#151515] rounded-t-3xl">
-        <div className="max-w-7xl mx-auto px-4">{children}</div>
+        <div className="max-w-7xl mx-auto border-y border-neutral-800">{children}</div>
       </main>
     </div>
   );

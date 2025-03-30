@@ -2,7 +2,7 @@ import { Inter, Space_Mono } from "next/font/google";
 import "./globals.css";
 import LayoutWrapper from "@/components/LayoutWrapper";
 import type { Metadata } from "next";
-import { AuthProvider } from '@/contexts/AuthContext';
+import { AuthProvider } from "@/contexts/AuthContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -29,7 +29,9 @@ export default function RootLayout({
     <html lang="es" className={`${inter.variable} ${spaceMono.variable}`}>
       <body className="font-sans antialiased bg-neutral-900">
         <AuthProvider>
-          <LayoutWrapper>{children}</LayoutWrapper>
+          <LayoutWrapper>
+            {children}
+          </LayoutWrapper>
         </AuthProvider>
       </body>
     </html>

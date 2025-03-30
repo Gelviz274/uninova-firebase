@@ -34,7 +34,8 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="w-full h-screen bg-black flex items-center justify-center p-4 relative overflow-hidden">
+
       {success && <AlertSuccess content="Inicio de sesión exitoso" />}{" "}
       {error && <AlertError Icon={Lock} content={error} />}{" "}
       {/* Luces animadas de fondo */}
