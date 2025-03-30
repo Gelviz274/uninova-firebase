@@ -22,7 +22,7 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
           <div className="w-72 sticky top-20 h-[calc(100vh-5rem)]">
             <Sidebar />
           </div>
-          <main className="flex-1 min-w-0 md:w-[calc(100%-50rem)]">
+          <main className="flex-1 min-w-0 md:w-[calc(100%-50rem)] border-x border-beige/10">
             {children}
           </main>
           <div className="w-72 sticky top-20 h-[calc(100vh-5rem)] px-4">

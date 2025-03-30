@@ -7,19 +7,19 @@ export default function RecommendedUsers() {
       id: '1',
       name: 'Sarah Johnson',
       username: '@sarahj',
-      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100'
+      avatar: '/imagenprueba.jpg'
     },
     {
       id: '2',
       name: 'Michael Chen',
       username: '@mchen',
-      avatar: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=100'
+      avatar: '/imagenprueba.jpg'
     },
     {
       id: '3',
       name: 'Emma Wilson',
       username: '@ewilson',
-      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100'
+      avatar: '/imagenprueba.jpg'
     }
   ];
 
@@ -33,6 +33,8 @@ export default function RecommendedUsers() {
               <Image
                 src={user.avatar}
                 alt={user.name}
+                width={40}
+                height={40}
                 className="w-10 h-10 rounded-full"
               />
               <div>
