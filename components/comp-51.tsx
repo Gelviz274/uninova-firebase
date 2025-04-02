@@ -58,7 +58,7 @@ export default function InputContrasena({ value = "", onChange }: InputContrasen
           <Lock className="absolute left-3 top-1/2 -translate-y-1/2 dark:text-beige/50 text-cafe h-4 w-4 transition-colors dark:group-focus-within:text-beige group-focus-within:text-cafe" />
           <Input
             id="password"
-            className="w-full pl-9 pr-3 py-2 dark:bg-neutral-900 border border-beige/10 rounded-lg dark:text-beige
+            className="w-full pl-9 pr-3 py-2 bg-neutral-50 dark:bg-neutral-900 border border-beige/10 rounded-lg dark:text-beige
                        focus:outline-none focus:border-beige/30 
                        transition-all duration-200 text-sm group-focus-within:border-beige"
             placeholder="Contraseña"

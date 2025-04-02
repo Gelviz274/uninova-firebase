@@ -20,7 +20,7 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
           {children}
         </main>
       ) : (
-        <div className="container max-w-7xl mx-auto flex gap-2 pt-1">
+        <div className="container max-w-screen-2xl mx-auto flex gap-2 pt-1">
           <div className="w-72 sticky top-20 h-[calc(100vh-5rem)]">
             <Sidebar />
           </div>

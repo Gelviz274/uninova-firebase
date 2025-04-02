@@ -167,16 +167,16 @@ export default function UserProfile({
   const isOwnProfile = user?.email === userData.username;
 
   return (
-    <div className="py-4 bg-neutral-900">
+    <div className="py-4 dark:bg-neutral-900 bg-white">
       {/* Barra de navegación superior */}
-      <div className="top-14 left-0 right-0 z-50 bg-neutral-900  border-y border-beige/10">
+      <div className="top-14 left-0 right-0 z-50 dark:bg-neutral-900 bg-white border-y border-neutral-600">
         <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Button
               variant="ghost"
               size="icon"
               onClick={() => router.back()}
-              className="text-beige/60 hover:text-beige hover:bg-beige/5"
+              className="dark:text-beige/60 text-cafe hover:text-beige hover:bg-beige/5"
             >
               <ArrowLeft className="h-5 w-5" />
             </Button>
@@ -191,10 +191,10 @@ export default function UserProfile({
                 />
               )}
               <div className="hidden sm:block">
-                <p className="text-sm font-medium text-beige">
+                <p className="text-sm font-medium dark:text-beige text-neutral-900">
                   {userData.nombres} {userData.apellidos}
                 </p>
-                <p className="text-xs text-beige/60">@{username}</p>
+                <p className="text-xs dark:text-beige/60 text-muted-foreground">@{username}</p>
               </div>
             </div>
           </div>
@@ -211,13 +211,17 @@ export default function UserProfile({
               : "none",
             background: userData.photoURL
               ? "none"
-              : "linear-gradient(to bottom, rgba(210, 180, 140, 0.8), rgba(0,0,0,0) )",
+              : `linear-gradient(to bottom right, rgba(0, 183, 255, 0.8), rgba(255, 0, 255, 0.7), rgba(255, 165, 0, 0.7)), 
+                  ${window.matchMedia("(prefers-color-scheme: dark)").matches ? "black" : "white"}`,
             backdropFilter: userData.photoURL ? "none" : "blur(10px)",
             transform: "translateZ(0)",
           }}
+          
+          
         >
           {/* Overlay con gradiente moderno */}
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-neutral-900/50 to-neutral-900"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-neutral-white/50 dark:via-neutral-900/50 dark:to-neutral-900 to-white"></div>
+
         </div>
 
         {/* Contenido sobre la portada */}
@@ -231,17 +235,17 @@ export default function UserProfile({
                 alt="Foto de perfil"
                 width={128}
                 height={128}
-                className="relative w-28 h-28 md:w-32 md:h-32 rounded-full border-4 border-[#202020] object-cover"
+                className="relative w-28 h-28 md:w-32 md:h-32 rounded-full  object-cover"
                 priority
               />
             </div>
 
             {/* Información del usuario */}
             <div className="flex-grow">
-              <h1 className="text-2xl md:text-3xl font-bold text-beige mb-2">
+              <h1 className="text-2xl md:text-2xl font-bold text-neutral-900 dark:text-beige mb-2">
                 {userData.nombres} {userData.apellidos}
               </h1>
-              <div className="flex flex-col gap-2 text-sm text-beige/60">
+              <div className="flex flex-col gap-2 text-sm text-neutral-900 dark:text-beige/60">
                 <p className="flex items-center gap-1">
                   <School className="w-4 h-4" />
                   {userData.universidad}
@@ -254,7 +258,7 @@ export default function UserProfile({
             </div>
 
             {/* Botón de editar */}
-            <div className="mt-4 md:mt-0">
+            <div className="mt-4 md:mt-0 z-50">
               {user && user.uid === userData.id && (
                 <EditProfileUser
                   id={userData.id}
@@ -276,8 +280,8 @@ export default function UserProfile({
       {/* Descripción y botón de seguir */}
       <div className=" p-4">
         {userData.descripcion && (
-          <div className="bg-neutral-800/50 backdrop-blur-sm p-6 rounded-2xl border border-beige/5 mb-4">
-            <p className="text-beige/80 leading-relaxed whitespace-pre-line">
+          <div className="bg-neutral-50 dark:bg-neutral-800/50 backdrop-blur-sm p-6 rounded-2xl border border-neutral-300 dark:border-beige/5 mb-4">
+            <p className="text-neutral-700 dark:text-beige/80 leading-relaxed whitespace-pre-line">
               {userData.descripcion}
             </p>
           </div>
@@ -285,53 +289,57 @@ export default function UserProfile({
 
         {/* Grid de estadísticas */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-neutral-800/50 backdrop-blur-sm p-4 rounded-2xl border border-beige/5 hover:border-beige/10 transition-all">
+          {/* Seguidores */}
+          <div className=" dark:bg-neutral-800/50 bg-neutral-50 backdrop-blur-sm p-4 rounded-2xl border border-neutral-300 dark:border-beige/5 hover:border-neutral-400 dark:hover:border-beige/10 transition-all">
             <div className="flex items-center gap-3">
               <div className="p-2.5 bg-[#D2B48C]/10 rounded-xl">
                 <Users2 className="text-[#D2B48C] w-5 h-5" />
               </div>
               <div>
-                <p className="text-sm text-beige/60">Seguidores</p>
-                <p className="text-xl font-bold text-beige">
+                <p className="text-sm text-neutral-600 dark:text-beige/60">Seguidores</p>
+                <p className="text-xl font-bold text-neutral-900 dark:text-beige">
                   {userData.seguidores || 0}
                 </p>
               </div>
             </div>
           </div>
-          <div className="bg-neutral-800/50 backdrop-blur-sm p-4 rounded-2xl border border-beige/5 hover:border-beige/10 transition-all">
+          {/* Siguiendo */}
+          <div className="bg-neutral-50 dark:bg-neutral-800/50  backdrop-blur-sm p-4 rounded-2xl border border-neutral-300 dark:border-beige/5 hover:border-neutral-400 dark:hover:border-beige/10 transition-all">
             <div className="flex items-center gap-3">
               <div className="p-2.5 bg-[#D2B48C]/10 rounded-xl">
                 <Users2 className="text-[#D2B48C] w-5 h-5" />
               </div>
               <div>
-                <p className="text-sm text-beige/60">Siguiendo</p>
-                <p className="text-xl font-bold text-beige">
+                <p className="text-sm text-neutral-600 dark:text-beige/60">Siguiendo</p>
+                <p className="text-xl font-bold text-neutral-900 dark:text-beige">
                   {userData.siguiendo || 0}
                 </p>
               </div>
             </div>
           </div>
-          <div className="bg-neutral-800/50 backdrop-blur-sm p-4 rounded-2xl border border-beige/5 hover:border-beige/10 transition-all">
+          {/* Proyectos */}
+          <div className="bg-neutral-50 dark:bg-neutral-800/50  backdrop-blur-sm p-4 rounded-2xl border border-neutral-300 dark:border-beige/5 hover:border-neutral-400 dark:hover:border-beige/10 transition-all">
             <div className="flex items-center gap-3">
               <div className="p-2.5 bg-[#D2B48C]/10 rounded-xl">
                 <Book className="text-[#D2B48C] w-5 h-5" />
               </div>
               <div>
-                <p className="text-sm text-beige/60">Proyectos</p>
-                <p className="text-xl font-bold text-beige">
+                <p className="text-sm text-neutral-600 dark:text-beige/60">Proyectos</p>
+                <p className="text-xl font-bold text-neutral-900 dark:text-beige">
                   {userData.proyectos || 0}
                 </p>
               </div>
             </div>
           </div>
-          <div className="bg-neutral-800/50 backdrop-blur-sm p-4 rounded-2xl border border-beige/5 hover:border-beige/10 transition-all">
+          {/* Logros */}
+          <div className="bg-neutral-50 dark:bg-neutral-800/50  backdrop-blur-sm p-4 rounded-2xl border border-neutral-300 dark:border-beige/5 hover:border-neutral-400 dark:hover:border-beige/10 transition-all">
             <div className="flex items-center gap-3">
               <div className="p-2.5 bg-[#D2B48C]/10 rounded-xl">
                 <Award className="text-[#D2B48C] w-5 h-5" />
               </div>
               <div>
-                <p className="text-sm text-beige/60">Logros</p>
-                <p className="text-xl font-bold text-beige">
+                <p className="text-sm text-neutral-600 dark:text-beige/60">Logros</p>
+                <p className="text-xl font-bold text-neutral-900 dark:text-beige">
                   {userData.logros?.length || 0}
                 </p>
               </div>
@@ -366,7 +374,7 @@ export default function UserProfile({
       {/* Intereses */}
       {userData.intereses && userData.intereses.length > 0 && (
         <div className="mb-8 bg-[#202020]/50 backdrop-blur-sm p-6 rounded-2xl border border-beige/5">
-          <h3 className="text-lg font-semibold text-beige mb-4">Intereses</h3>
+          <h3 className="text-lg font-semibold text-neutral-900 dark:text-beige mb-4">Intereses</h3>
           <div className="flex flex-wrap gap-2">
             {userData.intereses.map((interes, index) => (
               <span
@@ -382,22 +390,22 @@ export default function UserProfile({
 
       {/* Tabs de contenido */}
       <Tabs defaultValue="proyectos" className="w-full p-4">
-        <TabsList className="w-full flex space-x-1 bg-[#202020]/50 backdrop-blur-sm p-1 rounded-2xl border border-beige/5 mb-6">
+        <TabsList className="w-full flex space-x-1 bg-neutral-200/50 dark:bg-neutral-800/50 backdrop-blur-sm p-1 rounded-2xl border border-beige/5 mb-6">
           <TabsTrigger
             value="proyectos"
-            className="flex-1 py-3 data-[state=active]:bg-[#D2B48C] data-[state=active]:text-[#202020] rounded-xl transition-all"
+            className="flex-1 py-3 data-[state=active]:bg-cafe data-[state=active]:text-white rounded-xl transition-all"
           >
             Proyectos
           </TabsTrigger>
           <TabsTrigger
             value="experiencia"
-            className="flex-1 py-3 data-[state=active]:bg-[#D2B48C] data-[state=active]:text-[#202020] rounded-xl transition-all"
+            className="flex-1 py-3 data-[state=active]:bg-cafe data-[state=active]:text-white rounded-xl transition-all"
           >
             Experiencia
           </TabsTrigger>
           <TabsTrigger
             value="logros"
-            className="flex-1 py-3 data-[state=active]:bg-[#D2B48C] data-[state=active]:text-[#202020] rounded-xl transition-all"
+            className="flex-1 py-3 data-[state=active]:bg-cafe data-[state=active]:text-white rounded-xl transition-all"
           >
             Logros
           </TabsTrigger>
@@ -412,13 +420,13 @@ export default function UserProfile({
         </TabsContent>
 
         <TabsContent value="experiencia">
-          <div className="bg-[#202020]/50 backdrop-blur-sm rounded-2xl border border-beige/5 p-6">
+          <div className="bg-neutral-50 dark:bg-neutral-800/50 backdrop-blur-sm rounded-2xl border border-beige/5 p-6">
             {userData.experiencia && userData.experiencia.length > 0 ? (
               <div className="space-y-6">
                 {userData.experiencia.map((exp, index) => (
                   <div
                     key={index}
-                    className="flex items-start gap-4 p-6 bg-[#1a1a1a]/50 rounded-xl border border-beige/5 hover:border-beige/10 transition-all"
+                    className="flex items-start gap-4 p-6 bg-neutral-50 dark:bg-neutral-800/50 backdrop-blur-sm rounded-xl border border-beige/5 hover:border-beige/10 transition-all"
                   >
                     <div className="p-3 bg-[#D2B48C]/10 rounded-xl">
                       <Briefcase className="text-[#D2B48C] w-6 h-6" />
@@ -437,8 +445,8 @@ export default function UserProfile({
               </div>
             ) : (
               <div className="text-center py-12">
-                <Briefcase className="mx-auto text-beige/20 w-12 h-12 mb-4" />
-                <p className="text-beige/60 text-lg">
+                <Briefcase className="mx-auto dark:text-beige/20 text-cafe w-12 h-12 mb-4" />
+                <p className="text-cafe dark:text-beige/60 text-lg">
                   No hay experiencia registrada
                 </p>
               </div>
@@ -447,7 +455,7 @@ export default function UserProfile({
         </TabsContent>
 
         <TabsContent value="logros">
-          <div className="bg-[#202020]/50 backdrop-blur-sm rounded-2xl border border-beige/5 p-6">
+        <div className="bg-neutral-50 dark:bg-neutral-800/50 backdrop-blur-sm rounded-2xl border border-beige/5 p-6">
             {userData.logros && userData.logros.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {userData.logros.map((logro, index) => (
@@ -459,15 +467,15 @@ export default function UserProfile({
                       <Award className="text-[#D2B48C] w-6 h-6" />
                     </div>
                     <div className="flex-grow">
-                      <p className="text-beige/80 text-lg">{logro}</p>
+                      <p className="text-neutral-700 dark:text-beige/80 text-lg">{logro}</p>
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
               <div className="text-center py-12">
-                <Award className="mx-auto text-beige/20 w-12 h-12 mb-4" />
-                <p className="text-beige/60 text-lg">
+                <Award className="mx-auto dark:text-beige/20 text-cafe w-12 h-12 mb-4" />
+                <p className="text-cafe dark:text-beige/60 text-lg">
                   No hay logros registrados
                 </p>
               </div>

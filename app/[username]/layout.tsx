@@ -59,7 +59,7 @@ export default function UserLayout({ children }: LayoutProps) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-neutral-900">
+      <div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-neutral-900">
         <Loading size="lg" />
       </div>
     );
@@ -68,10 +68,10 @@ export default function UserLayout({ children }: LayoutProps) {
   if (!userProfile) return null;
 
   return (
-    <div className="min-h-screen bg-neutral-900">
+    <div className="min-h-screen dark:bg-neutral-900 bg-neutral-50">
       {/* Contenido principal */}
-      <main className="relative z-10 -mt-6 bg-[#151515] rounded-t-3xl">
-        <div className="max-w-7xl mx-auto border-y border-neutral-800">{children}</div>
+      <main className="relative z-10 -mt-6 bg-neutral-50 dark:bg-neutral-900 rounded-t-3xl">
+        <div className="max-w-7xl mx-auto border-y border-neutral-900">{children}</div>
       </main>
     </div>
   );

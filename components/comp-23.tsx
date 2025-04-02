@@ -40,7 +40,7 @@ export default function InputEye({
           value={value}
           onChange={onChange}
           required={required}
-          className="w-full pl-9 pr-10 py-2 dark:bg-neutral-900 border border-beige/10 rounded-lg dark:text-beige text-cafe
+          className="w-full pl-9 pr-10 py-2 bg-neutral-50 dark:bg-neutral-900 border border-beige/10 rounded-lg dark:text-beige text-cafe
                      focus:outline-none focus:border-beige/30 
                      transition-all duration-200 text-sm group-focus-within:border-beige"
           placeholder={placeholder}

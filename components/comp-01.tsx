@@ -26,7 +26,7 @@ export default function SimpleInput({ id,  type = "text", placeholder, value, on
           onChange={onChange}
           onFocus={() => setIsFocused(true)}
           onBlur={() => !value && setIsFocused(false)}
-          className={`w-full pl-9 pr-3 py-2 dark:bg-neutral-900 rounded-lg dark:text-beige text-cafe transition-all duration-200 text-sm group-focus-within:border-beige/50
+          className={`w-full pl-9 pr-3 py-2 bg-neutral-50 dark:bg-neutral-900 rounded-lg dark:text-beige text-cafe transition-all duration-200 text-sm group-focus-within:border-beige/50
                       border ${isFocused || value ? "border-beige/10" : "border-beige/20"} 
                       focus:outline-none focus:ring-2 focus:ring-beige/50 focus:ring-opacity-50`}
         />

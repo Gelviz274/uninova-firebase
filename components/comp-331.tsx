@@ -122,15 +122,15 @@ export default function EditProfileUser({
         <Button
           variant="outline"
           size="sm"
-          className="bg-[#202020]/60 backdrop-blur-lg border-beige/10 text-beige hover:bg-[#202020]/80 hover:text-beige transition duration-300"
+          className="bg-white dark:bg-neutral-900 backdrop-blur-lg border-beige/10 text-cafe dark:text-beige dark:hover:bg-neutral-800 hover:bg-gray-100 dark:hover:text-beige transition duration-300"
         >
           <Edit3 className="w-4 h-4 mr-1" />
           Editar Perfil
         </Button>
       </DialogTrigger>
-      <DialogContent className="bg-[#202020] border-beige/10 text-beige shadow-lg rounded-lg p-0 w-auto">
+      <DialogContent className="bg-neutral-50 dark:bg-neutral-800 border-beige/10 text-beige shadow-lg rounded-lg p-0 w-auto">
         <DialogHeader>
-          <DialogTitle className="px-6 py-4 text-base">
+          <DialogTitle className="px-6 py-4 text-base text-neutral-900 dark:text-beige">
             Editar Perfil
           </DialogTitle>
         </DialogHeader>
@@ -140,7 +140,7 @@ export default function EditProfileUser({
           <form onSubmit={handleSubmit} className="gap-6 p-4">
             {/* Sección Datos Personales */}
             <div className="space-y-4">
-              <h2 className="text-lg font-semibold text-beige">
+              <h2 className="text-lg font-semibold text-neutral-900 dark:text-beige">
                 Datos Personales
               </h2>
               <div className="grid grid-cols-2 gap-4">
@@ -201,7 +201,7 @@ export default function EditProfileUser({
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">
+                <label className="block text-sm font-medium text-neutral-900 dark:text-beige mb-2">
                   Descripción
                 </label>
                 <CTextAreaLimitCharacters
@@ -219,7 +219,7 @@ export default function EditProfileUser({
 
             {/* Sección Educativa */}
             <div className="space-y-4">
-              <h2 className="text-lg font-semibold text-beige">Educación</h2>
+              <h2 className="text-lg font-semibold text-neutral-900 dark:text-beige">Educación</h2>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <InputIconStart
@@ -267,7 +267,7 @@ export default function EditProfileUser({
                   />
                 </div>
                 {/* Botones */}
-                <div className="flex justify-end gap-2 col-span-full pt-4 border-t border-beige/10">
+                <div className="flex justify-end gap-2 col-span-full pt-4 border-t dark:border-beige/10 border-neutral-300">
                   {loading && <span className="loader"></span>}
                   <Button
                     type="button"

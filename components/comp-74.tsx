@@ -53,19 +53,19 @@ export default function CTextAreaLimitCharacters({
 
   return (
     <div className="space-y-2">
-      {label && <Label className="text-beige/80" htmlFor={id}>{label}</Label>}
+      {label && <Label className="text-neutral-900 dark:text-beige" htmlFor={id}>{label}</Label>}
       <Textarea
         id={id}
         value={displayValue}
         maxLength={limit}
-        className="bg-black/40 p-3 border border-beige/10 focus:border-beige rounded-md text-beige group-focus-within:text-beige min-h-[250px]"  
+        className="bg-white dark:bg-black/40 p-3 border border-neutral-300 dark:border-beige/10 focus:border-neutral-500 dark:focus:border-beige rounded-md text-neutral-900 dark:text-beige group-focus-within:text-neutral-900 dark:group-focus-within:text-beige min-h-[250px]"  
         onChange={handleTextChange}
         placeholder={placeholder}
         aria-describedby={`${id}-description`}
       />
       <p
         id={`${id}-description`}
-        className="mt-2 text-right text-xs text-muted-foreground"
+        className="mt-2 text-right text-xs text-neutral-600 dark:text-muted-foreground"
         role="status"
         aria-live="polite"
       >
