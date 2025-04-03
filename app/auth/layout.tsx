@@ -35,7 +35,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         {/* Botón de cambio de tema - posicionado en esquina inferior derecha para mejor accesibilidad */}
         <button
           onClick={toggleTheme}
-          className="fixed bottom-6 right-6 z-40 flex items-center gap-2 px-4 py-3 bg-white/80 dark:bg-neutral-900 backdrop-blur-md  dark:text-white rounded-full shadow-lg border border-gray-200 dark:border-gray-800 transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-xl  group"
+          className="fixed top-6 right-6 z-40 flex items-center gap-2 px-4 py-3 bg-white/80 dark:bg-neutral-900 backdrop-blur-md  dark:text-white rounded-full shadow-lg border border-gray-200 dark:border-gray-800 transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-xl  group"
           aria-label={isDarkMode ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
         >
           <span className="text-sm text-neutral-900 dark:text-white font-medium transition-opacity duration-300 opacity-100  md:group-hover:opacity-100 md:mr-1">

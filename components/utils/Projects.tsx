@@ -11,11 +11,11 @@ import {
 } from "firebase/firestore";
 import Link from "next/link";
 import { db } from "@/lib/firebase/firebaseconfig";
-import { ThumbsUp, MessageCircle, Bookmark, Share2 } from "lucide-react";
+import { ThumbsUp, MessageCircle, Bookmark, Share2, Book } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/context/AuthContext";
-import { Loading } from "@/components/ui/loading";
+
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -140,8 +140,27 @@ export default function ListaProyectos({
 ListaProyectosProps) {
   const [proyectos, setProyectos] = useState<ProjectProps[]>([]);
   const [loading, setLoading] = useState(true);
+  const [expandedDescriptions, setExpandedDescriptions] = useState<Record<string, boolean>>({});
   const { user } = useAuth();
   const router = useRouter();
+  
+  const MAX_DESCRIPTION_LENGTH = 1000;
+  
+  const toggleDescription = (projectId: string | undefined, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!projectId) return;
+    
+    setExpandedDescriptions(prev => ({
+      ...prev,
+      [projectId]: !prev[projectId]
+    }));
+  };
+  
+  const getTruncatedDescription = (text: string) => {
+    if (text.length <= MAX_DESCRIPTION_LENGTH) return text;
+    return text.slice(0, MAX_DESCRIPTION_LENGTH) + "...";
+  };
+  
   useEffect(() => {
     const fetchProyectos = async () => {
       try {
@@ -233,8 +252,11 @@ ListaProyectosProps) {
 
   if (proyectos.length === 0) {
     return (
-      <div className="min-h-[400px] w-full flex items-center justify-center text-cafe dark:text-[#D2B48C]">
-        <Loading size="lg" />
+      <div className="text-center py-12 bg-neutral-50 dark:bg-neutral-800/50 backdrop-blur-sm rounded-2xl border border-beige/5 p-6">
+        <Book className="mx-auto dark:text-beige/20 text-cafe w-12 h-12 mb-4" />
+        <p className="text-cafe dark:text-beige/60 text-lg">
+          No hay proyectos registrados
+        </p>
       </div>
     );
   }
@@ -289,15 +311,61 @@ ListaProyectosProps) {
               <h4 className="text-lg font-semibold text-gray-900 dark:text-white">
                 {proyecto.title}
               </h4>
-              <p className="text-sm text-gray-700 dark:text-gray-200 mt-1 whitespace-pre-line">
-                {proyecto.description}
-              </p>
+              <div className="relative">
+                <p className="text-sm text-gray-700 dark:text-gray-200 mt-1 whitespace-pre-line">
+                  {expandedDescriptions[proyecto.id || ''] 
+                    ? proyecto.description 
+                    : getTruncatedDescription(proyecto.description)}
+                </p>
+                {proyecto.description.length > MAX_DESCRIPTION_LENGTH && (
+                  <button
+                    onClick={(e) => toggleDescription(proyecto.id, e)}
+                    className="mt-1 text-xs font-medium text-cafe dark:text-beige/80 hover:text-cafe/80 dark:hover:text-beige transition-colors inline-flex items-center gap-1"
+                  >
+                    {expandedDescriptions[proyecto.id || ''] ? (
+                      <>
+                        Ver menos
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="m18 15-6-6-6 6"/>
+                        </svg>
+                      </>
+                    ) : (
+                      <>
+                        Ver más
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="m6 9 6 6 6-6"/>
+                        </svg>
+                      </>
+                    )}
+                  </button>
+                )}
+              </div>
               {proyecto.tags && proyecto.tags.length > 0 && (
                 <div className="flex flex-wrap gap-2 mt-3">
                   {proyecto.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-xs bg-gray-100 dark:bg-beige/10 text-gray-600 dark:text-beige px-2 py-1 rounded-full"
+                      className="text-xs bg-cafe dark:bg-beige/10 text-white dark:text-beige px-2 py-1 rounded-full"
                     >
                       {tag}
                     </span>

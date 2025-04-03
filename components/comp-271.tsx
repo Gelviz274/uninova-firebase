@@ -24,7 +24,7 @@ export default function AlertSuccess({ content }: AlertSuccessProps) {
           animate={{ opacity: 1, y: 0 }} // Se muestra suavemente
           exit={{ opacity: 0, y: 20 }} // Se esconde hacia abajo
           transition={{ duration: 0.5 }} // Duración de la animación
-          className="fixed bottom-4 right-4 z-[200] rounded-lg border border-green-500 bg-black/40 px-4 py-3 shadow-lg w-64"
+          className="fixed bottom-4 right-4 z-[200] rounded-lg border border-green-500 bg-neutral-900 px-4 py-3 shadow-lg w-64"
         >
           <p className="text-sm text-green-500 flex items-center">
             <CircleCheck className="me-2 text-green-500" size={20} strokeWidth={2} aria-hidden="true" />

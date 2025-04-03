@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { collection, getDocs, doc, getDoc, query, where, deleteDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/firebaseconfig";
-import { ThumbsUp, MessageCircle, Share2, Trash2, Edit } from "lucide-react";
+import { ThumbsUp, MessageCircle, Share2, Trash2, Edit, Book } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
@@ -176,8 +176,9 @@ export default function MyProjects({ userId }: MyProjectsProps) {
 
   if (proyectos.length === 0) {
     return (
-      <div className="min-h-[400px] w-full flex flex-col items-center justify-center gap-4 px-44">
-        <p className="text-beige/60 text-lg">
+      <div className="text-center py-12 bg-neutral-50 dark:bg-neutral-800/50 backdrop-blur-sm rounded-2xl border border-beige/5 p-6">
+        <Book className="mx-auto dark:text-beige/20 text-cafe w-12 h-12 mb-4" />
+        <p className="text-cafe dark:text-beige/60 text-lg">
           {isOwnProfile 
             ? "No has creado ningún proyecto aún" 
             : "Este usuario no tiene proyectos"}
@@ -185,7 +186,7 @@ export default function MyProjects({ userId }: MyProjectsProps) {
         {isOwnProfile && (
           <Button
             onClick={() => router.push('/create-project')}
-            className="bg-[#D2B48C] hover:bg-[#D2B48C]/80 text-[#202020]"
+            className="mt-4 bg-[#D2B48C] hover:bg-[#D2B48C]/80 text-[#202020]"
           >
             Crear Proyecto
           </Button>
