@@ -72,6 +72,9 @@ function ViewProjectPage() {
         } as ProjectData;
 
         setProject(projectData);
+        
+        // Actualizar el título de la página con el título del proyecto
+        document.title = `${projectData.title} | Uni-nova`;
 
         // Obtener datos del autor del proyecto
         if (projectData.autorId) {

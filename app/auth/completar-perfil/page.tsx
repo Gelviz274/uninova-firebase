@@ -33,6 +33,9 @@ const CompletarPerfil = () => {
   const router = useRouter();
 
   useEffect(() => {
+    // Establecer título específico para la página de completar perfil
+    document.title = "Completar Perfil | Uni-nova";
+    
     if (userProfile) {
       setFormData({
         nombres: userProfile.nombres || "",

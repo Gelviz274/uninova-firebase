@@ -48,6 +48,9 @@ export default function UserLayout({ children }: LayoutProps) {
         const userData = querySnapshot.docs[0].data() as UserProfile;
         setUserProfile(userData);
         setLoading(false);
+        
+        // Actualizar el título de la página con el nombre y apellido del usuario
+        document.title = `${userData.nombres} ${userData.apellidos} | Uni-nova`;
       } catch (error) {
         console.error("Error al obtener perfil:", error);
         notFound();

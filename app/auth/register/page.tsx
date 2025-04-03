@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Mail, Lock, User } from "lucide-react";
 import Image from "next/image";
 import { Google, Microsoft, Gitlab, Github } from "@/components/icons";
@@ -24,6 +24,11 @@ const Register = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const router = useRouter(); // Estado para mostrar la alerta
+
+  useEffect(() => {
+    // Establecer título específico para la página de registro
+    document.title = "Crear Cuenta | Uni-nova";
+  }, []);
 
   const handleRegister = async (e: React.FormEvent) => {
     setError(""); // Restablecer el estado de error antes de intentar registrar nuevamente

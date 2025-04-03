@@ -8,6 +8,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', isDarkMode);
+    document.title = "Autenticación | Uni-nova";
   }, [isDarkMode]);
 
   const toggleTheme = () => {

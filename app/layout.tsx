@@ -17,7 +17,7 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Uninova",
+  title: "Uni-nova",
   description: "Red social universitaria para compartir proyectos innovadores",
 };
 

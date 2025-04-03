@@ -20,6 +20,8 @@ function HomePage() {
       setUser(currentUser);
     });
 
+    document.title = "Inicio | Uni-nova";
+
     return () => unsubscribe();
   }, []);
 

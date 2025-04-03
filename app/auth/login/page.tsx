@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Mail, Lock } from "lucide-react";
 import Image from "next/image";
 import { Google, Microsoft, Gitlab, Github } from "@/components/icons";
@@ -17,6 +17,11 @@ function App() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    // Establecer título específico para la página de login
+    document.title = "Iniciar Sesión | Uni-nova";
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

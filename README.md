@@ -1,9 +1,9 @@
-# Proyecto Uninova
+# Proyecto Uni-nova
 
-Bienvenido a **Uninova**, una plataforma diseñada para facilitar la gestión y el intercambio de información académica y profesional entre usuarios. Este proyecto tiene como objetivo crear un espacio donde los estudiantes y profesionales puedan conectarse, compartir sus logros y colaborar en proyectos.
+Bienvenido a **Uni-nova**, una plataforma diseñada para facilitar la gestión y el intercambio de información académica y profesional entre usuarios. Este proyecto tiene como objetivo crear un espacio donde los estudiantes y profesionales puedan conectarse, compartir sus logros y colaborar en proyectos.
 
 ## Visión
-Uninova busca ser un punto de encuentro para estudiantes y profesionales, promoviendo la colaboración y el intercambio de conocimientos. Queremos empoderar a los usuarios para que puedan mostrar sus habilidades y logros, y fomentar una comunidad activa y solidaria.
+Uni-nova busca ser un punto de encuentro para estudiantes y profesionales, promoviendo la colaboración y el intercambio de conocimientos. Queremos empoderar a los usuarios para que puedan mostrar sus habilidades y logros, y fomentar una comunidad activa y solidaria.
 
 ## Características Clave
 - **Perfil de Usuario Moderno**: Los usuarios pueden crear y editar su perfil con información personal, académica y profesional.
@@ -18,7 +18,7 @@ Uninova busca ser un punto de encuentro para estudiantes y profesionales, promov
 - **Administrador**: Tiene acceso a funciones avanzadas para gestionar la plataforma y supervisar la actividad de los usuarios.
 
 ## Arquitectura
-Uninova está construido sobre una arquitectura moderna basada en microservicios, lo que permite una escalabilidad y mantenimiento eficientes. Utiliza una base de datos en la nube para almacenar la información de los usuarios y sus proyectos, y un sistema de almacenamiento para las imágenes y archivos.
+Uni-nova está construido sobre una arquitectura moderna basada en microservicios, lo que permite una escalabilidad y mantenimiento eficientes. Utiliza una base de datos en la nube para almacenar la información de los usuarios y sus proyectos, y un sistema de almacenamiento para las imágenes y archivos.
 
 ## Tecnologías Utilizadas
 - **Next.js**: Un framework de React para construir aplicaciones web.
@@ -27,7 +27,7 @@ Uninova está construido sobre una arquitectura moderna basada en microservicios
 
 ## Cómo Empezar
 1. Clona el repositorio: `git clone <URL del repositorio>`
-2. Navega al directorio del proyecto: `cd uninova-nextjs`
+2. Navega al directorio del proyecto: `cd Uni-nova-nextjs`
 3. Instala las dependencias: `npm install`
 4. Inicia el servidor de desarrollo: `npm run dev`
 
@@ -42,4 +42,4 @@ Agradecemos a todos los colaboradores y a la comunidad de código abierto que ha
 
 ---
 
-¡Gracias por visitar el proyecto Uninova! Esperamos que encuentres útil esta plataforma y que te unas a nuestra comunidad.
+¡Gracias por visitar el proyecto Uni-nova! Esperamos que encuentres útil esta plataforma y que te unas a nuestra comunidad.
